@@ -10,7 +10,7 @@ class Word(models.Model):
 class UserWord(models.Model):
     word = models.ForeignKey(Word, on_delete=models.CASCADE)
     user_storm = models.ForeignKey('Storm', on_delete=models.CASCADE)
-    cloud = models.ManyToManyField('Word', thorugh='WordRelation')
+    cloud = models.ManyToManyField('Word', through='WordRelation')
     coord_x = models.IntegerField()
     coord_y = models.IntegerField()
 
