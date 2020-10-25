@@ -9,14 +9,14 @@ class Word(models.Model):
 
 class UserWord(models.Model):
     word = models.ForeignKey(Word, on_delete=models.CASCADE)
-    storm = models.ForeignKey('Storm', on_delete=models.CASCADE)
-    cloud = models.ManyToManyField('Word_Relation')
+    user_storm = models.ForeignKey('Storm', on_delete=models.CASCADE)
+    cloud = models.ManyToManyField('WordRelation')
     coord_x = models.IntegerField()
     coord_y = models.IntegerField()
 
 class WordRelation(models.Model):
-    initial = models.ForeignKey(UserWord, on_delete=models.CASCADE)
-    next = models.ForeignKey(UserWord, on_delete=models.CASCADE)
+    initial = models.ForeignKey(UserWord, on_delete=models.CASCADE, related_name='initial')
+    next = models.ForeignKey(UserWord, on_delete=models.CASCADE, related_name='next')
     rel_score = models.IntegerField()
 
 class Storm(models.Model):
