@@ -8,7 +8,7 @@ class Word(models.Model):
     name = models.CharField(max_length=255)
 
 class UserWord(models.Model):
-    word = models.ForeignKey(Word, on_delete=models.CASCADE)
+    word = models.ForeignKey(Word, on_delete=models.CASCADE, related_name='user_word')
     user_storm = models.ForeignKey('Storm', on_delete=models.CASCADE)
     cloud = models.ManyToManyField('Word', through='WordRelation')
     coord_x = models.IntegerField()
