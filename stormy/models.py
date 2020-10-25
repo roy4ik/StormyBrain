@@ -8,20 +8,20 @@ class Word(models.Model):
     name = models.CharField(max_length=255)
 
 class UserWord(models.Model):
-    word = models.ForeignKey(Word, on_delete=models.CASCADE())
-    storm = models.ForeignKey('Storm', on_delete=models.CASCADE())
+    word = models.ForeignKey(Word, on_delete=models.CASCADE)
+    storm = models.ForeignKey('Storm', on_delete=models.CASCADE)
     cloud = models.ManyToManyField('Word_Relation')
     coord_x = models.IntegerField()
     coord_y = models.IntegerField()
 
 class WordRelation(models.Model):
-    initial = models.ForeignKey(UserWord, on_delete=models.CASCADE())
-    next = models.ForeignKey(UserWord, on_delete=models.CASCADE())
+    initial = models.ForeignKey(UserWord, on_delete=models.CASCADE)
+    next = models.ForeignKey(UserWord, on_delete=models.CASCADE)
     rel_score = models.IntegerField()
 
 class Storm(models.Model):
-    user = models.ForeignKey(Profile, on_delete=models.PROTECT())
+    user = models.ForeignKey(Profile, on_delete=models.PROTECT)
     is_active = models.BooleanField()
     date_created = models.DateField(auto_now_add=True)
     date_updated = models.DateField(auto_now=True)
-    catalyst = models.ForeignKey(UserWord, on_delete=models.CASCADE())
+    catalyst = models.ForeignKey(UserWord, on_delete=models.CASCADE)
