@@ -3,6 +3,8 @@
 :root {
     --prime-bg-color: lightgray;
     --secondary-bg-color: darkgray;
+    --prime-color: darkblue;
+    --secondary-color: white;
 }
 
 body {
@@ -30,4 +32,11 @@ nav>.nav-tools {
 .nav-tools>.usr-img {
     width: 5em;
     height: 5em;
+    border-radius: 25%;
+    border: 0.1em solid var(--prime-color)
+}
+
+footer {
+    position: absolute;
+    bottom: 0px;
 }
