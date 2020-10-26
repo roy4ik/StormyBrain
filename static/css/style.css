@@ -21,6 +21,7 @@ nav>.nav-tools {
     right: 1em;
     background-color: var(--secondary-bg-color);
     border-radius: 40px;
+    height: fit-content
 }
 
 .nav-logo {
@@ -36,7 +37,46 @@ nav>.nav-tools {
     border: 0.1em solid var(--prime-color)
 }
 
+.canvas {
+    margin: 0;
+    width: 100vh;
+    height: 100vh;
+    text-align: center
+}
+
+.canvas-toolbar {
+    position: fixed;
+    right: 2em;
+    height: fit-content;
+    margin-top: 15%;
+    min-height: 4em;
+    width: 3em;
+    background-color: var(--secondary-bg-color)
+}
+
+.toolbar-item {
+    text-align: center;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    height: 2.75em;
+    line-height: 2.75em;
+    width: 2.75em;
+    border-radius: 50%;
+    background-color: var(--prime-color);
+    color: var(--secondary-color)
+}
+
+.canvas-word-search {
+    position: fixed;
+    bottom: 5em;
+    right: 25%;
+    left: 25%;
+    text-align: center;
+}
+
 footer {
     position: absolute;
     bottom: 0px;
+    width: 100%;
+    background-color: var(--prime-color)
 }
