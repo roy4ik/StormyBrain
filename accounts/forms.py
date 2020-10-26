@@ -6,9 +6,10 @@ from .models import *
 class SignupForm(UserCreationForm):
     first_name = forms.CharField(required=True)
     last_name = forms.CharField(required=True)
+
     class Meta:
         model = User
-        fields = ['first_name','last_name', 'username', 'password1', 'password2']
+        fields = ['first_name','last_name', 'email','username', 'password1', 'password2']
 
 class UserProfileForm(forms.ModelForm):
     class Meta:

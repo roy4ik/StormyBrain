@@ -3,8 +3,8 @@
 {%endif%}{% if not user.is_authenticated %}
 <form method='POST'>
     {% csrf_token %} {% load widget_tweaks %}
-    <div>{{ login_form.username|append_attr:"placeholder:Username"}}</div>
-    <div>{{ login_form.password|append_attr:"placeholder:Password"}}</div>
+    <div class="usr-input-field">{{ login_form.username|append_attr:"placeholder:Username"}}</div>
+    <div class="usr-input-field">{{ login_form.password|append_attr:"placeholder:Password"}}</div>
     <input class="usr-btn" type="submit" value="Login">
 </form>
 {% else %}

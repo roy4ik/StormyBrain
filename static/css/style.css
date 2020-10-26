@@ -51,6 +51,7 @@ nav>.nav-tools {
     width: 50%;
     justify-content: space-around;
     align-items: center;
+    padding: 2em;
 }
 
 .signup {
@@ -59,13 +60,18 @@ nav>.nav-tools {
     width: 50%;
     justify-content: space-around;
     align-items: center;
+    padding: 2em;
 }
 
 .usr-btn {
     height: 3em;
     width: 3em;
     border: 1px solid white;
-    background-color: var(--secondary-bg-color)
+    background-color: var(--secondary-bg-color);
+}
+
+.usr-input-field {
+    margin: 0.5em;
 }
 
 footer {

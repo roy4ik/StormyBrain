@@ -22,7 +22,6 @@ class SignUp(CreateView):
         super().form_valid(form)
         user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
         if user:
-            user.groups.add(Group.objects.get(name='normal'))
             login(self.request,user)
         return redirect(reverse(self.get_success_url()))
 
