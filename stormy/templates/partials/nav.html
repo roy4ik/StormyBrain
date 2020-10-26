@@ -1,0 +1,15 @@
+{% load static %}
+<nav>
+    <div class='nav-logo'>Logo</div>
+    <div class='nav-tools'>
+        {% if user.is_authenticated %}
+        <img class='usr-img' src={{user.profile.img}}>
+        <a href="{% url 'logout' %}">
+            <div class="usr-btn-logout">Logout</div>
+        </a>
+        <a href="{% url 'profile-edit' %}">
+            <div class="usr-btn-edit">Edit Profile</div>
+        </a>
+        {% endif %}
+    </div>
+</nav>

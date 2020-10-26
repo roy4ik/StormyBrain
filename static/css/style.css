@@ -1,1 +1,33 @@
 /* Main CSS File */
+
+:root {
+    --prime-bg-color: lightgray;
+    --secondary-bg-color: darkgray;
+}
+
+body {
+    margin: 0px;
+}
+
+main {
+    background-color: var(--prime-bg-color);
+}
+
+nav>.nav-tools {
+    position: fixed;
+    top: 1em;
+    right: 1em;
+    background-color: var(--secondary-bg-color);
+    border-radius: 40px;
+}
+
+.nav-logo {
+    position: fixed;
+    top: 1em;
+    left: 1em;
+}
+
+.nav-tools>.usr-img {
+    width: 5em;
+    height: 5em;
+}
