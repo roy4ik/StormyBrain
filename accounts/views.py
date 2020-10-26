@@ -15,7 +15,7 @@ class SignUp(CreateView):
     model = User
     form_class = SignupForm
     template_name = 'registration/signUp.html'
-    success_url = 'vault'
+    success_url = 'home'
     failed_message = "The user couldn't be created"
 
     def form_valid(self,form):

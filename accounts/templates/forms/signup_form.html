@@ -1,6 +1,5 @@
 <h2>Create your account</h2>
-</div>
 <form method='POST' enctype="multipart/form-data">
-    {% csrf_token %}{% load widget_tweaks %} {{form}}
-    <input class="user-info-input btn-success" class="btn" type="submit" value="Save">
+    {% csrf_token %}{% load widget_tweaks %} {{signup_form}}
+    <input class="usr-btn" type="submit" value="Register">
 </form>

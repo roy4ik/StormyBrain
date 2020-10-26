@@ -5,8 +5,7 @@
     {% csrf_token %} {% load widget_tweaks %}
     <div>{{ login_form.username|append_attr:"placeholder:Username"}}</div>
     <div>{{ login_form.password|append_attr:"placeholder:Password"}}</div>
-    <input class="usr-btn" class="btn" type="submit" value="Login">
-    <a class="usr-btn" href="{% url 'SignUp' %}">Signup</a>
+    <input class="usr-btn" type="submit" value="Login">
 </form>
 {% else %}
 <div>
