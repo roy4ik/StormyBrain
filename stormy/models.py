@@ -10,12 +10,12 @@ class Word(models.Model):
 class UserWord(models.Model):
     word = models.ForeignKey(Word, on_delete=models.CASCADE, related_name='user_word')
     user_storm = models.ForeignKey('Storm', on_delete=models.CASCADE)
-    cloud = models.ManyToManyField('Word', through='WordRelation')
+    cloud = models.ManyToManyField('self', through='WordRelation')
     coord_x = models.IntegerField()
     coord_y = models.IntegerField()
 
 class WordRelation(models.Model):
-    initial = models.ForeignKey(Word, on_delete=models.CASCADE)
+    initial = models.ForeignKey(UserWord, on_delete=models.CASCADE, related_name='initial')
     next = models.ForeignKey(UserWord, on_delete=models.CASCADE)
     rel_score = models.IntegerField()
 
