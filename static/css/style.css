@@ -36,6 +36,13 @@ nav>.nav-tools {
     border: 0.1em solid var(--prime-color)
 }
 
+.usr-btn {
+    height: 3em;
+    width: 3em;
+    border: 1px solid white;
+    background-color: var(--secondary-bg-color)
+}
+
 footer {
     position: absolute;
     bottom: 0px;
