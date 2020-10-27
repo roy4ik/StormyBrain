@@ -1,6 +1,6 @@
 /* Main CSS File */
 
-:root {
+ :root {
     --prime-bg-color: lightgray;
     --secondary-bg-color: darkgray;
     --prime-color: darkblue;
@@ -12,6 +12,7 @@ body {
 }
 
 main {
+    margin-top: 4em;
     background-color: var(--prime-bg-color);
 }
 
@@ -35,6 +36,43 @@ nav>.nav-tools {
     height: 5em;
     border-radius: 25%;
     border: 0.1em solid var(--prime-color)
+}
+
+.login-container {
+    display: flex;
+    margin: auto;
+    justify-content: space-around;
+    width: 80%;
+    height: 24em;
+}
+
+.login {
+    display: flex;
+    background-color: beige;
+    width: 50%;
+    justify-content: space-around;
+    align-items: center;
+    padding: 2em;
+}
+
+.signup {
+    display: flex;
+    background-color: turquoise;
+    width: 50%;
+    justify-content: space-around;
+    align-items: center;
+    padding: 2em;
+}
+
+.usr-btn {
+    height: 3em;
+    width: 3em;
+    border: 1px solid white;
+    background-color: var(--secondary-bg-color);
+}
+
+.usr-input-field {
+    margin: 0.5em;
 }
 
 #canvas {

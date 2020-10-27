@@ -20,6 +20,6 @@ import django.contrib.auth.urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('accounts/', include('accounts.urls')),
+    path('stormyaccounts/', include('accounts.urls')),
     path('', include('stormy.urls')),
 ]

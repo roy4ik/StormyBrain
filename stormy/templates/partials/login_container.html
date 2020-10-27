@@ -1,0 +1,9 @@
+{%extends 'base/base.html'%} {% block content %} {% if not user.is_authenticated %}
+<div class="login-container">
+    {% include 'registration/signup.html' %}
+    <div>
+        <h4>OR</h4>
+    </div>
+    {% include 'registration/login.html' %}
+</div>
+{% endif %} {% endblock content %}

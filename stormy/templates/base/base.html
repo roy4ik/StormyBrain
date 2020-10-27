@@ -10,11 +10,12 @@
 </head>
 
 <body>
+    {% include 'partials/nav.html' %}
     <main>
-        {% include 'partials/nav.html' %} {% block content %} {% endblock content %}
+        {% block content %} {% endblock content %}
     </main>
     <footer>
-        <p class="reference">powered by DatamuseApi</p>
+        <p class="reference">powered by Datamuse Api</p>
     </footer>
     <!-- Load React. -->
     <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
