@@ -17,7 +17,9 @@ createSubNodes = (data) => {
         subNode = document.createElement("div")
         subNode.innerHTML = data[element]['word']
         subNode.classList.add = 'subNode'
+            // calcElementCoord(element) // needs to calc position and add it to inline style
         parentNode.appendChild(subNode)
+        return subNode
     };
 };
 
@@ -26,3 +28,15 @@ searchWord = async(wordString = "happy") => {
     createSubNodes(data)
 };
 // todo: save data to user
+
+// todo: calcElementCoord(element)
+
+calcElementCoords = (element, originX, originY) => {
+    // measures in em
+    outerRad = 23
+    innerRad = 20
+
+
+
+
+}

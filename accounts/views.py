@@ -6,7 +6,7 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth import authenticate, login
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 from .models import Profile, User
-from .forms import UserProfileForm, SignupForm
+from .forms import UserProfileForm, SignupForm, AuthenticationForm
 class home(LoginView):
     template_name = 'home.html'
     model = Profile
@@ -16,7 +16,7 @@ class SignUp(CreateView):
     form_class = SignupForm
     template_name = 'registration/signUp.html'
     success_url = 'home'
-    failed_message = "The user couldn't be created"
+    failed_message = "Couldn't sign you up, try again!"
 
     def form_valid(self,form):
         super().form_valid(form)
@@ -24,6 +24,13 @@ class SignUp(CreateView):
         if user:
             login(self.request,user)
         return redirect(reverse(self.get_success_url()))
+    
+    def form_invalid(self, form):
+        """If the form is invalid, render the invalid form."""
+        for a , b in form.errors.items():
+            print(f"{a}:{b}")
+        return render(self.request, 'partials/login_container.html', {'signup_form':form, 'login_form': AuthenticationForm()})
+
 
 
 class ProfileUpdate(UpdateView):

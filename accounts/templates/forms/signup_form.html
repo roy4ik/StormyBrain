@@ -1,20 +1,9 @@
-<form method='POST' enctype="multipart/form-data">
-    <h2>Create your account</h2>
+<form method='POST' action="{% url 'SignUp' %}" enctype=" multipart/form-data ">
     {% csrf_token %}{% load widget_tweaks %}
+    <h2>Sign Up</h2>
     <div>
-        <div class="usr-input-field">{{signup_form.first_name|append_attr:"placeholder:First Name"}}</div>
-        <div class="usr-input-field">{{signup_form.last_name|append_attr:"placeholder:Last Name"}}</div>
-        <div class="usr-input-field">{{signup_form.username|append_attr:"placeholder:Username"}}</div>
-        <div class="usr-input-field">{{signup_form.email|append_attr:"placeholder:Email"}}</div>
-        <div class="usr-input-field">{{signup_form.password1|append_attr:"placeholder:Password"}}</div>
-        <div class="usr-input-field">{{signup_form.password2|append_attr:"placeholder:repeat password"}}</div>
-
-        <div> {% if form.errors %} {{form.error}}{%endif%}</div>
-    </div>
-    {% if form.errors %}
-    <div>Username:{{signup_form.username.error}}</div>
-    <div>Password:{{signup_form.password1.error}}</div>
-    <div>Password repeat:{{signup_form.password2.error}}</div>
-    {% endif %}
-    <input class="usr-btn" type="submit" value="Register">
+        {% for field in signup_form %}
+        <div class="usr-input-field ">{{field}}</div>
+        {{field.errors}} {% endfor %}
+        <button type="submit" value="signup">Sign Up</button>
 </form>

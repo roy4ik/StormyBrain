@@ -9,8 +9,6 @@ def home(request):
         'signup_form': SignupForm()
     }
     return render(request, 'partials/login_container.html', context)
-    context={}
-    return render(request, 'base/base.html', context)
 
 
 def stormy(request):
