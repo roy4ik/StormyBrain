@@ -11,6 +11,10 @@ class home(LoginView):
     template_name = 'home.html'
     model = Profile
 
+    def form_invalid(self, form):
+        """If the form is invalid, render the invalid form."""
+        return render(self.request, 'partials/login_container.html', {'login_form':form, 'signup_form': SignupForm()})
+
 class SignUp(CreateView):
     model = User
     form_class = SignupForm
@@ -27,8 +31,6 @@ class SignUp(CreateView):
     
     def form_invalid(self, form):
         """If the form is invalid, render the invalid form."""
-        for a , b in form.errors.items():
-            print(f"{a}:{b}")
         return render(self.request, 'partials/login_container.html', {'signup_form':form, 'login_form': AuthenticationForm()})
 
 
