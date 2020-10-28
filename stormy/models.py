@@ -16,7 +16,7 @@ class UserWord(models.Model):
 
 class WordRelation(models.Model):
     initial = models.ForeignKey(UserWord, on_delete=models.CASCADE, related_name='initial')
-    next = models.ForeignKey(UserWord, on_delete=models.CASCADE)
+    next = models.ForeignKey(UserWord, on_delete=models.CASCADE, null=True)
     rel_score = models.IntegerField()
 
 class Storm(models.Model):
@@ -24,4 +24,4 @@ class Storm(models.Model):
     is_active = models.BooleanField()
     date_created = models.DateField(auto_now_add=True)
     date_updated = models.DateField(auto_now=True)
-    catalyst = models.ForeignKey(UserWord, on_delete=models.CASCADE)
+    catalyst = models.ForeignKey(UserWord, on_delete=models.CASCADE, null =True)
