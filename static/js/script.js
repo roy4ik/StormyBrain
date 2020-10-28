@@ -49,4 +49,16 @@ circleSelection = (data) => {
     return coords
 };
 
-// todo: save data to user
+//save data to user
+
+// Search word> save initial word coords 0,0
+// select next word > word relation - save next word in userword, inc coords, and rel_score.
+
+save_word_initial = (word) => {
+    apiUrl = '/'
+    data = {}
+    resp = await fetch(apiUrl) // Call API
+    data = await resp.json() // Transform the data into json
+        .catch(err => console.log(err))
+        // console.log(data)
+}

@@ -21,7 +21,7 @@ class WordRelation(models.Model):
 
 class Storm(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.PROTECT)
-    is_active = models.BooleanField()
+    is_active = models.BooleanField(default = True)
     date_created = models.DateField(auto_now_add=True)
     date_updated = models.DateField(auto_now=True)
     catalyst = models.ForeignKey(UserWord, on_delete=models.CASCADE, null =True)
