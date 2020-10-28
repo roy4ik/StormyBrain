@@ -35,25 +35,28 @@ def saveWord(request, storm_pk, word_to_save, coords_x, coords_y):
     if request.method == 'GET':
         storm = models.Storm.objects.get(user=request.user.profile, pk=storm_pk)
         if storm:
-            print(f'Types: x:{coords_x}, y:{coords_y}')
-            print(f"testing data passed:\n storm: {storm}\n word_to_save: {word_to_save}\n coords_x: {coords_x}\n coords_y: {coords_x}")
-            userword =  get_or_create_userword(storm, word_to_save, coords_x, coords_y)
+            userword =  get_or_create_userword(request, storm, word_to_save, coords_x, coords_y)
         else:
             pass  # todo: create page for user not logged in, redirect to home on timer
         return HttpResponse(status=200)
 
 def get_or_create_userword(request, storm, word_to_save, coords_x, coords_y):
     if request.method == 'GET':
-        userword, created = storm.catalyst.objects.get_or_create(
-                    word = models.Word.get_or_create(name=word_to_save),
+        word, created = models.Word.objects.get_or_create(name=word_to_save)
+        if created:
+            print(f"word created:{word}")
+        userword, created = models.UserWord.objects.get_or_create(
+                    word = word,
                     user_storm=storm,
                     coord_x = coords_x,
-                    coord_y = coords_y,
-                    ) 
+                    coord_y = coords_y, 
+                    )
         if created:
             print(f"Catalyst added : {word_to_save}")
-            initial = userword.cloud.add(initial = userword.self)
-            initial.save_m2m()
+            
+            cloud = userword.cloud.add(userword)
+            if storm.catalyst == None:
+                storm.catalyst = userword
             return HttpResponse(status=201)
         else:
             return HttpResponse(status=200)

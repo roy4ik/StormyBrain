@@ -17,11 +17,13 @@ class UserWord(models.Model):
 class WordRelation(models.Model):
     initial = models.ForeignKey(UserWord, on_delete=models.CASCADE, related_name='initial')
     next = models.ForeignKey(UserWord, on_delete=models.CASCADE, null=True)
-    rel_score = models.IntegerField()
+    rel_score = models.IntegerField(null=True)
 
 class Storm(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.PROTECT)
     is_active = models.BooleanField(default = True)
     date_created = models.DateField(auto_now_add=True)
     date_updated = models.DateField(auto_now=True)
-    catalyst = models.ForeignKey(UserWord, on_delete=models.CASCADE, null =True)
+    catalyst = models.ForeignKey(UserWord, on_delete=models.CASCADE, null=True)
+
+
