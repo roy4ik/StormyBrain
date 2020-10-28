@@ -6,6 +6,9 @@ urlpatterns = [
     path('', views.home, name="home"),
     path('stormy', views.addStorm, name="add-storm"),
     path('stormy/<int:storm_pk>', views.stormy, name="stormy"),
-    path('stormy/<int:storm_pk>/save-word?word=<slug:word_to_save>&coords=<int:coords_x>&<int:coords_y>', views.saveWord, name='save-word'),
-    path('stormy/<int:storm_pk>/update-userword_rel?initial=<slug:initial_word>&next=<slug:next_word>&rel=<int:rel_score>', views.saveWord, name='update-relation'),
+    path('stormy/<int:storm_pk>/save-word/word=<str:word_to_save>/coords=<int:coords_x>&<int:coords_y>', views.saveWord, name='save-word'),
+    path('stormy/<int:storm_pk>/update-userword_rel/initial=<str:initial_word>&next=<str:next_word>&rel=<int:rel_score>', views.update_userword_relation, name='update-relation'),
 ]
+
+/stormy/1/save-word/word=fan/coords=0&64
+stormy/<int:storm_pk>/save-word/word=<str:word_to_save>/coords=<int:coords_x>&<int:coords_y>
