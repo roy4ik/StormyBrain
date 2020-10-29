@@ -1,4 +1,5 @@
-{% extends 'base/base.html' %} {%block content%}
+{% extends 'base/base.html' %} {%block content%}{% if user.is_authenticated %}
+
 <div class="canvas" id="canvas">
     <div class="canvas-toolbar">
         <div class="toolbar-item toolbar-move">Move</div>
@@ -14,4 +15,4 @@
 <script>
     var storm = "{{storm}}";
 </script>
-{%endblock content%}
+{% else %}{%block not_authorized%} {% endblock %} {% endif %} {%endblock content%}

@@ -1,11 +1,14 @@
 {% extends 'base/base.html' %} {%block content%}{% if user.is_authenticated %}
 <div class="stormies">
-    {% for storm in object_list %}
-    <div class="storm-card">
-        <h2>{{storm.id}}</h2>
-        <h2>{{storm.catalyst.word.name}}</h2>
-    </div>{% endfor%}
     <a href="{% url 'stormy:add-storm'%}">
         <div>New Stormy</div>
     </a>
-</div>{% endif %} {%endblock content%}
+    {% for storm in object_list %}
+    <a href="{% url 'stormy:stormy' storm.id %}">
+        <div class="storm-card">
+            <h2>{{storm.id}}</h2>
+            <h2>{{storm.catalyst.word.name}}</h2>
+        </div>{% endfor%}
+    </a>
+</div>
+{% else %}{%block not_authorized%} {% endblock %} {% endif %} {%endblock content%}

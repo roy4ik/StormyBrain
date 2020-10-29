@@ -1,0 +1,9 @@
+{%block not_authorized%}
+<H1>Oh Ohh! looks like you are not supposed to be here</H1>
+<h2>We will redirect you to our landing page</h2>
+<script type="text/javascript">
+    setTimeout(function() {
+        window.location.href = "{% url 'stormy:home'}";
+    }, 5000);
+</script>
+{% endblock not_authorized %}
