@@ -23,6 +23,11 @@ def stormy(request, storm_pk):
 #  API dealers
 
 def addStorm(request):
+    """
+    Creates new storm object
+    #args: request(HTTPRequestobj)
+    #returns: nothing
+    """
     if request.user.is_authenticated:
         storm = models.Storm()
         storm.user = request.user.profile
@@ -32,8 +37,13 @@ def addStorm(request):
         pass  # todo: create page for user not logged in, redirect to home on timer
 
 def saveWord(request, storm_pk, word_to_save, coords_x, coords_y):
+    """
+    Saves a new word
+    #args: request(HTTPRequestobj), storm_pk, word_to_save(str), coords_x(int), coordsy(int)
+    #returns: HTTPResponse
+    """
     if request.method == 'GET':
-        storm = models.Storm.objects.get(user=request.user.profile, pk=storm_pk)
+        storm = request.user.profile.storm_set.get(pk=storm_pk)
         if storm:
             userword =  get_or_create_userword(request, storm, word_to_save, coords_x, coords_y)
         else:
@@ -41,6 +51,11 @@ def saveWord(request, storm_pk, word_to_save, coords_x, coords_y):
         return HttpResponse(status=200)
 
 def get_or_create_userword(request, storm, word_to_save, coords_x, coords_y):
+    """
+    gets /creates userword 
+    #args: request(HTTPRequestobj), storm(storm object), word_to_save(str), coords_x(int), coordsy(int)
+    #returns: HTTPResponse
+    """
     if request.method == 'GET':
         word, created = models.Word.objects.get_or_create(name=word_to_save)
         if created:
@@ -52,23 +67,33 @@ def get_or_create_userword(request, storm, word_to_save, coords_x, coords_y):
                     coord_y = coords_y, 
                     )
         if created:
-            print(f"Catalyst added : {word_to_save}")
-            cloud = models.WordRelation.objects.create(initial=userword)
-            
+            print(f"cloud added : {word_to_save}")
             if storm.catalyst == None:
                 storm.catalyst = userword
+                storm.save()
+                print(f"Catalyst added : {word_to_save}")
             return HttpResponse(status=201)
         else:
             return HttpResponse(status=200)
 
 def update_userword_relation(request, storm_pk, initial_word, next_word, rel_score):
+    """
+    updates userword_relation for first object in UserWord.cloud for adding next and rel_score 
+    #args: request(HTTPRequestobj), storm_pk(int), initial_word(str), next_word(UserWord obj), rel_score(int)
+    #returns: HTTPResponse
+    """
     if request.method == 'GET':
-        storm = models.Storm.objects.get(user=request.user.profile, pk=storm_pk)
-        relation = storm.catalyst.userword.objects.get(word=initial_word).cloud[0]
-        relation.next = next_word
-        relation.rel_score = rel_score
-        relation.save()
-        print("relation added")
-        return HttpResponse(status=200)
+        storm = request.user.profile.storm_set.get(pk=storm_pk)
+        inital_word = storm.userword_set.get(word__name=initial_word)
+        word = models.Word.objects.get_or_create(name=next_word)
+        next_word = storm.userword_set.get_or_create(word=word)
+        relation, create = models.WordRelation.objects.get_or_create(initial=initial_word, next=next_word, rel_score=rel_score)
+        if create:
+            print("relation added")
+            return HttpResponse(status=201)
+        else:
+            relation.delete()
+            return HttpResponse(status=200)
+        
     
     
