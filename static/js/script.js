@@ -19,8 +19,8 @@ createSubNodes = (data, originXY) => {
         subNode = document.createElement("div")
         subNode.innerHTML = data[element]['word']
         subNode.classList.add('subNode')
-        subNode.style.left = coords[0][element] + "px"
-        subNode.style.top = coords[1][element] + "px"
+        subNode.style.left = (coords[0][element]) + "px"
+        subNode.style.top = (coords[1][element]) + "px"
         subNode.style.height = 1.5 + 'em';
         subNode.style.width = 6 + 'em';
         subNode.style.position = 'relative'
@@ -42,8 +42,8 @@ circleSelection = (data, originXY) => {
     xValues = []
     yValues = []
     for (let angle = 0; angle < steps; ++angle) {
-        xValues[angle] = Math.round(originXY[0] + (radius + Math.floor(Math.random() * 50)) * -Math.cos(Math.PI / steps * angle))
-        yValues[angle] = Math.round(originXY[1] + (radius + Math.floor(Math.random() * 50)) * -Math.sin(Math.PI / steps * angle))
+        xValues[angle] = originXY[0] + (Math.round(((radius + Math.floor(Math.random() * 50))) * -Math.cos(Math.PI / steps * angle)))
+        yValues[angle] = originXY[1] - radius / 2 + (Math.round(((radius + Math.floor(Math.random() * 50))) * -Math.sin(Math.PI / steps * angle)))
             // console.log('Coordinates are: ' + xValues[angle] + " : " + yValues[angle])
     }
     coords = [xValues, yValues]
@@ -57,39 +57,47 @@ circleSelection = (data, originXY) => {
 
 save_word = async(subNode) => {
     word_to_save = subNode.innerHTML
-    coords_x = subNode.offsetLeft
-    console.log("width subnode:" + subNode.offsetLeft)
-    coords_y = subNode.offsetTop
-    console.log("height subnode:" + subNode.offsetTop)
+    coords_x = subNode.style.left
+    console.log("X subnode:" + subNode.style.left)
+    coords_y = subNode.style.top
+    console.log("Y subnode:" + subNode.style.top)
     apiUrl = storm + '/save-word/word=' + word_to_save + '/coords=' + coords_x + '&' + coords_y;
     console.log(apiUrl)
     resp = await fetch(apiUrl)
         .catch(err => console.log(err))
-    return subNode
+
+    return subNode = subNode
 };
 
 
 display_catalyst = (catalyst) => {
     parentNode = document.getElementById('canvas')
         // calculate position and add it to inline style of node
+    coordY = parentNode.clientHeight * 0.7
+    console.log(coordY + ": Height")
+    coordX = parentNode.clientHeight * 0.5
+    console.log(coordX + ": Width")
+
     console.log('Creating node for :' + catalyst)
     subNode = document.createElement("div")
     subNode.innerHTML = catalyst
     subNode.classList.add('subNode')
-    subNode.style.left = 0.5 * parentNode.clientWidth + 'px'
-    console.log(0.5 * parentNode.clientWidth)
-    subNode.style.top = 0.8 * parentNode.clientHeight + 'px'
-    console.log(0.8 * parentNode.clientHeight)
+    subNode.id = subNode.innerHTML
+    subNode.style.left = coordX + 'px'
+    subNode.style.top = coordY + 'px'
     subNode.style.height = 1.5 + 'em'
     subNode.style.width = 6 + 'em'
-    subNode.style.position = 'relative'
+    subNode.style.position = 'absolute'
     parentNode.appendChild(subNode)
-    return subNode
+    originXY = [coordX, coordY]
+    return [subNode, originXY]
 }
 
 catalyze = (catalyst) => {
-        newCatalyst = save_word(display_catalyst(catalyst))
-        originXY = [newCatalyst.style.left, newCatalyst.style.top]
+        displayCat = display_catalyst(catalyst)
+        originXY = displayCat[1]
+        console.log("OriginXY: " + displayCat[1][0] + "-" + displayCat[1][0])
+        newCatalyst = save_word(displayCat[0])
         results = searchWord(catalyst, originXY)
     }
     // todo: create subnode selector
