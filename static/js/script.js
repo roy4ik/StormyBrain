@@ -61,7 +61,7 @@ save_word = async(subNode) => {
     console.log("X subnode:" + subNode.style.left)
     coords_y = subNode.style.top
     console.log("Y subnode:" + subNode.style.top)
-    apiUrl = storm + '/save-word/word=' + word_to_save + '/coords=' + coords_x + '&' + coords_y;
+    apiUrl = storm + '/save-word/word=' + word_to_save + '/coords=' + coords_x.replace('px', '') + '&' + coords_y.replace('px', '');
     console.log(apiUrl)
     resp = await fetch(apiUrl)
         .catch(err => console.log(err))
