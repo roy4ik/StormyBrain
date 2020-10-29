@@ -1,4 +1,4 @@
-closesfrom stormy.views import Stormies, saveWord
+from stormy.views import Stormies, saveWord
 from django.urls import path
 from . import views
 app_name = 'stormy'
