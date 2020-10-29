@@ -80,6 +80,7 @@ nav>.nav-tools {
     position: fixed;
     width: 100vh;
     height: 100vh;
+    text-align: center;
 }
 
 .canvas-toolbar {

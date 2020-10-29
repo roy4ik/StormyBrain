@@ -42,8 +42,8 @@ circleSelection = (data, originXY) => {
     xValues = []
     yValues = []
     for (let angle = 0; angle < steps; ++angle) {
-        xValues[angle] = originXY[0] + (Math.round(((radius + Math.floor(Math.random() * 50))) * -Math.cos(Math.PI / steps * angle)))
-        yValues[angle] = originXY[1] - radius / 2 + (Math.round(((radius + Math.floor(Math.random() * 50))) * -Math.sin(Math.PI / steps * angle)))
+        xValues[angle] = originXY[0] + (Math.round(((radius + Math.floor(Math.random() * 25))) * -Math.cos(Math.PI / steps * angle)))
+        yValues[angle] = originXY[1] - radius / 10 + (Math.round(((radius + Math.floor(Math.random() * 25))) * -Math.sin(Math.PI * 0.7 / steps * angle)))
             // console.log('Coordinates are: ' + xValues[angle] + " : " + yValues[angle])
     }
     coords = [xValues, yValues]
@@ -61,7 +61,7 @@ save_word = async(subNode) => {
     console.log("X subnode:" + subNode.style.left)
     coords_y = subNode.style.top
     console.log("Y subnode:" + subNode.style.top)
-    apiUrl = storm + '/save-word/word=' + word_to_save + '/coords=' + coords_x.replace('px', '') + '&' + coords_y.replace('px', '');
+    apiUrl = storm + '/save-word/word=' + word_to_save + '/coords=' + Math.round(coords_x.replace('px', '')) + '&' + Math.round(coords_y.replace('px', ''));
     console.log(apiUrl)
     resp = await fetch(apiUrl)
         .catch(err => console.log(err))
@@ -73,9 +73,11 @@ save_word = async(subNode) => {
 display_catalyst = (catalyst) => {
     parentNode = document.getElementById('canvas')
         // calculate position and add it to inline style of node
-    coordY = parentNode.clientHeight * 0.7
+        // reduce coordX by 0.5 * element width for centering
+    elementWidth = 50
+    coordY = parentNode.clientHeight * 0.65
     console.log(coordY + ": Height")
-    coordX = parentNode.clientHeight * 0.5
+    coordX = parentNode.clientWidth * 0.5 - elementWidth * 0.5
     console.log(coordX + ": Width")
 
     console.log('Creating node for :' + catalyst)
@@ -85,8 +87,8 @@ display_catalyst = (catalyst) => {
     subNode.id = subNode.innerHTML
     subNode.style.left = coordX + 'px'
     subNode.style.top = coordY + 'px'
-    subNode.style.height = 1.5 + 'em'
-    subNode.style.width = 6 + 'em'
+    subNode.style.height = 16 + 'px'
+    subNode.style.width = elementWidth + 'px'
     subNode.style.position = 'absolute'
     parentNode.appendChild(subNode)
     originXY = [coordX, coordY]
