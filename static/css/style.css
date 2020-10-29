@@ -77,9 +77,10 @@ nav>.nav-tools {
 
 #canvas {
     margin: 0;
-    width: 100%;
-    height: 100%;
-    text-align: center
+    width: 100vh;
+    height: 100vh;
+    text-align: center;
+    background-size: cover;
 }
 
 .canvas-toolbar {
@@ -90,6 +91,11 @@ nav>.nav-tools {
     min-height: 4em;
     width: 3em;
     background-color: var(--secondary-bg-color)
+}
+
+.subNode {
+    height: 1.5em;
+    width: 6em;
 }
 
 .toolbar-item {
