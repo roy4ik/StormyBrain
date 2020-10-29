@@ -114,7 +114,7 @@ nav>.nav-tools {
     color: var(--secondary-color)
 }
 
-.canvas-word-search {
+#canvas-word-search {
     position: fixed;
     bottom: 5em;
     right: 25%;

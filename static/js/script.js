@@ -37,7 +37,7 @@ searchWord = async(wordString, originXY) => {
 };
 
 circleSelection = (data, originXY) => {
-    radius = 200
+    radius = 170
     steps = data.length
     xValues = []
     yValues = []
@@ -72,12 +72,14 @@ save_word = async(subNode) => {
 
 display_catalyst = (catalyst) => {
     parentNode = document.getElementById('canvas')
+    searchDiv = document.getElementById('search-input')
+    console.log(searchDiv)
         // calculate position and add it to inline style of node
         // reduce coordX by 0.5 * element width for centering
     elementWidth = 50
-    coordY = parentNode.clientHeight * 0.65
+    coordY = window.scrollY + searchDiv.getBoundingClientRect().y - 100
     console.log(coordY + ": Height")
-    coordX = parentNode.clientWidth * 0.5 - elementWidth * 0.5
+    coordX = window.scrollX + searchDiv.getBoundingClientRect().x + elementWidth
     console.log(coordX + ": Width")
 
     console.log('Creating node for :' + catalyst)
