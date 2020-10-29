@@ -77,9 +77,10 @@ nav>.nav-tools {
 
 #canvas {
     margin: 0;
-    width: 100%;
-    height: 100%;
-    text-align: center
+    position: fixed;
+    width: 100vh;
+    height: 100vh;
+    text-align: center;
 }
 
 .canvas-toolbar {
@@ -90,6 +91,15 @@ nav>.nav-tools {
     min-height: 4em;
     width: 3em;
     background-color: var(--secondary-bg-color)
+}
+
+#canvas {
+    width: 100%
+}
+
+.subNode {
+    height: 1.5em;
+    width: 6em;
 }
 
 .toolbar-item {
@@ -113,8 +123,9 @@ nav>.nav-tools {
 }
 
 footer {
-    position: absolute;
+    position: fixed;
     bottom: 0px;
     width: 100%;
+    height: 1em;
     background-color: var(--prime-color)
 }

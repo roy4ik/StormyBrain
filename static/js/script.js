@@ -4,23 +4,25 @@ getWordObjects = async(word, relCode = 'trg', max = 7) => {
     apiUrl = 'https://api.datamuse.com/words?rel_' + relCode + '=' + word + '&max=' + max
     data = []
     resp = await fetch(apiUrl) // Call API
-        // data = await resp.json() // Transform the data into json
-        //     .catch(err => console.log(err))
-        // console.log(data)
+        .catch(err => console.log(err))
+    data = await resp.json() // Transform the data into json
     return data;
 };
 
-createSubNodes = (data) => {
+// creating subnodes for words searched and displaying in semi-circle
+createSubNodes = (data, originXY) => {
     parentNode = document.getElementById('canvas')
-    coords = circleSelection(data) // calculate position and add it to inline style of node
+    coords = circleSelection(data, originXY) // calculate position and add it to inline style of node
     nodes = []
     for (element = 0; element < data.length; ++element) {
         console.log('Creating node for :' + data[element]['word'])
         subNode = document.createElement("div")
         subNode.innerHTML = data[element]['word']
         subNode.classList.add('subNode')
-        subNode.style.left = coords[0][element] + "px"
-        subNode.style.top = coords[1][element] + "px"
+        subNode.style.left = (coords[0][element]) + "px"
+        subNode.style.top = (coords[1][element]) + "px"
+        subNode.style.height = 1.5 + 'em';
+        subNode.style.width = 6 + 'em';
         subNode.style.position = 'relative'
         parentNode.appendChild(subNode)
         nodes.push(subNode)
@@ -28,21 +30,20 @@ createSubNodes = (data) => {
     return nodes
 };
 
-searchWord = async(wordString = "happy") => {
+searchWord = async(wordString, originXY) => {
+    console.log("searching for word :" + wordString)
     data = await getWordObjects(wordString)
-    createSubNodes(data)
+    return createSubNodes(data, originXY)
 };
 
-circleSelection = (data) => {
+circleSelection = (data, originXY) => {
     radius = 200
     steps = data.length
-    originX = 200
-    originY = 200
     xValues = []
     yValues = []
     for (let angle = 0; angle < steps; ++angle) {
-        xValues[angle] = Math.round(originX + (radius + Math.floor(Math.random() * 50)) * -Math.cos(Math.PI / steps * angle))
-        yValues[angle] = Math.round(originY + (radius + Math.floor(Math.random() * 50)) * -Math.sin(Math.PI / steps * angle))
+        xValues[angle] = originXY[0] + (Math.round(((radius + Math.floor(Math.random() * 25))) * -Math.cos(Math.PI / steps * angle)))
+        yValues[angle] = originXY[1] - radius / 10 + (Math.round(((radius + Math.floor(Math.random() * 25))) * -Math.sin(Math.PI * 0.7 / steps * angle)))
             // console.log('Coordinates are: ' + xValues[angle] + " : " + yValues[angle])
     }
     coords = [xValues, yValues]
@@ -56,38 +57,49 @@ circleSelection = (data) => {
 
 save_word = async(subNode) => {
     word_to_save = subNode.innerHTML
-    coords_x = subNode.offsetLeft
-    console.log("width subnode:" + subNode.offsetLeft)
-    coords_y = subNode.offsetTop
-    console.log("height subnode:" + subNode.offsetTop)
-    apiUrl = storm + '/save-word/word=' + word_to_save + '/coords=' + coords_x + '&' + coords_y;
+    coords_x = subNode.style.left
+    console.log("X subnode:" + subNode.style.left)
+    coords_y = subNode.style.top
+    console.log("Y subnode:" + subNode.style.top)
+    apiUrl = storm + '/save-word/word=' + word_to_save + '/coords=' + Math.round(coords_x.replace('px', '')) + '&' + Math.round(coords_y.replace('px', ''));
     console.log(apiUrl)
     resp = await fetch(apiUrl)
-    status = await resp.json() // Call API
-    console.log(status.json())
         .catch(err => console.log(err))
-    return word_to_save
+
+    return subNode = subNode
 };
 
 
 display_catalyst = (catalyst) => {
     parentNode = document.getElementById('canvas')
         // calculate position and add it to inline style of node
+        // reduce coordX by 0.5 * element width for centering
+    elementWidth = 50
+    coordY = parentNode.clientHeight * 0.65
+    console.log(coordY + ": Height")
+    coordX = parentNode.clientWidth * 0.5 - elementWidth * 0.5
+    console.log(coordX + ": Width")
+
     console.log('Creating node for :' + catalyst)
     subNode = document.createElement("div")
     subNode.innerHTML = catalyst
     subNode.classList.add('subNode')
-    subNode.style.left = 0.5 * parentNode.innerWidth;
-    subNode.style.top = parentNode.innerHeight - 0.8 * window.innerHeight;
-    subNode.style.position = 'relative'
+    subNode.id = subNode.innerHTML
+    subNode.style.left = coordX + 'px'
+    subNode.style.top = coordY + 'px'
+    subNode.style.height = 16 + 'px'
+    subNode.style.width = elementWidth + 'px'
+    subNode.style.position = 'absolute'
     parentNode.appendChild(subNode)
-    return subNode
+    originXY = [coordX, coordY]
+    return [subNode, originXY]
 }
 
 catalyze = (catalyst) => {
-    newCatalyst = save_word(display_catalyst(catalyst))
-    results = searchWord(newCatalyst)
-    return results
-}
-
-// todo: create subnode selector
+        displayCat = display_catalyst(catalyst)
+        originXY = displayCat[1]
+        console.log("OriginXY: " + displayCat[1][0] + "-" + displayCat[1][0])
+        newCatalyst = save_word(displayCat[0])
+        results = searchWord(catalyst, originXY)
+    }
+    // todo: create subnode selector
