@@ -4,10 +4,14 @@
     <div class='nav-tools'>
         {% if user.is_authenticated %}
         <img class='usr-img' src={{user.profile.img}}>
-        <a href="{% url 'logout' %}">
+        <a href="{% url 'accounts:profiledetail' pk=user.id  %}">
+            <div class="usr-btn-detail">Profile</div>
+        </a>
+        <a href="{% url 'accounts:logout' %}">
             <div class="usr-btn-logout">Logout</div>
         </a>
-        <div class="usr-btn-edit">Edit Profile</div>
+        <a class="btn" href="{% url 'stormy:stormies' %}">
+            <div class="usr-btn-stormies">Stormies</div>
         </a>
         {% endif %}
     </div>

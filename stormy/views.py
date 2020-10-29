@@ -1,7 +1,9 @@
+from django.http import request
 from django.http.response import HttpResponse
 from django.urls.base import reverse_lazy
 from accounts.forms import SignupForm, AuthenticationForm
 from django.contrib.auth.forms import AuthenticationForm
+from django.views.generic import ListView
 from django.shortcuts import redirect, render 
 from . import models
 
@@ -19,6 +21,14 @@ def stormy(request, storm_pk):
     }
     return render(request, 'stormy.html', context)
 
+class Stormies(ListView):
+    model = models.Storm
+    template_name = 'stormies.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object_list'] = self.request.user.profile.storm_set.all()
+        return context
 
 #  API dealers
 

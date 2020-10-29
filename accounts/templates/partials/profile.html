@@ -2,5 +2,11 @@
 <div>
     <h2>{{user.first_name}} {{user.first_name}}</h2>
     <img src="../../media/{{user.profile.image}}" alt='User image' width='200' height='200' style='border: solid 3px white;'>
-    <a class="btn" href="{% url 'profileupdate' user.profile.pk %}">Edit Profile</a>
+
+    <a class="btn" href="{% url 'accounts:profileupdate' user.profile.pk %}">
+        <div class="usr-btn-detail">Edit Profile</div>
+    </a>
+    <a class="btn" href="{% url 'stormy:stormies' %}">
+        <div class="usr-btn-stormies">Stormies</div>
+    </a>
 </div>{%endblock content%} {%endif%}
