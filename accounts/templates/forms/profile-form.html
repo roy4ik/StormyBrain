@@ -3,12 +3,12 @@
     <h2>Update Your Profile</h2>
     <div>
         <p>User ID: {{profile.user.id}}</p>
-        <p>Hi {{user.first_name}} {{user.last_name}}. Here you can update your profile</p>
+        <p>Hi {{user.first_name}} {{user.last_name}}. Update your profile</p>
         <p></p>
     </div>
     <form method='POST' enctype="multipart/form-data">
         {% csrf_token %}{% load widget_tweaks %}
-        <img src="../../media/{{user.profile.image}}" alt='User image' class="usr-img"> {{form.image}}
+        <img src="../media/{{user.profile.image}}" alt='User image' class="usr-img"> {{form.image}}
         <input class="user-info-input btn-success" class="btn" type="submit" value="Save">
     </form>
 </div>
