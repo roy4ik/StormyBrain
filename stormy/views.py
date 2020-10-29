@@ -49,7 +49,7 @@ def addStorm(request):
 def saveWord(request, storm_pk, word_to_save, coords_x, coords_y):
     """
     Saves a new word
-    #args: request(HTTPRequestobj), storm_pk, word_to_save(str), coords_x(int), coordsy(int)
+    #args: request(HTTPRequestobj), storm_pk, word_to_save(str), coords_x(int), coords_y(int)
     #returns: HTTPResponse
     """
     if request.method == 'GET':
@@ -63,7 +63,7 @@ def saveWord(request, storm_pk, word_to_save, coords_x, coords_y):
 def get_or_create_userword(request, storm, word_to_save, coords_x, coords_y):
     """
     gets /creates userword 
-    #args: request(HTTPRequestobj), storm(storm object), word_to_save(str), coords_x(int), coordsy(int)
+    #args: request(HTTPRequestobj), storm(storm object), word_to_save(str), coords_x(int), coords_y(int)
     #returns: HTTPResponse
     """
     if request.method == 'GET':
@@ -94,7 +94,7 @@ def update_userword_relation(request, storm_pk, initial_word, next_word, rel_sco
     """
     if request.method == 'GET':
         storm = request.user.profile.storm_set.get(pk=storm_pk)
-        inital_word = storm.userword_set.get(word__name=initial_word)
+        initial_word = storm.userword_set.get(word__name=initial_word)
         word = models.Word.objects.get_or_create(name=next_word)
         next_word = storm.userword_set.get_or_create(word=word)
         relation, create = models.WordRelation.objects.get_or_create(initial=initial_word, next=next_word, rel_score=rel_score)
