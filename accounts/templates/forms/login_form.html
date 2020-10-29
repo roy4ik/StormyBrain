@@ -11,8 +11,8 @@
 {% else %}
 <div>
     <div>
-        <a class="usr-btn" href="{% url 'profileDetail' user.profile.pk %}"><img src="../../media/{{user.profile.image}}" alt='User image'>{{user.username}}</a>
-        <a class="usr-btn" href="{% url 'logout' %}" style="display: inline-block">Logout</a>
+        <a class="usr-btn" href="{% url 'accounts:profileDetail' user.profile.pk %}"><img src="../../media/{{user.profile.image}}" alt='User image'>{{user.username}}</a>
+        <a class="usr-btn" href="{% url 'accounts:logout' %}" style="display: inline-block">Logout</a>
     </div>
 </div>
 {%endif%}

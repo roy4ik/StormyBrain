@@ -8,8 +8,9 @@ from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 from .models import Profile, User
 from .forms import UserProfileForm, SignupForm, AuthenticationForm
 class home(LoginView):
-    template_name = 'home.html'
     model = Profile
+    template_name = 'home.html'
+    success_url = 'stormy:stormies'
 
     def form_invalid(self, form):
         """If the form is invalid, render the invalid form."""
@@ -19,7 +20,7 @@ class SignUp(CreateView):
     model = User
     form_class = SignupForm
     template_name = 'registration/signUp.html'
-    success_url = 'home'
+    success_url = 'stormy:stormies'
     failed_message = "Couldn't sign you up, try again!"
 
     def form_valid(self,form):
