@@ -53,8 +53,8 @@ def get_or_create_userword(request, storm, word_to_save, coords_x, coords_y):
                     )
         if created:
             print(f"Catalyst added : {word_to_save}")
+            cloud = models.WordRelation.objects.create(initial=userword)
             
-            cloud = userword.cloud.add(userword)
             if storm.catalyst == None:
                 storm.catalyst = userword
             return HttpResponse(status=201)
