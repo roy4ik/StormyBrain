@@ -95,10 +95,13 @@ display_catalyst = (catalyst) => {
 }
 
 catalyze = (catalyst) => {
-        displayCat = display_catalyst(catalyst)
-        originXY = displayCat[1]
-        console.log("OriginXY: " + displayCat[1][0] + "-" + displayCat[1][0])
-        newCatalyst = save_word(displayCat[0])
-        results = searchWord(catalyst, originXY)
-    }
-    // todo: create subnode selector
+    displayCat = display_catalyst(catalyst)
+    originXY = displayCat[1]
+    console.log("OriginXY: " + displayCat[1][0] + "-" + displayCat[1][0])
+    newCatalyst = save_word(displayCat[0])
+    results = searchWord(catalyst, originXY)
+}
+
+
+// todo: create subnode selector
+// todo: save_next function
