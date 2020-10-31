@@ -11,8 +11,7 @@ class UserWord(models.Model):
     word = models.ForeignKey(Word, on_delete=models.CASCADE, related_name='user_word')
     user_storm = models.ForeignKey('Storm', on_delete=models.CASCADE)
     cloud = models.ManyToManyField('self', through='WordRelation')
-    coord_x = models.IntegerField()
-    coord_y = models.IntegerField()
+    choice_nr = models.IntegerField()
 
 class WordRelation(models.Model):
     initial = models.ForeignKey(UserWord, on_delete=models.CASCADE, related_name='initial')
