@@ -51,17 +51,14 @@ circleSelection = (data, originXY) => {
 };
 
 //save data to storm
-
-// Search word> save initial word coords 0,0
-// select next word > word relation - save next word in userword, inc coords, and rel_score.
+// Search word> save initial word
+// select next word > word relation - save next word in userword and rel_score.
 
 save_word = async(subNode) => {
     word_to_save = subNode.innerHTML
-    coords_x = subNode.style.left
     console.log("X subnode:" + subNode.style.left)
-    coords_y = subNode.style.top
     console.log("Y subnode:" + subNode.style.top)
-    apiUrl = storm + '/save-word/word=' + word_to_save + '/coords=' + Math.round(coords_x.replace('px', '')) + '&' + Math.round(coords_y.replace('px', ''));
+    apiUrl = storm + '/save-word/word=' + word_to_save;
     console.log(apiUrl)
     resp = await fetch(apiUrl)
         .catch(err => console.log(err))
