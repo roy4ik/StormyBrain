@@ -102,8 +102,8 @@ def update_userword_relation(request, storm_pk, initial_word, next_word, rel_sco
         if request.method == 'GET':
             storm = request.user.profile.storm_set.get(pk=storm_pk)
             initial_word = storm.userword_set.get(word__name=initial_word)
-            word = models.Word.objects.get_or_create(name=next_word)
-            next_word = storm.userword_set.get_or_create(word=word)
+            word = models.Word.objects.get_or_create(name=next_word)[0]
+            next_word = storm.userword_set.get_or_create(word=word)[0]
             relation, create = models.WordRelation.objects.get_or_create(initial=initial_word, next=next_word, rel_score=rel_score)
             if create:
                 print("relation added")

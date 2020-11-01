@@ -9,27 +9,28 @@ getWordObjects = async(word, relCode = 'trg', max = 7) => {
 };
 
 // creating subnodes for words searched and displaying in semi-circle
-// calculates position of parentnode and adds it to inline style of subnodes
+// calculates position of parentElement and adds it to inline style of subnodes
 createSubNodes = (data, parentID = 'search-input') => {
 
     canvasNode = document.getElementById('canvas')
-    parentNode = document.getElementById(parentID)
-        // turning new parent from subNode to parentNode
-    console.log(parentNode.classList)
-    parentNode.classList.remove('subNode')
-    parentNode.classList.add('parentNode')
+    parentElement = document.getElementById(parentID)
+        // turning new parent from subNode to parentElement
+    console.log(parentElement.classList)
+    parentElement.classList.remove('subNode')
+    parentElement.classList.add('parentNode')
 
-    parentWidth = parentNode.getBoundingClientRect().width
-    x = window.scrollX + parentNode.getBoundingClientRect().x
-    console.log(parentNode)
-    remove_non_parentNodes()
+    parentWidth = parentElement.getBoundingClientRect().width
+    x = window.scrollX + parentElement.getBoundingClientRect().x
+    console.log(parentElement)
+    remove_non_parentElements()
     if (parentID == "search-input") {
         // node for catalyst if parentID = 'search-input')
-        console.log('Creating node for :' + parentNode.innerHTML)
-        y = window.scrollY + parentNode.getBoundingClientRect().y - 25
+        // console.log('Creating node for :' + parentElement.innerHTML)
+        y = window.scrollY + parentElement.getBoundingClientRect().y - 25
         subNode = document.createElement("div")
-        subNode.innerHTML = parentNode.value
-        subNode.classList.add('parentNode-catalyst' + parentID)
+        subNode.innerHTML = parentElement.value
+        subNode.classList.add('parentNode')
+        subNode.classList.add('parentNode-catalyst-' + parentID)
         subNode.id = subNode.innerHTML
         subNode.style.left = x + 'px'
         subNode.style.top = y + 'px'
@@ -37,18 +38,18 @@ createSubNodes = (data, parentID = 'search-input') => {
         subNode.style.width = parentWidth + 'px'
         subNode.style.position = 'absolute'
         canvasNode.appendChild(subNode)
-        parentNode = subNode
+        parentElement = subNode
     } else {
-        y = window.scrollY + parentNode.getBoundingClientRect().y
+        y = window.scrollY + parentElement.getBoundingClientRect().y
     }
-    console.log(x + ": Left") // position of parentnode
+    console.log(x + ": Left") // position of parentElement
     console.log(y + ": Top")
     coords = circleSelection(data) // get positions for subnodes (top, left)
     nodes = []
     for (element = 0; element < data.length; ++element) {
-        // console.log('Parentnode for onclick ' + parentNode.id)
+        // console.log('parentElement for onclick ' + parentElement.id)
         word = data[element]['word']
-        console.log('Creating node for :' + word)
+            // console.log('Creating node for :' + word)
         subNode = document.createElement("div")
         subNode.innerHTML = word
         subNode.classList.add('subNode')
@@ -58,16 +59,17 @@ createSubNodes = (data, parentID = 'search-input') => {
         subNode.style.height = 1.5 + 'em';
         subNode.style.width = parentWidth + 'px'
         subNode.style.position = 'relative'
-        subNode.data = word
-        subNode.addEventListener('click', function() { searchWord(this.data) })
-        parentNode.appendChild(subNode)
+        subNode.dataset.word = word
+        subNode.dataset.rel_score = data[element]['score']
+        subNode.addEventListener('click', function() { searchWord(this.dataset.word, this.dataset.rel_score) })
+        parentElement.appendChild(subNode)
         nodes.push(subNode)
     }
     return nodes
 };
 
-// removes all subNodes that are not parentNodes too
-remove_non_parentNodes = () => {
+// removes all subNodes that are not parentElements too
+remove_non_parentElements = () => {
     subNodes = document.querySelectorAll('.subNode:not(.parentNode-cloud)')
     console.log(subNodes)
     for (node of subNodes.values()) {
@@ -75,17 +77,26 @@ remove_non_parentNodes = () => {
     }
 }
 
-searchWord = async(elementID = 'search-input') => {
+searchWord = async(elementID = 'search-input', rel_score = null) => {
     console.log("searching word for elementID :" + elementID)
     if (elementID == 'search-input') {
         console.log("found input")
         save_word(document.getElementById('search-input').value)
         data = await getWordObjects(document.getElementById('search-input').value)
     } else {
-        save_word(elementID)
+        elementID = await save_word(elementID)
         data = await getWordObjects(elementID)
+        next_word_node = document.getElementById(elementID)
+        initial = next_word_node.parentElement.id
+        console.log("initial :" + initial)
+        console.log("next :" + next_word_node.id)
+            // updates the word_relation when selecting a word
+        if (rel_score != null) {
+            update = await update_cloud(initial, next_word_node)
+        }
     }
-    return createSubNodes(data, parentID = elementID)
+    nodes = createSubNodes(data, parentID = elementID)
+    return nodes
 };
 
 circleSelection = (data) => {
@@ -115,3 +126,13 @@ save_word = async(word_to_save) => {
 };
 
 // todo: save_next function
+
+update_cloud = async(initial_word, next_word_node) => {
+    next_word = next_word_node.id
+    rel_score = next_word_node.dataset.rel_score
+    apiUrl = storm + '/update-userword_rel/initial=' + initial_word + '&next=' + next_word + '&rel=' + rel_score;
+    console.log(apiUrl)
+    resp = await fetch(apiUrl)
+        .catch(err => console.log(err))
+    return resp
+}
