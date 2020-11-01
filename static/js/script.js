@@ -1,5 +1,4 @@
 //stormy getting data from datamuse
-
 getWordObjects = async(word, relCode = 'trg', max = 7) => {
     apiUrl = 'https://api.datamuse.com/words?rel_' + relCode + '=' + word + '&max=' + max
     data = []
@@ -12,18 +11,25 @@ getWordObjects = async(word, relCode = 'trg', max = 7) => {
 // creating subnodes for words searched and displaying in semi-circle
 // calculates position of parentnode and adds it to inline style of subnodes
 createSubNodes = (data, parentID = 'search-input') => {
+
     canvasNode = document.getElementById('canvas')
     parentNode = document.getElementById(parentID)
+        // turning new parent from subNode to parentNode
+    console.log(parentNode.classList)
+    parentNode.classList.remove('subNode')
+    parentNode.classList.add('parentNode')
+
     parentWidth = parentNode.getBoundingClientRect().width
     x = window.scrollX + parentNode.getBoundingClientRect().x
     console.log(parentNode)
+    remove_non_parentNodes()
     if (parentID == "search-input") {
         // node for catalyst if parentID = 'search-input')
         console.log('Creating node for :' + parentNode.innerHTML)
         y = window.scrollY + parentNode.getBoundingClientRect().y - 25
         subNode = document.createElement("div")
         subNode.innerHTML = parentNode.value
-        subNode.classList.add('subNode')
+        subNode.classList.add('parentNode-catalyst' + parentID)
         subNode.id = subNode.innerHTML
         subNode.style.left = x + 'px'
         subNode.style.top = y + 'px'
@@ -40,7 +46,7 @@ createSubNodes = (data, parentID = 'search-input') => {
     coords = circleSelection(data) // get positions for subnodes (top, left)
     nodes = []
     for (element = 0; element < data.length; ++element) {
-        console.log('Parentnode for onclick ' + parentNode.id)
+        // console.log('Parentnode for onclick ' + parentNode.id)
         word = data[element]['word']
         console.log('Creating node for :' + word)
         subNode = document.createElement("div")
@@ -60,19 +66,30 @@ createSubNodes = (data, parentID = 'search-input') => {
     return nodes
 };
 
+// removes all subNodes that are not parentNodes too
+remove_non_parentNodes = () => {
+    subNodes = document.querySelectorAll('.subNode:not(.parentNode-cloud)')
+    console.log(subNodes)
+    for (node of subNodes.values()) {
+        node.remove()
+    }
+}
+
 searchWord = async(elementID = 'search-input') => {
     console.log("searching word for elementID :" + elementID)
     if (elementID == 'search-input') {
         console.log("found input")
+        save_word(document.getElementById('search-input').value)
         data = await getWordObjects(document.getElementById('search-input').value)
     } else {
+        save_word(elementID)
         data = await getWordObjects(elementID)
     }
     return createSubNodes(data, parentID = elementID)
 };
 
 circleSelection = (data) => {
-    radius = 250
+    radius = 200
     steps = data.length
     xValues = []
     yValues = []
@@ -89,18 +106,12 @@ circleSelection = (data) => {
 //save data to storm
 // Search word> save initial word
 // select next word > word relation - save next word in userword and rel_score.
-save_word = async(subNode) => {
-    word_to_save = subNode.innerHTML
+save_word = async(word_to_save) => {
     apiUrl = storm + '/save-word/word=' + word_to_save;
     console.log(apiUrl)
     resp = await fetch(apiUrl)
         .catch(err => console.log(err))
-    return subNode = subNode
+    return word_to_save
 };
 
-
-// todo: create subnode selector
-// initial call should be: createSubNodes(searchWord("Boat",parentNode='search-input')) 
 // todo: save_next function
-
-// search function
