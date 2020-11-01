@@ -48,27 +48,27 @@ def addStorm(request):
         storm.save()
         return redirect(reverse_lazy(stormy, kwargs={'storm_pk': storm.pk}))
 
-def saveWord(request, storm_pk, word_to_save, coords_x, coords_y):
+def saveWord(request, storm_pk, word_to_save):
     """
     Saves a new word
-    #args: request(HTTPRequestobj), storm_pk, word_to_save(str), coords_x(int), coords_y(int)
+    #args: request(HTTPRequestobj), storm_pk, word_to_save(str)
     #returns: HTTPResponse
     """
     if request.user.is_authenticated:
         if request.method == 'GET':
             storm = request.user.profile.storm_set.get(pk=storm_pk)
             if storm:
-                userword =  get_or_create_userword(request, storm, word_to_save, coords_x, coords_y)
+                userword =  get_or_create_userword(request, storm, word_to_save)
             else:
                 pass  # todo: create page for user not logged in, redirect to home on timer
             return HttpResponse(status=200)
     else:
         return HttpResponse(status=401)
 
-def get_or_create_userword(request, storm, word_to_save, coords_x, coords_y):
+def get_or_create_userword(request, storm, word_to_save):
     """
     gets /creates userword 
-    #args: request(HTTPRequestobj), storm(storm object), word_to_save(str), coords_x(int), coords_y(int)
+    #args: request(HTTPRequestobj), storm(storm object), word_to_save(str)
     #returns: HTTPResponse
     """
     if request.user.is_authenticated:
@@ -79,8 +79,6 @@ def get_or_create_userword(request, storm, word_to_save, coords_x, coords_y):
             userword, created = models.UserWord.objects.get_or_create(
                         word = word,
                         user_storm=storm,
-                        coord_x = coords_x,
-                        coord_y = coords_y, 
                         )
             if created:
                 print(f"cloud added : {word_to_save}")
