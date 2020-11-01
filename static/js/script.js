@@ -75,7 +75,6 @@ remove_non_parentNodes = () => {
     }
 }
 
-
 searchWord = async(elementID = 'search-input') => {
     console.log("searching word for elementID :" + elementID)
     if (elementID == 'search-input') {
@@ -115,9 +114,4 @@ save_word = async(word_to_save) => {
     return word_to_save
 };
 
-
-// todo: create subnode selector
-// initial call should be: createSubNodes(searchWord("Boat",parentNode='search-input')) 
 // todo: save_next function
-
-// search function
