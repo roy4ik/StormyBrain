@@ -28,6 +28,7 @@ createSubNodes = (data, parentElement) => {
             // adding dataset
         subNode.dataset.word = word
         subNode.dataset.rel_score = data[element]['score']
+        subNode.addEventListener('click', function clicked() { searchAndAddWords(this) })
             // add positioning to subnode
         subNode.style.left = (coords[0][element]) + "px"
         subNode.style.top = (coords[1][element]) + "px"
@@ -45,7 +46,6 @@ create_subNode = (word) => {
     subNode.id = word
     subNode.style.height = 1.5 + 'em';
     subNode.style.position = 'relative'
-    subNode.addEventListener('click', function clicked() { searchAndAddWords(subNode) })
     return subNode
 }
 
@@ -65,9 +65,11 @@ circleSelection = (data) => {
 
 make_parent = (searchNode) => {
     // turning new parent from subNode to parentElement
+    parents = document.querySelectorAll('[class^=parentNode]')
     searchNode.classList.remove('subNode')
-    searchNode.classList.add('parentNode')
+    searchNode.classList.add('parentNode-' + parents.length)
     searchNode.removeEventListener("click", searchAndAddWords);
+    remove_non_parentElements()
     return searchNode
 }
 
@@ -75,7 +77,6 @@ async function searchAndAddWords(searchNode) {
     // searchWord(this.dataset.word, this.dataset.rel_score)
     words = await getWordObjects(searchNode.dataset.word)
     parentElement = make_parent(searchNode)
-    remove_non_parentElements()
     nodes = createSubNodes(words, parentElement)
     remove_parent_events()
         // add_relation(searchNode)
@@ -124,12 +125,11 @@ remove_non_parentElements = () => {
 };
 
 remove_parent_events = () => {
-    parents = document.querySelectorAll('.parentNode:not(.search)')
+    parents = document.querySelectorAll('[class^=parentNode]')
     for (parent of parents.values()) {
         parent.removeEventListener("click", searchAndAddWords);
     }
 };
-
 
 
 
