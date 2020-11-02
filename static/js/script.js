@@ -31,7 +31,7 @@ createSubNodes = (data, parentID = 'search-input') => {
         subNode.innerHTML = parentElement.value
         subNode.classList.add('parentNode')
         subNode.classList.add('parentNode-catalyst-' + parentID)
-        subNode.id = subNode.innerHTML
+        subNode.id = parentElement.value
         subNode.style.left = x + 'px'
         subNode.style.top = y + 'px'
         subNode.style.height = 1.5 + 'em';
@@ -70,7 +70,7 @@ createSubNodes = (data, parentID = 'search-input') => {
 
 // removes all subNodes that are not parentElements too
 remove_non_parentElements = () => {
-    subNodes = document.querySelectorAll('.subNode:not(.parentNode-cloud)')
+    subNodes = document.querySelectorAll('.subNode:not(.parentNode)')
     console.log(subNodes)
     for (node of subNodes.values()) {
         node.remove()
@@ -84,16 +84,15 @@ searchWord = async(elementID = 'search-input', rel_score = null) => {
         save_word(document.getElementById('search-input').value)
         data = await getWordObjects(document.getElementById('search-input').value)
     } else {
-        elementID = await save_word(elementID)
-        data = await getWordObjects(elementID)
-        next_word_node = document.getElementById(elementID)
-        initial = next_word_node.parentElement.id
-        console.log("initial :" + initial)
-        console.log("next :" + next_word_node.id)
-            // updates the word_relation when selecting a word
+        data = await getWordObjects(elementID);
+        next_word_node = document.getElementById(elementID);
+        initial = next_word_node.parentElement.id;
+        console.log("initial :" + initial);
+        console.log("next :" + next_word_node.id);
+        // updates the word_relation when selecting a word
         if (rel_score != null) {
-            update = await update_cloud(initial, next_word_node)
-        }
+            update = await update_cloud(initial, next_word_node);
+        };
     }
     nodes = createSubNodes(data, parentID = elementID)
     return nodes
@@ -125,7 +124,6 @@ save_word = async(word_to_save) => {
     return word_to_save
 };
 
-// todo: save_next function
 
 update_cloud = async(initial_word, next_word_node) => {
     next_word = next_word_node.id
