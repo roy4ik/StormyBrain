@@ -25,13 +25,13 @@ createSubNodes = (data, parentElement) => {
         word = data[element]['word']
             // console.log('Creating node for :' + word)
         subnode = create_subNode(word)
+            // adding dataset
+        subNode.dataset.word = word
+        subNode.dataset.rel_score = data[element]['score']
             // add positioning to subnode
         subNode.style.left = x + (coords[0][element]) + "px"
         subNode.style.top = y + (coords[1][element]) + "px"
         subNode.style.width = parentWidth + 'px'
-            // adding dataset
-        subNode.dataset.word = word
-        subNode.dataset.rel_score = data[element]['score']
         parentElement.appendChild(subNode)
         nodes.push(subNode, coords)
     }
@@ -40,7 +40,7 @@ createSubNodes = (data, parentElement) => {
 
 create_subNode = (word) => {
     subNode = document.createElement("div")
-    subNode.innerHTML = subNode.dataset.word
+    subNode.innerHTML = word
     subNode.classList.add('subNode')
     subNode.id = word
     subNode.style.height = 1.5 + 'em';
@@ -78,7 +78,7 @@ async function searchAndAddWords(searchNode) {
     nodes = createSubNodes(words, parentElement)
     remove_non_parentElements()
     remove_parent_events()
-    add_relation(searchNode)
+        // add_relation(searchNode)
     console.log("Adding words completed for " + searchNode.dataset.word)
 }
 
@@ -103,7 +103,7 @@ function catalyze() {
 
 add_relation = async(searchNode) => {
     // console.log("searching word for elementID :" + elementID)
-    if (next_word_node.dataset.rel_score != null && initial_word_node != undefined) {
+    if (initial_word_node != null && next_word_node.dataset.rel_score != null) {
         next_word_node = searchNode;
         initial_word_node = next_word_node.parentElement;
         console.log("initial :" + initial_word_node.dataset.word);
