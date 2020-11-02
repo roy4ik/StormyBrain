@@ -11,11 +11,10 @@ getWordObjects = async(word, relCode = 'trg', max = 7) => {
 // creating subnodes for words searched and displaying in semi-circle
 // calculates position of parentElement and adds it to inline style of subnodes
 createSubNodes = (data, parentID = 'search-input') => {
-
     canvasNode = document.getElementById('canvas')
     parentElement = document.getElementById(parentID)
         // turning new parent from subNode to parentElement
-    console.log(parentElement.classList)
+        // console.log(parentElement.classList)
     parentElement.classList.remove('subNode')
     parentElement.classList.add('parentNode')
 
@@ -30,16 +29,18 @@ createSubNodes = (data, parentID = 'search-input') => {
         subNode = document.createElement("div")
         subNode.innerHTML = parentElement.value
         subNode.classList.add('parentNode')
-        subNode.classList.add('parentNode-catalyst-' + parentID)
+        subNode.classList.add('parentNode-catalyst')
         subNode.id = parentElement.value
         subNode.style.left = x + 'px'
         subNode.style.top = y + 'px'
         subNode.style.height = 1.5 + 'em';
         subNode.style.width = parentWidth + 'px'
         subNode.style.position = 'absolute'
+        subNode.addEventListener('click', function clicked() { searchWord() })
         canvasNode.appendChild(subNode)
         parentElement = subNode
     } else {
+        parentElement.removeEventListener("click", clicked);
         y = window.scrollY + parentElement.getBoundingClientRect().y
     }
     console.log(x + ": Left") // position of parentElement
@@ -61,24 +62,36 @@ createSubNodes = (data, parentID = 'search-input') => {
         subNode.style.position = 'relative'
         subNode.dataset.word = word
         subNode.dataset.rel_score = data[element]['score']
-        subNode.addEventListener('click', function() { searchWord(this.dataset.word, this.dataset.rel_score) })
+        subNode.addEventListener('click', function clicked() { searchWord(this.dataset.word, this.dataset.rel_score) })
         parentElement.appendChild(subNode)
         nodes.push(subNode)
     }
-    return nodes
+    remove_parent_events()
+        // return nodes
 };
+
+function clicked() { searchWord(this.dataset.word, this.dataset.rel_score) }
+
+
 
 // removes all subNodes that are not parentElements too
 remove_non_parentElements = () => {
     subNodes = document.querySelectorAll('.subNode:not(.parentNode)')
-    console.log(subNodes)
+        // console.log(subNodes)
     for (node of subNodes.values()) {
         node.remove()
     }
-}
+};
+
+remove_parent_events = () => {
+    parents = document.querySelectorAll('.parentNode:not(.search)')
+    for (parent of parents.values()) {
+        parent.removeEventListener("click", clicked);
+    }
+};
 
 searchWord = async(elementID = 'search-input', rel_score = null) => {
-    console.log("searching word for elementID :" + elementID)
+    // console.log("searching word for elementID :" + elementID)
     if (elementID == 'search-input') {
         console.log("found input")
         save_word(document.getElementById('search-input').value)
@@ -94,8 +107,9 @@ searchWord = async(elementID = 'search-input', rel_score = null) => {
             update = await update_cloud(initial, next_word_node);
         };
     }
+    console.log(data)
     nodes = createSubNodes(data, parentID = elementID)
-    return nodes
+        // return nodes
 };
 
 circleSelection = (data) => {
