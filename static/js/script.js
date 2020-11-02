@@ -29,8 +29,8 @@ createSubNodes = (data, parentElement) => {
         subNode.dataset.word = word
         subNode.dataset.rel_score = data[element]['score']
             // add positioning to subnode
-        subNode.style.left = x + (coords[0][element]) + "px"
-        subNode.style.top = y + (coords[1][element]) + "px"
+        subNode.style.left = (coords[0][element]) + "px"
+        subNode.style.top = (coords[1][element]) + "px"
         subNode.style.width = parentWidth + 'px'
         parentElement.appendChild(subNode)
         nodes.push(subNode, coords)
@@ -75,8 +75,8 @@ async function searchAndAddWords(searchNode) {
     // searchWord(this.dataset.word, this.dataset.rel_score)
     words = await getWordObjects(searchNode.dataset.word)
     parentElement = make_parent(searchNode)
-    nodes = createSubNodes(words, parentElement)
     remove_non_parentElements()
+    nodes = createSubNodes(words, parentElement)
     remove_parent_events()
         // add_relation(searchNode)
     console.log("Adding words completed for " + searchNode.dataset.word)
