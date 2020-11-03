@@ -55,18 +55,13 @@ createSubNodes = (data, parentElement) => {
     return nodes
 };
 
-
-
-function clicked() { searchAndAddWords(this) }
-
-
 create_subNode = (word) => {
     subNode = document.createElement("div")
     subNode.innerHTML = word
     subNode.classList.add('subNode')
     subNode.id = word
     subNode.style.height = 1.5 + 'em';
-    subNode.style.position = 'relative'
+    subNode.style.position = 'absolute'
     return subNode
 }
 
@@ -77,7 +72,7 @@ circleSelection = (data) => {
     yValues = []
     for (let angle = 0; angle < steps; ++angle) {
         xValues[angle] = (Math.round(((radius * -Math.cos(Math.PI / steps * angle)))))
-        yValues[angle] = (Math.round(radius * -Math.sin(Math.PI * 0.85 / steps * angle)))
+        yValues[angle] = (Math.round(radius * -Math.sin(Math.PI / steps * angle)))
             // console.log('Coordinates are: ' + xValues[angle] + " : " + yValues[angle])
     }
     coords = [xValues, yValues]
@@ -103,6 +98,8 @@ async function searchAndAddWords(searchNode) {
     await add_relation(searchNode)
     console.log("Adding words completed for " + searchNode.dataset.word)
 }
+
+function clicked() { searchAndAddWords(this) }
 
 function catalyze() {
     canvasNode = document.getElementById('canvas')
@@ -150,9 +147,11 @@ remove_parent_events = () => {
     }
 };
 
-//save data to storm
+// save data to storm
+// Schema:
 // Search word> save initial word
 // select next word > word relation - save next word in userword and rel_score.
+
 save_word = async(word_to_save) => {
     apiUrl = storm + '/save-word/word=' + word_to_save;
     console.log(apiUrl)
