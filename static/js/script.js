@@ -163,3 +163,18 @@ update_cloud = async(searchNode) => {
         .catch(err => console.log(err))
     return resp
 }
+
+//creates data object from items in cluster, populates cluster item only on rel_pos, otherwise empty
+createDataFromCluster = (custerItem, rel_pos, rel_score) => {
+    data = []
+    if (clusterItem) {
+        for (item = 0; item < 7; ++item) {
+            if (item == rel_pos) {
+                data[item] = { 'word': clusterItem, 'score': rel_score }
+            } else {
+                {}
+            }
+        }
+    }
+    return data
+}
