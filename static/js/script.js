@@ -100,11 +100,11 @@ function catalyze() {
     search = document.getElementById('search-input')
         // console.log('Creating node for :' + parentElement.innerHTML)
     x = window.scrollX + search.getBoundingClientRect().x
-    y = window.scrollY + search.getBoundingClientRect().y - (search.offsetHeight * 4)
+    y = window.scrollY + search.getBoundingClientRect().y - (search.offsetHeight * 2)
     parentWidth = search.getBoundingClientRect().width
     subnode = create_subNode(search.value)
     subNode.style.left = x + "px"
-    subNode.style.top = y - (search.getBoundingClientRect().height * 2) + "px"
+    subNode.style.top = y + "px"
     subNode.style.width = parentWidth + 'px'
         // adding data to subnode
     subNode.dataset.word = search.value
