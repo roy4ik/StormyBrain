@@ -99,7 +99,7 @@ async function searchAndAddWords(searchNode) {
     parentElement = make_parent(searchNode)
     nodes = createSubNodes(words, parentElement)
     remove_parent_events()
-        // add_relation(searchNode)
+    await add_relation(searchNode)
     console.log("Adding words completed for " + searchNode.dataset.word)
 }
 
