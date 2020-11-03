@@ -51,7 +51,7 @@ def addStorm(request):
         storm = models.Storm()
         storm.user = request.user.profile
         storm.save()
-        return redirect(reverse_lazy(stormy, kwargs={'storm_pk': storm.pk}))
+        return redirect(reverse_lazy('stormy:stormy', kwargs={'storm_pk': storm.pk}))
 
 def saveWord(request, storm_pk, word_to_save):
     """
