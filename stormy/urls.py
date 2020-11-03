@@ -8,5 +8,5 @@ urlpatterns = [
     path('stormies', views.Stormies.as_view(), name="stormies"),
     path('stormy/<int:storm_pk>', views.stormy, name="stormy"),
     path('stormy/<int:storm_pk>/save-word/word=<str:word_to_save>', views.saveWord, name='save-word'),
-    path('stormy/<int:storm_pk>/update-userword_rel/initial=<str:initial_word>&next=<str:next_word>&rel=<int:rel_score>&rel=<int:rel_pos>', views.update_userword_relation, name='update-relation'),
+    path('stormy/<int:storm_pk>/update-userword_rel/initial=<str:initial_word>&next=<str:next_word>&rel_score=<int:rel_score>&rel_pos=<int:rel_pos>', views.update_userword_relation, name='update-relation'),
 ]
