@@ -21,9 +21,9 @@ createSubNodes = (data, parentElement) => {
 
     //adjusting for boundary limits
     if (yPosition < 100) {
-        yPosition -= parentElementHeight * 3
+        yPosition += parentElementHeight * 10
     } else if (yPosition > document.getElementById('search-input').getBoundingClientRect().y + parentElementHeight / 2) {
-        yPosition += parentElementHeight * 3
+        yPosition -= parentElementHeight * 10
     }
 
     console.log(x + ": Left") // position of parentElement
