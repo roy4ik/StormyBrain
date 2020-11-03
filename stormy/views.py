@@ -17,9 +17,14 @@ def home(request):
 
 def stormy(request, storm_pk):
     if request.user.is_authenticated:
+        storm = models.Storm.objects.get(id=storm_pk)
         context={
-            'storm' : models.Storm.objects.get(user=request.user.profile, pk=storm_pk).pk
+            'storm' : storm
         }
+        if storm.catalyst:
+            context.update({ 'cloud': storm.catalyst.cloud.all() })
+            # | models.UserWord.objects.filter(pk=storm.catalyst.pk)
+            print(context['cloud'])
         return render(request, 'stormy.html', context)
 
 
@@ -92,7 +97,7 @@ def get_or_create_userword(request, storm, word_to_save):
     else:
         return HttpResponse(status=401)
 
-def update_userword_relation(request, storm_pk, initial_word, next_word, rel_score):
+def update_userword_relation(request, storm_pk, initial_word, next_word, rel_score, rel_pos):
     """
     updates userword_relation for first object in UserWord.cloud for adding next and rel_score 
     #args: request(HTTPRequestobj), storm_pk(int), initial_word(str), next_word(UserWord obj), rel_score(int)
@@ -104,7 +109,7 @@ def update_userword_relation(request, storm_pk, initial_word, next_word, rel_sco
             initial_word = storm.userword_set.get(word__name=initial_word)
             word = models.Word.objects.get_or_create(name=next_word)[0]
             next_word = storm.userword_set.get_or_create(word=word)[0]
-            relation, create = models.WordRelation.objects.get_or_create(initial=initial_word, next=next_word, rel_score=rel_score)
+            relation, create = models.WordRelation.objects.get_or_create(initial=initial_word, next=next_word, rel_score=rel_score, rel_pos=rel_pos)
             if create:
                 print("relation added")
                 return HttpResponse(status=201)

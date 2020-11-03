@@ -38,6 +38,7 @@ createSubNodes = (data, parentElement) => {
         subNode.dataset.word = word
         subNode.dataset.initial = parentElement.dataset.word
         subNode.dataset.rel_score = data[element]['score']
+        subNode.dataset.rel_pos = element
         subNode.addEventListener('click', clicked)
             // add positioning to subnode
         subNode.style.left = (coords[0][element]) + xPosition + "px"
@@ -156,7 +157,7 @@ save_word = async(word_to_save) => {
 
 
 update_cloud = async(searchNode) => {
-    apiUrl = storm + '/update-userword_rel/initial=' + searchNode.dataset.initial + '&next=' + searchNode.dataset.word + '&rel=' + searchNode.dataset.rel_score;
+    apiUrl = storm + '/update-userword_rel/initial=' + searchNode.dataset.initial + '&next=' + searchNode.dataset.word + '&rel_score=' + searchNode.dataset.rel_score + '&rel_pos=' + searchNode.dataset.rel_pos;
     console.log(apiUrl)
     resp = await fetch(apiUrl)
         .catch(err => console.log(err))

@@ -14,8 +14,9 @@ class UserWord(models.Model):
 
 class WordRelation(models.Model):
     initial = models.ForeignKey(UserWord, on_delete=models.CASCADE, related_name='initial')
-    next = models.ForeignKey(UserWord, on_delete=models.CASCADE, null=True)
-    rel_score = models.IntegerField(null=True)
+    next = models.ForeignKey(UserWord, on_delete=models.CASCADE)
+    rel_score = models.IntegerField()
+    rel_pos = models.IntegerField()
 
 class Storm(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.PROTECT)
