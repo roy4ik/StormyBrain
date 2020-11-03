@@ -11,11 +11,18 @@ getWordObjects = async(word, relCode = 'trg', max = 7) => {
 // creating subnodes for words searched and displaying in semi-circle
 // calculates position of parentElement and adds it to inline style of subnodes
 createSubNodes = (data, parentElement) => {
+    canvasNode = document.getElementById('canvas')
     console.log(parentElement)
         // Determine parent placement
-    parentWidth = parentElement.getBoundingClientRect().width
-    x = window.scrollX + parentElement.getBoundingClientRect().x
-    y = window.scrollY + parentElement.getBoundingClientRect().y
+    parentElementHeight = parentElement.getBoundingClientRect().height
+    xPosition = window.scrollX + parentElement.getBoundingClientRect().x
+    yPosition = window.scrollY + parentElement.getBoundingClientRect().y - 50
+    if (yPosition < 50) {
+        yPosition -= parentElementHeight * 3
+    }
+    // } else if (y > canvasNode.getBoundingClientRect().y) {
+    //     yPosition += parentElementHeight
+    // }
 
     console.log(x + ": Left") // position of parentElement
     console.log(y + ": Top")
@@ -28,16 +35,21 @@ createSubNodes = (data, parentElement) => {
             // adding dataset
         subNode.dataset.word = word
         subNode.dataset.rel_score = data[element]['score']
-        subNode.addEventListener('click', function clicked() { searchAndAddWords(this) })
+        subNode.addEventListener('click', clicked)
             // add positioning to subnode
-        subNode.style.left = (coords[0][element]) + "px"
-        subNode.style.top = (coords[1][element]) + "px"
+        subNode.style.left = (coords[0][element]) + xPosition + "px"
+        subNode.style.top = (coords[1][element]) + yPosition + "px"
         subNode.style.width = parentWidth + 'px'
-        parentElement.appendChild(subNode)
+        canvasNode.appendChild(subNode)
         nodes.push(subNode, coords)
     }
     return nodes
 };
+
+
+
+function clicked() { searchAndAddWords(this) }
+
 
 create_subNode = (word) => {
     subNode = document.createElement("div")
@@ -50,7 +62,7 @@ create_subNode = (word) => {
 }
 
 circleSelection = (data) => {
-    radius = 200
+    radius = 180
     steps = data.length
     xValues = []
     yValues = []
@@ -88,11 +100,11 @@ function catalyze() {
     search = document.getElementById('search-input')
         // console.log('Creating node for :' + parentElement.innerHTML)
     x = window.scrollX + search.getBoundingClientRect().x
-    y = window.scrollY + search.getBoundingClientRect().y - 25
+    y = window.scrollY + search.getBoundingClientRect().y - (search.offsetHeight * 4)
     parentWidth = search.getBoundingClientRect().width
     subnode = create_subNode(search.value)
     subNode.style.left = x + "px"
-    subNode.style.top = y + "px"
+    subNode.style.top = y - (search.getBoundingClientRect().height * 2) + "px"
     subNode.style.width = parentWidth + 'px'
         // adding data to subnode
     subNode.dataset.word = search.value
