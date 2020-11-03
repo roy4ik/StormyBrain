@@ -22,8 +22,7 @@ def stormy(request, storm_pk):
             'storm' : storm
         }
         if storm.catalyst:
-            context.update({ 'cloud': storm.catalyst.cloud.all() })
-            # | models.UserWord.objects.filter(pk=storm.catalyst.pk)
+            context.update({ 'cloud': [word for word in models.UserWord.objects.filter(user_storm=storm)] })
             print(context['cloud'])
         return render(request, 'stormy.html', context)
 
