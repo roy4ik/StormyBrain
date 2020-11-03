@@ -32,20 +32,22 @@ createSubNodes = (data, parentElement) => {
     nodes = []
     for (element = 0; element < data.length; ++element) {
         word = data[element]['word']
+        if (word != null) {
             // console.log('Creating node for :' + word)
-        subnode = create_subNode(word)
-            // adding dataset
-        subNode.dataset.word = word
-        subNode.dataset.initial = parentElement.dataset.word
-        subNode.dataset.rel_score = data[element]['score']
-        subNode.dataset.rel_pos = element
-        subNode.addEventListener('click', clicked)
-            // add positioning to subnode
-        subNode.style.left = (coords[0][element]) + xPosition + "px"
-        subNode.style.top = (coords[1][element]) + yPosition + "px"
-        subNode.style.width = parentWidth + 'px'
-        canvasNode.appendChild(subNode)
-        nodes.push(subNode, coords)
+            subnode = create_subNode(word)
+                // adding dataset
+            subNode.dataset.word = word
+            subNode.dataset.initial = parentElement.dataset.word
+            subNode.dataset.rel_score = data[element]['score']
+            subNode.dataset.rel_pos = element
+            subNode.addEventListener('click', clicked)
+                // add positioning to subnode
+            subNode.style.left = (coords[0][element]) + xPosition + "px"
+            subNode.style.top = (coords[1][element]) + yPosition + "px"
+            subNode.style.width = parentWidth + 'px'
+            canvasNode.appendChild(subNode)
+            nodes.push(subNode, coords)
+        }
     }
     return nodes
 };
@@ -86,11 +88,17 @@ make_parent = (searchNode) => {
 
 async function searchAndAddWords(searchNode) {
     // searchWord(this.dataset.word, this.dataset.rel_score)
-    words = await getWordObjects(searchNode.dataset.word)
     parentElement = make_parent(searchNode)
+    if (!catalyst) {
+        words = await getWordObjects(searchNode.dataset.word)
+    } else {
+        words = createDataFromCloud(cloud[parentElement.classList[0][parentElement.classList[0].length - 1] + 1], parentElement.dataset.rel_pos, parentElement.dataset.rel_score)
+    }
     nodes = createSubNodes(words, parentElement)
     remove_parent_events()
-    await add_relation(searchNode)
+    if (!catalyst) {
+        await add_relation(searchNode)
+    }
     console.log("Adding words completed for " + searchNode.dataset.word)
 }
 
@@ -103,13 +111,21 @@ catalyze = async() => {
     x = window.scrollX + search.getBoundingClientRect().x
     y = window.scrollY + search.getBoundingClientRect().y - (search.offsetHeight * 2)
     parentWidth = search.getBoundingClientRect().width
-    subnode = create_subNode(search.value)
+    if (!catalyst) {
+        subnode = create_subNode(search.value)
+            // adding data to subnode
+        subNode.dataset.word = search.value
+    } else {
+        subnode = create_subNode(catalyst)
+            // adding data to subnode
+        subNode.dataset.word = catalyst
+    }
     subNode.style.left = x + "px"
     subNode.style.top = y + "px"
     subNode.style.width = parentWidth + 'px'
-        // adding data to subnode
-    subNode.dataset.word = search.value
-    await save_word(subNode.dataset.word)
+    if (!catalyst) {
+        await save_word(subNode.dataset.word)
+    }
     canvasNode.appendChild(subNode)
     await searchAndAddWords(subNode)
     return subNode
@@ -165,16 +181,29 @@ update_cloud = async(searchNode) => {
 }
 
 //creates data object from items in cluster, populates cluster item only on rel_pos, otherwise empty
-createDataFromCluster = (custerItem, rel_pos, rel_score) => {
+createDataFromCloud = (cloudItem, rel_pos, rel_score) => {
     data = []
-    if (clusterItem) {
+    if (cloudItem) {
         for (item = 0; item < 7; ++item) {
+            if (cloudItem == catalyst) {
+                item += 1
+            }
             if (item == rel_pos) {
-                data[item] = { 'word': clusterItem, 'score': rel_score }
+                data[item] = { 'word': cloudItem, 'score': rel_score }
             } else {
-                {}
+                data[item] = {}
             }
         }
     }
     return data
+}
+
+if (catalyst) {
+    subNode = catalyze()
+    for (i = 0; i < cloud.length; ++i) {
+        console.log("cloud: " + cloud[i])
+        subNode = document.getElementById(cloud[i])
+        searchAndAddWords(subNode)
+    }
+    catalyst = null
 }
