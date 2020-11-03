@@ -71,8 +71,8 @@ circleSelection = (data) => {
     xValues = []
     yValues = []
     for (let angle = 0; angle < steps; ++angle) {
-        xValues[angle] = (Math.round(radius * -Math.cos(Math.PI / steps * angle + (1 / 6))))
-        yValues[angle] = (Math.round(radius * -Math.sin(Math.PI / steps * angle + (1 / 6))))
+        xValues[angle] = (Math.round(radius * -Math.cos(Math.PI / steps * angle + (1 / 5))))
+        yValues[angle] = (Math.round(radius * -Math.sin(Math.PI / steps * angle + (1 / 5))))
             // console.log('Coordinates are: ' + xValues[angle] + " : " + yValues[angle])
     }
     coords = [xValues, yValues]
