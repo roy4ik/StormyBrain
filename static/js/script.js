@@ -96,7 +96,7 @@ async function searchAndAddWords(searchNode) {
 
 function clicked() { searchAndAddWords(this) }
 
-function catalyze() {
+catalyze = async() => {
     canvasNode = document.getElementById('canvas')
     search = document.getElementById('search-input')
         // console.log('Creating node for :' + parentElement.innerHTML)
@@ -109,9 +109,9 @@ function catalyze() {
     subNode.style.width = parentWidth + 'px'
         // adding data to subnode
     subNode.dataset.word = search.value
-    save_word(subNode.dataset.word)
+    await save_word(subNode.dataset.word)
     canvasNode.appendChild(subNode)
-    searchAndAddWords(subNode)
+    await searchAndAddWords(subNode)
     return subNode
 }
 
