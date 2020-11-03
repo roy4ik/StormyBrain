@@ -13,6 +13,8 @@
     </div>
 </div>
 <script>
-    var storm = "{{storm.pk}}";
+    let storm = "{{storm.pk}}";
+    let cloud = "{% for cluster in cloud%}{{cluster.word.name}} {% endfor %}"
+    cloud = cloud.split(" ")
 </script>
 {% else %}{%block not_authorized%} {% endblock %} {% endif %} {%endblock content%}
