@@ -17,20 +17,14 @@ createSubNodes = (data, parentElement) => {
     parentElementHeight = parentElement.getBoundingClientRect().height
     parentElementWidth = parentElement.getBoundingClientRect().width
     xPosition = window.scrollX + parentElement.getBoundingClientRect().x
-    yPosition = window.scrollY + parentElement.getBoundingClientRect().y - 50
+    yPosition = window.scrollY + parentElement.getBoundingClientRect().y
 
     //adjusting for boundary limits
-    if (yPosition < 50) {
-        yPosition -= parentElementHeight
+    if (yPosition < 100) {
+        yPosition -= parentElementHeight * 3
     } else if (yPosition > document.getElementById('search-input').getBoundingClientRect().y + parentElementHeight / 2) {
         yPosition += parentElementHeight * 3
     }
-    // if (xPosition > 0) {
-    //     xPosition += parentElementWidth
-    // } else
-    // if (xPosition < canvasNode.getBoundingClientRect().x) {
-    //     xPosition -= parentElementWidth
-    // }
 
     console.log(x + ": Left") // position of parentElement
     console.log(y + ": Top")
