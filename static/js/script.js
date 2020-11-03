@@ -42,6 +42,7 @@ createSubNodes = (data, parentElement) => {
         subnode = create_subNode(word)
             // adding dataset
         subNode.dataset.word = word
+        subNode.dataset.initial = parentElement.dataset.word
         subNode.dataset.rel_score = data[element]['score']
         subNode.addEventListener('click', clicked)
             // add positioning to subnode
@@ -124,13 +125,11 @@ function catalyze() {
 
 add_relation = async(searchNode) => {
     // console.log("searching word for elementID :" + elementID)
-    if (initial_word_node != null && next_word_node.dataset.rel_score != null) {
-        next_word_node = searchNode;
-        initial_word_node = next_word_node.parentElement;
-        console.log("initial :" + initial_word_node.dataset.word);
-        console.log("next :" + next_word_node.dataset.word);
+    if (searchNode.dataset.initial != null && searchNode.dataset.rel_score != null) {
+        console.log("initial :" + searchNode.dataset.initial);
+        console.log("next :" + searchNode.dataset.word);
         // updates the word_relation when selecting a word
-        update = await update_cloud(initial, next_word_node);
+        update = await update_cloud(searchNode);
         console.log("Rel score updated")
     };
 };
@@ -151,8 +150,6 @@ remove_parent_events = () => {
     }
 };
 
-
-
 //save data to storm
 // Search word> save initial word
 // select next word > word relation - save next word in userword and rel_score.
@@ -165,10 +162,8 @@ save_word = async(word_to_save) => {
 };
 
 
-update_cloud = async(initial_word_node, next_word_node) => {
-    next_word = next_word_node.dataset.word
-    rel_score = next_word_node.dataset.rel_score
-    apiUrl = storm + '/update-userword_rel/initial=' + initial_word_node.dataset.word + '&next=' + next_word + '&rel=' + rel_score;
+update_cloud = async(searchNode) => {
+    apiUrl = storm + '/update-userword_rel/initial=' + searchNode.dataset.initial + '&next=' + searchNode.dataset.word + '&rel=' + searchNode.dataset.rel_score;
     console.log(apiUrl)
     resp = await fetch(apiUrl)
         .catch(err => console.log(err))
