@@ -89,7 +89,7 @@ make_parent = (searchNode) => {
 async function searchAndAddWords(searchNode) {
     // searchWord(this.dataset.word, this.dataset.rel_score)
     parentElement = make_parent(searchNode)
-    if (!catalyst) {
+    if (catalyst == false) {
         words = await getWordObjects(searchNode.dataset.word)
     } else {
         level = Number([parentElement.classList[0][parentElement.classList[0].length - 1]][0])
@@ -97,7 +97,7 @@ async function searchAndAddWords(searchNode) {
     }
     nodes = createSubNodes(words, parentElement)
     remove_parent_events()
-    if (!catalyst) {
+    if (catalyst == false) {
         await add_relation(searchNode)
     }
     console.log("Adding words completed for " + searchNode.dataset.word)
@@ -112,7 +112,7 @@ catalyze = async() => {
     x = window.scrollX + search.getBoundingClientRect().x
     y = window.scrollY + search.getBoundingClientRect().y - (search.offsetHeight * 2)
     parentWidth = search.getBoundingClientRect().width
-    if (!catalyst) {
+    if (catalyst == false) {
         subnode = create_subNode(search.value)
             // adding data to subnode
         subNode.dataset.word = search.value
@@ -124,11 +124,11 @@ catalyze = async() => {
     subNode.style.left = x + "px"
     subNode.style.top = y + "px"
     subNode.style.width = parentWidth + 'px'
-    if (!catalyst) {
+    canvasNode.appendChild(subNode)
+    if (catalyst == false) {
         await save_word(subNode.dataset.word)
         await searchAndAddWords(subNode)
     }
-    canvasNode.appendChild(subNode)
     return subNode
 }
 
@@ -197,7 +197,7 @@ createDataFromCloud = (cloudItem, rel_pos, rel_score) => {
 }
 subNode = null
 loadContent = () => {
-    if (catalyst) {
+    if (catalyst != false) {
         subNode = catalyze()
         for (i = 1; i < (cloud.length - 1); ++i) {
             subNode = document.getElementById(cloud[i - 1])
@@ -205,8 +205,8 @@ loadContent = () => {
             searchAndAddWords(subNode)
         }
         catalyst = null
+        searchAndAddWords(subNode)
     }
-    searchAndAddWords(subNode)
 }
 
 loadContent()

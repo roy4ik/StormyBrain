@@ -1,10 +1,11 @@
 /* Main CSS File */
 
- :root {
+:root {
     --prime-bg-color: lightgray;
     --secondary-bg-color: darkgray;
     --prime-color: darkblue;
     --secondary-color: white;
+    --canvas-shadows: 8px 8px 24px black;
 }
 
 body {
@@ -120,6 +121,24 @@ nav>.nav-tools {
     right: 25%;
     left: 25%;
     text-align: center;
+}
+
+.search {
+    border-radius: 2em;
+    padding: 0.5em 0em 0.5em 0em;
+    text-align: center;
+    margin: 0px;
+    box-shadow: var(--canvas-shadows)
+}
+
+.canvas-btn-search {
+    border-radius: 2em;
+    padding: 0.5em 0em 0.5em 0em;
+    width: 4em;
+    display: inline-block;
+    color: var(--prime-bg-color);
+    background-color: var(--prime-color);
+    box-shadow: var(--canvas-shadows)
 }
 
 footer {

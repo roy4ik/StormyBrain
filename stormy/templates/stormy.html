@@ -7,9 +7,12 @@
         <div class="toolbar-item toolbar-note">Edit</div>
         <div class="toolbar-item toolbar-note">Delete</div>
     </div>
+
     <div id="canvas-word-search">
         <input id='search-input' class="search" type="text" placeholder="Search">
-        <div onclick="catalyze()" class="canvas-btn-search">Search</div>
+        <div onclick="catalyze()" class="canvas-btn-search">
+            <i class="fas fa-search"></i>
+        </div>
     </div>
 </div>
 <script>
@@ -17,9 +20,12 @@
     let cloud = "{% for cluster in cloud%}{{cluster.word.name}} {% endfor %}"
     cloud = cloud.split(" ")
     cloud.pop();
-    let catalyst = cloud[0];
     let rel_positions = '{{rel_positions}}'
     rel_positions = rel_positions.split(" ")
     rel_positions.pop();
+    let catalyst = false
+    if (cloud.length > 0) {
+        catalyst = cloud[0];
+    }
 </script>
 {% else %}{%block not_authorized%} {% endblock %} {% endif %} {%endblock content%}
