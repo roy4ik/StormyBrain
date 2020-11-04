@@ -1,5 +1,6 @@
 /* Main CSS File */
 
+@import url('https://fonts.googleapis.com/css2?family=Alata&family=Oswald:wght@300;400&display=swap');
 :root {
     --prime-bg-color: rgb(30, 33, 43);
     --secondary-bg-color: rgb(236, 117, 5);
@@ -9,6 +10,7 @@
     --canvas-shadows: 1px 1px 18px rgba(254, 215, 102, 0.5);
     --subNode-color: rgb(236, 117, 5);
     --parentNode-color: rgba(254, 74, 73, 0.7);
+    font-family: Oswald;
 }
 
 body {
