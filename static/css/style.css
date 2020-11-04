@@ -18,7 +18,14 @@ body {
     background-color: var(--prime-bg-color);
 }
 
-a {
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
     text-decoration: none;
     color: var(--prime-color)
 }
@@ -157,6 +164,13 @@ nav>.nav-tools {
     margin: 0.5em;
 }
 
+input[type='text'] {
+    border-radius: 3em;
+    padding: 0.5em;
+    color: var(--prime-bg-color);
+    font-family: Oswald;
+}
+
 #canvas {
     margin: 0;
     position: static;
@@ -244,6 +258,15 @@ nav>.nav-tools {
     box-shadow: var(--canvas-shadows);
     border: solid 0.1em var(--secondary-color);
     scale: 0.8;
+}
+
+.form-edit-user {
+    text-align: center;
+    color: var(--prime-color) !important;
+}
+
+.form-section {
+    padding: 1em;
 }
 
 footer {
