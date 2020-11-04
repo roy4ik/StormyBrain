@@ -6,8 +6,8 @@
     --third-bg-color: #4446B1;
     --prime-color: rgb(244, 244, 248);
     --secondary-color: rgb(244, 244, 248);
-    --canvas-shadows: 1px 1px 18px rgb(236, 117, 5);
-    --subNode-color: rgb(254, 215, 102);
+    --canvas-shadows: 1px 1px 18px rgba(254, 215, 102, 0.5);
+    --subNode-color: rgb(236, 117, 5);
     --parentNode-color: rgba(254, 74, 73, 0.7);
 }
 
@@ -225,10 +225,23 @@ nav>.nav-tools {
     animation: 2s createParentNode;
     line-height: 1.5em;
     border-radius: 3em;
+    width: fit-content;
     color: var(--prime-color);
     background-color: var(--parentNode-color);
     box-shadow: var(--canvas-shadows);
     border: solid 0.1em var(--secondary-color)
+}
+
+[class*="subNode"] {
+    animation: 2s createSubNode;
+    line-height: 1.5em;
+    border-radius: 3em;
+    width: fit-content;
+    color: var(--prime-color);
+    background-color: var(--subNode-color);
+    box-shadow: var(--canvas-shadows);
+    border: solid 0.1em var(--secondary-color);
+    scale: 0.8;
 }
 
 footer {
@@ -245,5 +258,19 @@ footer {
     }
     100% {
         opacity: 1;
+    }
+}
+
+@keyframes createSubNode {
+    0% {
+        opacity: 0;
+        scale: 0;
+    }
+    70% {
+        scale: 1.1;
+    }
+    100% {
+        opacity: 1;
+        scale: 0.8;
     }
 }
