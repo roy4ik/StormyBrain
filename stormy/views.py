@@ -23,7 +23,15 @@ def stormy(request, storm_pk):
         }
         if storm.catalyst:
             context.update({ 'cloud': [word for word in models.UserWord.objects.filter(user_storm=storm)] })
-            print(context['cloud'])
+            cloud = [word for word in models.UserWord.objects.filter(user_storm=storm)]
+            rel_positions = ""
+            for word in range(len(cloud)):
+                try:
+                    rel_positions += f"{models.WordRelation.objects.get(initial=cloud[word].pk).rel_pos} "
+                except:
+                    continue
+            print (rel_positions)
+            context.update({'rel_positions': rel_positions})
         return render(request, 'stormy.html', context)
 
 

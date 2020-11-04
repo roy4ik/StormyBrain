@@ -31,9 +31,9 @@ createSubNodes = (data, parentElement) => {
     coords = circleSelection(data) // get positions for subnodes (top, left)
     nodes = []
     for (element = 0; element < data.length; ++element) {
-        word = data[element]['word']
-        if (word != null) {
-            // console.log('Creating node for :' + word)
+        if (data[element]['word'] != null) {
+            word = data[element]['word']
+                // console.log('Creating node for :' + word)
             subnode = create_subNode(word)
                 // adding dataset
             subNode.dataset.word = word
@@ -92,7 +92,8 @@ async function searchAndAddWords(searchNode) {
     if (!catalyst) {
         words = await getWordObjects(searchNode.dataset.word)
     } else {
-        words = createDataFromCloud(cloud[parentElement.classList[0][parentElement.classList[0].length - 1] + 1], parentElement.dataset.rel_pos, parentElement.dataset.rel_score)
+        level = Number([parentElement.classList[0][parentElement.classList[0].length - 1]][0])
+        words = createDataFromCloud(cloud[level + 1], rel_positions[level], parentElement.dataset.rel_score)
     }
     nodes = createSubNodes(words, parentElement)
     remove_parent_events()
@@ -125,9 +126,9 @@ catalyze = async() => {
     subNode.style.width = parentWidth + 'px'
     if (!catalyst) {
         await save_word(subNode.dataset.word)
+        await searchAndAddWords(subNode)
     }
     canvasNode.appendChild(subNode)
-    await searchAndAddWords(subNode)
     return subNode
 }
 
@@ -185,25 +186,27 @@ createDataFromCloud = (cloudItem, rel_pos, rel_score) => {
     data = []
     if (cloudItem) {
         for (item = 0; item < 7; ++item) {
-            if (cloudItem == catalyst) {
-                item += 1
-            }
             if (item == rel_pos) {
                 data[item] = { 'word': cloudItem, 'score': rel_score }
             } else {
-                data[item] = {}
+                data[item] = { 'word': null }
             }
         }
     }
     return data
 }
-
-if (catalyst) {
-    subNode = catalyze()
-    for (i = 0; i < cloud.length; ++i) {
-        console.log("cloud: " + cloud[i])
-        subNode = document.getElementById(cloud[i])
-        searchAndAddWords(subNode)
+subNode = null
+loadContent = () => {
+    if (catalyst) {
+        subNode = catalyze()
+        for (i = 1; i < cloud.length; ++i) {
+            subNode = document.getElementById(cloud[i - 1])
+            console.log("cloud: " + cloud[i])
+            searchAndAddWords(subNode)
+        }
+        catalyst = null
     }
-    catalyst = null
+    searchAndAddWords(subNode)
 }
+
+loadContent()
