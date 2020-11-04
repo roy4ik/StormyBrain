@@ -2,7 +2,8 @@
 
 :root {
     --prime-bg-color: lightgray;
-    --secondary-bg-color: darkgray;
+    --secondary-bg-color: yellow;
+    --third-bg-color: lightblue;
     --prime-color: darkblue;
     --secondary-color: white;
     --canvas-shadows: 8px 8px 24px black;
@@ -10,35 +11,42 @@
 
 body {
     margin: 0px;
-}
-
-main {
-    margin-top: 4em;
     background-color: var(--prime-bg-color);
 }
 
-nav>.nav-tools {
-    position: fixed;
-    top: 1em;
-    left: 90%;
-    width: 5em;
-    background-color: var(--secondary-bg-color);
-    border-radius: 40px;
+a {
+    text-decoration: none;
 }
 
+
+}
+main {
+    margin-top: 6em;
+}
+nav>.nav-tools {
+    display: flex;
+    justify-content: space-around;
+    justify-items: center;
+    position: fixed;
+    top: 1em;
+    right: 1em;
+    width: fit-content;
+    background-color: var(--secondary-bg-color);
+    border-radius: 4em;
+    text-align: center
+}
+
+/* .nav-tools:hover {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    width: 20em;
+} */
 .nav-logo {
     position: fixed;
     top: 1em;
     left: 1em;
 }
-
-.nav-tools>.usr-img {
-    width: 5em;
-    height: 5em;
-    border-radius: 25%;
-    border: 0.1em solid var(--prime-color)
-}
-
 .login-container {
     display: flex;
     margin: auto;
@@ -46,7 +54,6 @@ nav>.nav-tools {
     width: 80%;
     height: 24em;
 }
-
 .login {
     display: flex;
     background-color: beige;
@@ -55,7 +62,6 @@ nav>.nav-tools {
     align-items: center;
     padding: 2em;
 }
-
 .signup {
     display: flex;
     background-color: turquoise;
@@ -64,18 +70,74 @@ nav>.nav-tools {
     align-items: center;
     padding: 2em;
 }
-
-.usr-btn {
-    height: 3em;
-    width: 3em;
-    border: 1px solid white;
-    background-color: var(--secondary-bg-color);
+.usr-img {
+    width: 3.8em;
+    height: 3.8em;
+    border-radius: 50%;
+}
+.usr-btn,
+.usr-btn>img {
+    position: relative;
+    width: 3.8em;
+    height: 3.8em;
+    line-height: 4em;
+    padding: 0.5em;
+    border-radius: 50%;
+    color: var(--primary-color);
+    background-color: var(--third-bg-color);
+}
+.usr-btn:hover {
+    /* box-shadow: 0 0 0 7px var(--third-bg-color); */
+    
+    transform: scale(1.125);
+    transition: all 0.2s ease;
+}
+.usr-btn:hover:after {
+    transform: scale(1);
+    transition: all 0.2s ease;
+}
+.usr-btn:hover:before {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    transition: all 05s ease;
+    -webkit-transform: scale(0.925);
+    -moz-transform: scale(0.925);
+    -ms-transform: scale(0.925);
+    -o-transform: scale(0.925);
+    transform: scale(0.925);
+    /* box-shadow: 0 0 0 1px var(--third-bg-color); */
+    
+    opacity: .5;
+}
+.usr-btn:focus:before {
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    transition: all 0.5s ease;
+    -webkit-transform: scale(0.925);
+    -moz-transform: scale(0.925);
+    -ms-transform: scale(0.925);
+    -o-transform: scale(0.925);
+    transform: scale(0.925);
+    box-shadow: 0 0 0 1px var(--third-bg-color);
+    opacity: .5;
 }
 
+/* .usr-btn:before {
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    border-radius: 50%;
+    bottom: 0;
+    box-shadow: 0 0 0 1px #fff;
+    content: '';
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+} */
 .usr-input-field {
     margin: 0.5em;
 }
-
 #canvas {
     margin: 0;
     position: static;
@@ -83,26 +145,23 @@ nav>.nav-tools {
     height: 100vh;
     text-align: center;
 }
-
 .canvas-toolbar {
+    display: none;
     position: fixed;
     right: 2em;
     height: 4em;
-    margin-top: 15%;
+    margin-top: 10em;
     min-height: 4em;
     width: 3em;
     background-color: var(--secondary-bg-color)
 }
-
 #canvas {
     width: 100%
 }
-
 .subNode {
     height: 1.5em;
     width: 6em;
 }
-
 .toolbar-item {
     text-align: center;
     margin-top: 0.5em;
@@ -114,7 +173,6 @@ nav>.nav-tools {
     background-color: var(--prime-color);
     color: var(--secondary-color)
 }
-
 #canvas-word-search {
     position: fixed;
     bottom: 5em;
@@ -122,7 +180,6 @@ nav>.nav-tools {
     left: 25%;
     text-align: center;
 }
-
 .search {
     border-radius: 2em;
     padding: 0.5em 0em 0.5em 0em;
@@ -130,7 +187,6 @@ nav>.nav-tools {
     margin: 0px;
     box-shadow: var(--canvas-shadows)
 }
-
 .canvas-btn-search {
     border-radius: 2em;
     padding: 0.5em 0em 0.5em 0em;
@@ -140,7 +196,6 @@ nav>.nav-tools {
     background-color: var(--prime-color);
     box-shadow: var(--canvas-shadows)
 }
-
 footer {
     position: fixed;
     bottom: 0px;
