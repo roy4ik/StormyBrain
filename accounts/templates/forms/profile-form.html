@@ -1,14 +1,21 @@
 {% extends 'base/base.html' %} {% block content %} {% if user.is_authenticated %}
-<div>
+<div class="user-content" style='text-align:center;'>
     <h2>Update Your Profile</h2>
     <div>
         <p>User ID: {{profile.user.id}}</p>
-        <p>Hi {{user.first_name}} {{user.last_name}}. Update your profile</p>
-        <p></p>
+        <p>Hi {{user.first_name}} {{user.last_name}}</p>
+        <br>
+        <p>Update your profile</p>
     </div>
     <form method='POST' enctype="multipart/form-data">
         {% csrf_token %}{% load widget_tweaks %}
-        <img src="../media/{{user.profile.image}}" alt='User image' class="usr-img"> {{form.image}}
+
+        <div class="form-section"><img src="{{user.profile.img.url}}" alt='User image' class="usr-img">
+            <div style="display:inline-block">{{form.img}}</div>
+        </div>
+        <div class="form-section">{{form.job_title}}</div>
+        <div class="form-section">{{form.company}}</div>
+        <!-- <div> {{form}}</div> -->
         <input class="user-info-input btn-success" class="btn" type="submit" value="Save">
     </form>
 </div>

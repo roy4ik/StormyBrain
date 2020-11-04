@@ -1,3 +1,8 @@
+let catalyst = false
+if (cloud.length > 0) {
+    catalyst = cloud[0];
+}
+
 //stormy getting data from datamuse
 getWordObjects = async(word, relCode = 'trg', max = 7) => {
     apiUrl = 'https://api.datamuse.com/words?rel_' + relCode + '=' + word + '&max=' + max
@@ -197,16 +202,16 @@ createDataFromCloud = (cloudItem, rel_pos, rel_score) => {
 }
 subNode = null
 loadContent = () => {
-    if (catalyst != false) {
-        subNode = catalyze()
-        for (i = 1; i < (cloud.length - 1); ++i) {
-            subNode = document.getElementById(cloud[i - 1])
-            console.log("cloud: " + cloud[i])
+        if (catalyst != false) {
+            subNode = catalyze()
+            for (i = 1; i < (cloud.length - 1); ++i) {
+                subNode = document.getElementById(cloud[i - 1])
+                console.log("cloud: " + cloud[i])
+                searchAndAddWords(subNode)
+            }
+            catalyst = null
             searchAndAddWords(subNode)
         }
-        catalyst = null
-        searchAndAddWords(subNode)
     }
-}
-
-loadContent()
+    //setTimeout avoids catalyst decleration issue
+setTimeout(loadContent, 200)
