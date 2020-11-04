@@ -3,6 +3,11 @@
     <div class='nav-logo'>Logo</div>
     <div class='nav-tools'>
         {% if user.is_authenticated %}
+        <div class='usr-btn btn-stormies'>
+            <a href="{% url 'stormy:stormies' %}">
+                <div>Stormies</div>
+            </a>
+        </div>
         <div class="usr-btn usr-btn-logout">
             <a href="{% url 'accounts:logout' %}">
                 <div>Logout</div>
@@ -13,11 +18,7 @@
                 <img class='usr-img' src={{user.profile.img.url}}>
             </a>
         </div>
-        <div class='usr-btn btn-stormies'>
-            <a href="{% url 'stormy:stormies' %}">
-                <div>Stormies</div>
-            </a>
-        </div>
+
         {% endif %}
     </div>
 </nav>

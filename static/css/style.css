@@ -35,6 +35,13 @@ nav>.nav-tools {
     border-radius: 4em;
     text-align: center
 }
+
+/* .nav-tools:hover {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    width: 20em;
+} */
 .nav-logo {
     position: fixed;
     top: 1em;
@@ -64,11 +71,13 @@ nav>.nav-tools {
     padding: 2em;
 }
 .usr-img {
-    width: 4em;
-    height: 4em;
+    width: 3.8em;
+    height: 3.8em;
     border-radius: 50%;
 }
-.usr-btn {
+.usr-btn,
+.usr-btn>img {
+    position: relative;
     width: 3.8em;
     height: 3.8em;
     line-height: 4em;
@@ -78,10 +87,15 @@ nav>.nav-tools {
     background-color: var(--third-bg-color);
 }
 .usr-btn:hover {
-    box-shadow: 0 0 0 7px var(--third-bg-color);
+    /* box-shadow: 0 0 0 7px var(--third-bg-color); */
+    
+    transform: scale(1.125);
     transition: all 0.2s ease;
 }
-.usr-btn:focus {}
+.usr-btn:hover:after {
+    transform: scale(1);
+    transition: all 0.2s ease;
+}
 .usr-btn:hover:before {
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
@@ -91,7 +105,8 @@ nav>.nav-tools {
     -ms-transform: scale(0.925);
     -o-transform: scale(0.925);
     transform: scale(0.925);
-    box-shadow: 0 0 0 1px var(--third-bg-color);
+    /* box-shadow: 0 0 0 1px var(--third-bg-color); */
+    
     opacity: .5;
 }
 .usr-btn:focus:before {
