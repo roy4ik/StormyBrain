@@ -3,15 +3,21 @@
     <div class='nav-logo'>Logo</div>
     <div class='nav-tools'>
         {% if user.is_authenticated %}
-        <a class="usr-btn-detail" href="{% url 'accounts:profiledetail' pk=user.id  %}">
-            <img class='usr-img' src={{user.profile.img.url}}>
-        </a>
-        <a href="{% url 'accounts:logout' %}">
-            <div class="usr-btn-logout">Logout</div>
-        </a>
-        <a class="btn" href="{% url 'stormy:stormies' %}">
-            <div class="usr-btn-stormies">Stormies</div>
-        </a>
+        <div class="usr-btn usr-btn-logout">
+            <a href="{% url 'accounts:logout' %}">
+                <div>Logout</div>
+            </a>
+        </div>
+        <div class="usr-btn">
+            <a href="{% url 'accounts:profiledetail' pk=user.id  %}">
+                <img class='usr-img' src={{user.profile.img.url}}>
+            </a>
+        </div>
+        <div class='usr-btn btn-stormies'>
+            <a href="{% url 'stormy:stormies' %}">
+                <div>Stormies</div>
+            </a>
+        </div>
         {% endif %}
     </div>
 </nav>
