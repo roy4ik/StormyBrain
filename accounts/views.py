@@ -42,7 +42,6 @@ class ProfileUpdate(UpdateView):
     template_name = 'forms/profile-form.html'
     success_url = 'profileDetail'
     failed_message = "The profile couldn't be updated"
-    fields = ['']
 
 
 class ProfileDetail(DetailView):
