@@ -3,7 +3,7 @@
     <div class='nav-logo'>Logo</div>
     <div class='nav-tools'>
         {% if user.is_authenticated %}
-        <img class='usr-img' src={{user.profile.img}}>
+        <img class='usr-img' src={{user.profile.img.url}}>
         <a href="{% url 'accounts:profiledetail' pk=user.id  %}">
             <div class="usr-btn-detail">Profile</div>
         </a>

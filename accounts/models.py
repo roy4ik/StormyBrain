@@ -8,7 +8,7 @@ from django.db.models.signals import post_save
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
-    img = models.ImageField(upload_to = 'media/usr/profile/img/', default='media/usr/defaults/profile/img/default.jpg')
+    img = models.ImageField(upload_to = 'usr/profile/img/', default='usr/defaults/profile/img/default.jpg')
     job_title = models.CharField(max_length=255)
     company = models.CharField(max_length=255)
 
