@@ -31,7 +31,7 @@ p {
 }
 
 main {
-    margin-top: 6em;
+    margin-top: 6.5em;
 }
 
 nav>.nav-tools {
@@ -41,7 +41,8 @@ nav>.nav-tools {
     position: fixed;
     top: 1em;
     right: 1em;
-    width: fit-content;
+    z-index: 100;
+    /* width: fit-content; */
     /* background-color: var(--secondary-bg-color); */
     border-radius: 4em;
     text-align: center
@@ -60,6 +61,7 @@ nav>.nav-tools {
     top: 20px;
     left: 20px;
     font-size: 2em;
+    z-index: 100;
     color: linear-gradient(to bottom right, var(--secondary-bg-color), var(--parentNode-color));
 }
 
@@ -173,21 +175,6 @@ button:active {
     transition: all 0.2s ease;
 }
 
-
-/* .usr-btn:before {
-    -webkit-transition: all 0.2s ease;
-    -moz-transition: all 0.2s ease;
-    transition: all 0.2s ease;
-    border-radius: 50%;
-    bottom: 0;
-    box-shadow: 0 0 0 1px #fff;
-    content: '';
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-} */
-
 .usr-input-field {
     margin: 0.5em;
 }
@@ -274,7 +261,7 @@ input[type='password'] {
     animation: 2s createParentNode;
     line-height: 1.5em;
     border-radius: 3em;
-    width: fit-content;
+    width: 4em;
     color: var(--prime-color);
     background-color: var(--parentNode-color);
     box-shadow: var(--canvas-shadows);
@@ -285,7 +272,7 @@ input[type='password'] {
     animation: 2s createSubNode;
     line-height: 1.5em;
     border-radius: 3em;
-    width: fit-content;
+    width: 4em;
     color: var(--prime-color);
     background-color: var(--subNode-color);
     box-shadow: var(--canvas-shadows);
@@ -296,6 +283,25 @@ input[type='password'] {
 .form-edit-user {
     text-align: center;
     color: var(--prime-color) !important;
+}
+
+.stormies {
+    margin: 2em;
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(200px, 5fr));
+    grid-gap: 4em;
+    justify-content: center;
+}
+
+.storm-card {
+    border: solid 0.1em var(--parentNode-color);
+    display: flex;
+    justify-content: space-around;
+    justify-self: center;
+    align-items: center;
+    border-radius: 1em;
+    text-align: center;
+    min-height: 7em;
 }
 
 .form-section {
