@@ -24,6 +24,7 @@ nav>.nav-tools {
     width: 5em;
     background-color: var(--secondary-bg-color);
     border-radius: 40px;
+    text-align: center
 }
 
 .nav-logo {
@@ -32,11 +33,11 @@ nav>.nav-tools {
     left: 1em;
 }
 
-.nav-tools>.usr-img {
-    width: 5em;
-    height: 5em;
-    border-radius: 25%;
-    border: 0.1em solid var(--prime-color)
+.usr-img {
+    width: 4em;
+    height: 4em;
+    border-radius: 50%;
+    border: 0.3em solid var(--prime-color)
 }
 
 .login-container {
