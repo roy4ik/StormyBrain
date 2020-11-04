@@ -202,16 +202,24 @@ createDataFromCloud = (cloudItem, rel_pos, rel_score) => {
 }
 subNode = null
 loadContent = () => {
-        if (catalyst != false) {
-            subNode = catalyze()
-            for (i = 1; i < (cloud.length - 1); ++i) {
-                subNode = document.getElementById(cloud[i - 1])
-                console.log("cloud: " + cloud[i])
-                searchAndAddWords(subNode)
-            }
-            catalyst = null
+    if (catalyst != false) {
+        subNode = catalyze()
+        for (i = 1; i < (cloud.length - 1); ++i) {
+            subNode = document.getElementById(cloud[i - 1])
+            console.log("cloud: " + cloud[i])
             searchAndAddWords(subNode)
         }
+        catalyst = null
+        searchAndAddWords(subNode)
+    }
+}
+
+randomColor = () => {
+        let randColor = Math.floor(Math.random() * 16777215).toString(16);
+        randColor = "#" + randColor;
+        return randColor
+
+
     }
     //setTimeout avoids catalyst decleration issue
 setTimeout(loadContent, 200)
