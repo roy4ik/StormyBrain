@@ -1,14 +1,23 @@
 {% extends 'base/base.html' %} {%block content%}{% if user.is_authenticated %}
-<div class="stormies">
+<div style='margin: auto;width: 80% !important; border-radius: 1.5em;text-align: center' class="usr-btn">
     <a href="{% url 'stormy:add-storm'%}">
-        <div>New Stormy</div>
+        <div>Add Stormy</div>
     </a>
+</div>
+<div class="stormies">
     {% for storm in object_list %}
-    <a href="{% url 'stormy:stormy' storm.id %}">
+    <div>
+
         <div class="storm-card">
-            <h2>{{storm.id}}</h2>
-            <h2>{{storm.catalyst.word.name}}</h2>
-        </div>{% endfor%}
-    </a>
+            <div>
+                <h4>{{storm.id}}</h4>
+                <h4>{{storm.catalyst.word.name}}</h4>
+            </div>
+            <div>
+                <button type='button' onclick="location.href='{% url 'stormy:stormy' storm.id %}'">View
+            </button>
+            </div>
+        </div>
+    </div>{% endfor%}
 </div>
 {% else %}{%block not_authorized%} {% endblock %} {% endif %} {%endblock content%}
