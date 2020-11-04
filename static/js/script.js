@@ -199,7 +199,7 @@ subNode = null
 loadContent = () => {
     if (catalyst) {
         subNode = catalyze()
-        for (i = 1; i < cloud.length; ++i) {
+        for (i = 1; i < (cloud.length - 1); ++i) {
             subNode = document.getElementById(cloud[i - 1])
             console.log("cloud: " + cloud[i])
             searchAndAddWords(subNode)
