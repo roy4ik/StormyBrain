@@ -235,7 +235,7 @@ input[type='password'] {
     color: var(--secondary-color)
 }
 
-.canvas-word-search {
+#canvas-word-search {
     position: fixed;
     bottom: 5em;
     right: 25%;
@@ -261,11 +261,20 @@ input[type='password'] {
     box-shadow: var(--canvas-shadows)
 }
 
-#canvas-btn-search:target {
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-    display: none;
+#canvas-btn-search:hover {
+    transform: scale(1.125);
+    transition: all 0.2s ease;
+    border: none;
+    color: var(--third-bg-color);
+    background-color: var(--prime-color);
+}
+
+#canvas-btn-search:active {
+    transform: scale(0.8);
+    transition: all 0.2s ease;
+    border: none;
+    color: var(--third-bg-color);
+    background-color: var(--prime-bg-color);
 }
 
 [class*="parentNode"] {
