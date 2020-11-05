@@ -21,15 +21,14 @@ class SignUp(CreateView):
     model = User
     form_class = SignupForm
     template_name = 'registration/signUp.html'
-    success_url = 'stormy:stormies'
+    success_url = reverse('stormy:stormies')
     failed_message = "Couldn't sign you up, try again!"
 
     def form_valid(self,form):
-        super().form_valid(form)
         user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
         if user:
             login(self.request,user)
-        return reverse(self.get_success_url())
+        return super().form_valid(form)
     
     def form_invalid(self, form):
         """If the form is invalid, render the invalid form."""
