@@ -95,7 +95,7 @@ async function searchAndAddWords(searchNode) {
     parentElement = make_parent(searchNode)
         //make search disappear
     search = document.getElementById('canvas-word-search')
-    search.style = 'transition: all 0.2s ease; display:hidden'
+    search.style = 'transition: all 0.2s ease; display:none'
     remove_parent_events()
     if (catalyst == null) {
         words = await getWordObjects(searchNode.dataset.word)
