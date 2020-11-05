@@ -85,6 +85,10 @@ nav>.nav-tools {
     border-radius: 2em;
 }
 
+.content-landing {
+    padding: 2em;
+}
+
 .signup {
     display: flex;
     background-color: var(--parentNode-color);
