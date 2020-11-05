@@ -21,7 +21,7 @@ class SignUp(CreateView):
     model = User
     form_class = SignupForm
     template_name = 'registration/signUp.html'
-    success_url = reverse('stormy:stormies')
+    success_url = reverse_lazy('stormy:stormies')
     failed_message = "Couldn't sign you up, try again!"
 
     def form_valid(self,form):
