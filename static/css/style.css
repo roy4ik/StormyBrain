@@ -251,7 +251,7 @@ input[type='password'] {
     box-shadow: var(--canvas-shadows)
 }
 
-.canvas-btn-search {
+#canvas-btn-search {
     border-radius: 2em;
     padding: 0.5em 0em 0.5em 0em;
     width: 4em;
@@ -259,6 +259,13 @@ input[type='password'] {
     color: var(--prime-bg-color);
     background-color: var(--prime-color);
     box-shadow: var(--canvas-shadows)
+}
+
+#canvas-btn-search:target {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    display: none;
 }
 
 [class*="parentNode"] {
