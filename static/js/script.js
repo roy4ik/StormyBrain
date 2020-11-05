@@ -92,19 +92,17 @@ make_parent = (searchNode) => {
 }
 
 async function searchAndAddWords(searchNode) {
-    // searchWord(this.dataset.word, this.dataset.rel_score)
     parentElement = make_parent(searchNode)
-    if (catalyst == false) {
+    remove_parent_events()
+    if (catalyst == null) {
         words = await getWordObjects(searchNode.dataset.word)
+        await add_relation(searchNode)
     } else {
         level = Number([parentElement.classList[0][parentElement.classList[0].length - 1]][0])
         words = createDataFromCloud(cloud[level + 1], rel_positions[level], parentElement.dataset.rel_score)
     }
     nodes = createSubNodes(words, parentElement)
-    remove_parent_events()
-    if (catalyst == false) {
-        await add_relation(searchNode)
-    }
+
     console.log("Adding words completed for " + searchNode.dataset.word)
 }
 
@@ -117,7 +115,7 @@ catalyze = async() => {
     x = window.scrollX + search.getBoundingClientRect().x
     y = window.scrollY + search.getBoundingClientRect().y - (search.offsetHeight * 2)
     parentWidth = search.getBoundingClientRect().width
-    if (catalyst == false) {
+    if (catalyst == null) {
         subnode = create_subNode(search.value)
             // adding data to subnode
         subNode.dataset.word = search.value
@@ -130,7 +128,7 @@ catalyze = async() => {
     subNode.style.top = y + "px"
     subNode.style.width = parentWidth + 'px'
     canvasNode.appendChild(subNode)
-    if (catalyst == false) {
+    if (catalyst == null) {
         await save_word(subNode.dataset.word)
         await searchAndAddWords(subNode)
     }
@@ -204,7 +202,7 @@ subNode = null
 loadContent = () => {
     if (catalyst != false) {
         subNode = catalyze()
-        for (i = 1; i < (cloud.length - 1); ++i) {
+        for (i = 1; i < (cloud.length); ++i) {
             subNode = document.getElementById(cloud[i - 1])
             console.log("cloud: " + cloud[i])
             searchAndAddWords(subNode)
