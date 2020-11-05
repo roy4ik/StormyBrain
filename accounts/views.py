@@ -1,4 +1,5 @@
 from django.contrib.auth.models import Group
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django import views
 from django.contrib.auth.views import LoginView, LogoutView
@@ -28,7 +29,7 @@ class SignUp(CreateView):
         user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
         if user:
             login(self.request,user)
-        return redirect('stormy:stormies')
+        return HttpResponseRedirect(reverse(self.get_success_url()))
     
     def form_invalid(self, form):
         """If the form is invalid, render the invalid form."""
