@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 from .models import Profile, User
 from .forms import UserProfileForm, SignupForm, AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 class home(LoginView):
     model = Profile
     template_name = 'home.html'
@@ -21,7 +22,7 @@ class SignUp(CreateView):
     model = User
     form_class = SignupForm
     template_name = 'registration/signUp.html'
-    success_url = reverse_lazy('stormy:stormies')
+    success_url = reverse_lazy('accounts:login')
     failed_message = "Couldn't sign you up, try again!"
 
     def form_valid(self,form):
@@ -36,7 +37,7 @@ class SignUp(CreateView):
 
 
 
-class ProfileUpdate(UpdateView):
+class ProfileUpdate(LoginRequiredMixin,UpdateView):
     model = Profile
     form_class = UserProfileForm
     template_name = 'forms/profile-form.html'
@@ -44,6 +45,6 @@ class ProfileUpdate(UpdateView):
     failed_message = "The profile couldn't be updated"
 
 
-class ProfileDetail(DetailView):
+class ProfileDetail(LoginRequiredMixin,DetailView):
     model = Profile
     template_name = 'partials/profile.html'

@@ -4,7 +4,10 @@ from django.urls.base import reverse_lazy
 from accounts.forms import SignupForm, AuthenticationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import ListView
-from django.shortcuts import redirect, render 
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
+
 from . import models
 
 # Create your views here.
@@ -15,27 +18,27 @@ def home(request):
     }
     return render(request, 'partials/login_container.html', context)
 
+@login_required
 def stormy(request, storm_pk):
-    if request.user.is_authenticated:
-        storm = models.Storm.objects.get(id=storm_pk)
-        context={
-            'storm' : storm
-        }
-        if storm.catalyst:
-            context.update({ 'cloud': [word for word in models.UserWord.objects.filter(user_storm=storm)] })
-            cloud = [word for word in models.UserWord.objects.filter(user_storm=storm)]
-            rel_positions = ""
-            for word in range(len(cloud)):
-                try:
-                    rel_positions += f"{models.WordRelation.objects.get(initial=cloud[word].pk).rel_pos} "
-                except:
-                    continue
-            print (rel_positions)
-            context.update({'rel_positions': rel_positions})
-        return render(request, 'stormy.html', context)
+    storm = models.Storm.objects.get(id=storm_pk)
+    context={
+        'storm' : storm
+    }
+    if storm.catalyst:
+        context.update({ 'cloud': [word for word in models.UserWord.objects.filter(user_storm=storm)] })
+        cloud = [word for word in models.UserWord.objects.filter(user_storm=storm)]
+        rel_positions = ""
+        for word in range(len(cloud)):
+            try:
+                rel_positions += f"{models.WordRelation.objects.get(initial=cloud[word].pk).rel_pos} "
+            except:
+                continue
+        print (rel_positions)
+        context.update({'rel_positions': rel_positions})
+    return render(request, 'stormy.html', context)
 
 
-class Stormies(ListView):
+class Stormies(LoginRequiredMixin,ListView):
     model = models.Storm
     template_name = 'stormies.html'
     
@@ -47,7 +50,7 @@ class Stormies(ListView):
         
 
 #  API dealers
-
+@login_required
 def addStorm(request):
     """
     Creates new storm object
