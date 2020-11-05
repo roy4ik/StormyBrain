@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'sw^6u%xk@4a_%z*dy7++jj3vrfcz0e&%38-+f=xhulz+tymt)0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['stormybrain.herokuapp.com']
 
@@ -143,5 +143,4 @@ LOGOUT_REDIRECT_URL = '/'
 django_heroku.settings(locals())
 
 import dj_database_url
-if not DEBUG:
-    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
