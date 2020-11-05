@@ -1,4 +1,4 @@
-let catalyst = false
+let catalyst = null
 if (cloud.length > 0) {
     catalyst = cloud[0];
 }
@@ -200,7 +200,7 @@ createDataFromCloud = (cloudItem, rel_pos, rel_score) => {
 }
 subNode = null
 loadContent = () => {
-    if (catalyst != false) {
+    if (catalyst != null) {
         subNode = catalyze()
         for (i = 1; i < (cloud.length); ++i) {
             subNode = document.getElementById(cloud[i - 1])
