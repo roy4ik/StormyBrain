@@ -1,1 +1,1 @@
-web: gunicorn stormybrain.wsgi --log-file -
+web: gunicorn project_stormybrain.wsgi --log-file -
