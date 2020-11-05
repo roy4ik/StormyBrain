@@ -28,7 +28,7 @@ class SignUp(CreateView):
         user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
         if user:
             login(self.request,user)
-        return redirect(reverse(self.get_success_url()))
+        return redirect(reverse('stormy:stormies'))
     
     def form_invalid(self, form):
         """If the form is invalid, render the invalid form."""
