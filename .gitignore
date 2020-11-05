@@ -130,7 +130,7 @@ dmypy.json
 .pyre/
 
 # migrations
-*/migrations
+# */migrations
 
 # macfiles
 *.DS_Store
