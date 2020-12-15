@@ -25,15 +25,17 @@ class SignUp(CreateView):
     success_url = reverse_lazy('stormy:home')
     failed_message = "Couldn't sign you up, try again!"
 
-    def form_valid(self,form):
-        user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
+    def form_valid(self, form):
+        valid = super(SignUp, self).form_valid(form)
+        user = authenticate(
+            username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
         if user:
-            login(self.request,user)
+            login(self.request, user)
         return super().form_valid(form)
-    
+
     def form_invalid(self, form):
         """If the form is invalid, render the invalid form."""
-        return render(self.request, 'partials/login_container.html', {'signup_form':form, 'login_form': AuthenticationForm()})
+        return render(self.request, 'partials/login_container.html', {'signup_form': form, 'login_form': AuthenticationForm()})
 
 
 

@@ -133,4 +133,5 @@ dmypy.json
 # */migrations
 
 # macfiles
+.DS_Store
 *.DS_Store
