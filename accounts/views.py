@@ -3,12 +3,14 @@ from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django import views
 from django.contrib.auth.views import LoginView, LogoutView
-from django.urls import reverse, reverse_lazy
 from django.contrib.auth import authenticate, login
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
+from django.urls import reverse, reverse_lazy
+from django.db import transaction
 from .models import Profile, User
-from .forms import UserProfileForm, SignupForm, AuthenticationForm
+from .forms import *
 from django.contrib.auth.mixins import LoginRequiredMixin
+
 def home(request):
     context = {
         'login_form': AuthenticationForm(),
@@ -35,7 +37,6 @@ class SignUp(CreateView):
     def form_invalid(self, form):
         """If the form is invalid, render the invalid form."""
         return render(self.request, 'partials/login_container.html', {'signup_form': form, 'login_form': AuthenticationForm()})
-
 
 
 class ProfileUpdate(LoginRequiredMixin,UpdateView):
