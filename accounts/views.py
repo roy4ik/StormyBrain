@@ -9,20 +9,19 @@ from django.views.generic import CreateView, UpdateView, DetailView, DeleteView
 from .models import Profile, User
 from .forms import UserProfileForm, SignupForm, AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-class home(LoginView):
-    model = Profile
-    template_name = 'home.html'
-    success_url = 'stormy:stormies'
+def home(request):
+    context = {
+        'login_form': AuthenticationForm(),
+        'signup_form': SignupForm()
+    }
+    return render(request, 'partials/login_container.html', context)
 
-    def form_invalid(self, form):
-        """If the form is invalid, render the invalid form."""
-        return render(self.request, 'partials/login_container.html', {'login_form':form, 'signup_form': SignupForm()})
 
 class SignUp(CreateView):
     model = User
     form_class = SignupForm
-    template_name = 'registration/signUp.html'
-    success_url = reverse_lazy('stormy:stormies')
+    template_name = 'registration/signup.html'
+    success_url = reverse_lazy('stormy:home')
     failed_message = "Couldn't sign you up, try again!"
 
     def form_valid(self, form):
