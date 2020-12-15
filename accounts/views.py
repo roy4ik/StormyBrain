@@ -28,11 +28,8 @@ class SignUp(CreateView):
 
     def form_valid(self, form):
         valid = super(SignUp, self).form_valid(form)
-        user = authenticate(
-            username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
-        if user:
-            login(self.request, user)
-        return super().form_valid(form)
+        login(self.request, self.object)
+        return valid
 
     def form_invalid(self, form):
         """If the form is invalid, render the invalid form."""
