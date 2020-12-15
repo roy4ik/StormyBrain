@@ -1,0 +1,41 @@
+.login-container {
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    width: 80%;
+    height: 26em;
+}
+
+.login {
+    display: flex;
+    background-color: var(--subNode-color);
+    width: 10em;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    padding: 1em;
+    margin: 1em;
+    border-radius: 2em;
+}
+
+.signup {
+    display: flex;
+    background-color: var(--parentNode-color);
+    width: 20em;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    padding: 3em;
+    padding-top: 6em;
+    padding-bottom: 6em;
+    border-radius: 2em;
+}
+
+.form-edit-user {
+    text-align: center;
+    color: var(--prime-color) !important;
+}
+
+.form-section {
+    padding: 1em;
+}
