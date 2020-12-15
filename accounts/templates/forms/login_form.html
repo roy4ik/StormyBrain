@@ -6,9 +6,6 @@
     <h2>Log in</h2>
     <div class="usr-input-field">{{ login_form.username|append_attr:"placeholder:Username"}}</div>
     <div class="usr-input-field">{{ login_form.password|append_attr:"placeholder:Password"}}</div>
-    <a href="{% url 'accounts:password_reset' %}">
-        <p>Forgot password?</p>
-    </a>
     <button type="submit" value="login">Login</button>
 </form>
 {% else %}
