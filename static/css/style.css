@@ -2,9 +2,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Alata&family=Oswald:wght@300;400&display=swap');
 @import 'rootvars.css';
-@import 'nav.css';
-@import 'buttons.css';
-@import 'forms.css';
 body {
     margin: 0px;
     background-color: var(--prime-bg-color);
