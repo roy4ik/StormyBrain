@@ -1,18 +1,10 @@
 /* Main CSS File */
 
 @import url('https://fonts.googleapis.com/css2?family=Alata&family=Oswald:wght@300;400&display=swap');
-:root {
-    --prime-bg-color: rgb(30, 33, 43);
-    --secondary-bg-color: rgb(236, 117, 5);
-    --third-bg-color: #4446B1;
-    --prime-color: rgb(244, 244, 248);
-    --secondary-color: rgb(244, 244, 248);
-    --canvas-shadows: 1px 1px 18px rgba(254, 215, 102, 0.5);
-    --subNode-color: rgb(236, 117, 5);
-    --parentNode-color: rgba(254, 74, 73, 0.7);
-    font-family: Oswald;
-}
-
+@import 'rootvars.css';
+@import 'nav.css';
+@import 'buttons.css';
+@import 'forms.css';
 body {
     margin: 0px;
     background-color: var(--prime-bg-color);
@@ -34,153 +26,8 @@ main {
     margin-top: 6.5em;
 }
 
-nav>.nav-tools {
-    display: flex;
-    justify-content: space-around;
-    justify-items: center;
-    position: fixed;
-    top: 1em;
-    right: 1em;
-    z-index: 100;
-    /* width: fit-content; */
-    /* background-color: var(--secondary-bg-color); */
-    border-radius: 4em;
-    text-align: center
-}
-
-
-/* .nav-tools:hover {
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    transition: all 0.5s ease;
-    width: 20em;
-} */
-
-.nav-logo {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    font-size: 2em;
-    z-index: 100;
-    color: linear-gradient(to bottom right, var(--secondary-bg-color), var(--parentNode-color));
-}
-
-.login-container {
-    display: flex;
-    margin: auto;
-    justify-content: center;
-    width: 80%;
-    height: 26em;
-}
-
-.login {
-    display: flex;
-    background-color: var(--subNode-color);
-    width: 10em;
-    justify-content: space-around;
-    align-items: center;
-    text-align: center;
-    padding: 1em;
-    margin: 1em;
-    border-radius: 2em;
-}
-
 .content-landing {
     padding: 2em;
-}
-
-.signup {
-    display: flex;
-    background-color: var(--parentNode-color);
-    width: 20em;
-    justify-content: space-around;
-    align-items: center;
-    text-align: center;
-    padding: 3em;
-    padding-top: 6em;
-    padding-bottom: 6em;
-    border-radius: 2em;
-}
-
-.usr-img {
-    width: 3.8em;
-    height: 3.8em;
-    border-radius: 50%;
-}
-
-button {
-    position: relative;
-    width: 6em;
-    height: 4.5em;
-    margin: 0.2em;
-    line-height: 4em;
-    padding: 0.5em;
-    border: none;
-    border-radius: 1em;
-    color: var(--prime-color);
-    background-color: var(--third-bg-color);
-}
-
-button:hover {
-    transform: scale(1.125);
-    transition: all 0.2s ease;
-    border: none;
-    color: var(--third-bg-color);
-    background-color: var(--prime-color);
-}
-
-button:active {
-    transform: scale(0.8);
-    transition: all 0.2s ease;
-    border: none;
-    color: var(--third-bg-color);
-    background-color: var(--prime-bg-color);
-}
-
-.usr-btn,
-.usr-btn>img {
-    position: relative;
-    width: 3.8em;
-    height: 3.8em;
-    line-height: 4em;
-    padding: 0.5em;
-    border-radius: 50%;
-    color: var(--parentNode-color);
-    background-color: var(--secondary-bg-color);
-}
-
-.usr-btn:hover {
-    /* box-shadow: 0 0 0 7px var(--third-bg-color); */
-    transform: scale(1.125);
-    transition: all 0.2s ease;
-    background-color: var(--parentNode-color);
-}
-
-.usr-btn:hover:after {
-    transform: scale(1);
-    transition: all 0.2s ease;
-}
-
-.usr-btn:hover:before {
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    transition: all 05s ease;
-    -webkit-transform: scale(0.925);
-    -moz-transform: scale(0.925);
-    -ms-transform: scale(0.925);
-    -o-transform: scale(0.925);
-    transform: scale(0.925);
-    /* box-shadow: 0 0 0 1px var(--third-bg-color); */
-    opacity: .5;
-}
-
-.usr-btn:active {
-    transform: scale(1);
-    transition: all 0.2s ease;
-}
-
-.usr-input-field {
-    margin: 0.5em;
 }
 
 input[type='text'],
@@ -223,7 +70,8 @@ input[type='password'] {
     width: 6em;
 }
 
-.toolbar-item {
+
+/* .toolbar-item {
     text-align: center;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
@@ -233,7 +81,7 @@ input[type='password'] {
     border-radius: 50%;
     background-color: var(--prime-color);
     color: var(--secondary-color)
-}
+} */
 
 #canvas-word-search {
     position: fixed;
@@ -300,11 +148,6 @@ input[type='password'] {
     scale: 0.8;
 }
 
-.form-edit-user {
-    text-align: center;
-    color: var(--prime-color) !important;
-}
-
 .stormies {
     margin: 2em;
     display: grid;
@@ -322,10 +165,6 @@ input[type='password'] {
     border-radius: 1em;
     text-align: center;
     min-height: 7em;
-}
-
-.form-section {
-    padding: 1em;
 }
 
 footer {
