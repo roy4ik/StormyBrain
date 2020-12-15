@@ -1,0 +1,74 @@
+button {
+    position: relative;
+    width: 6em;
+    height: 4.5em;
+    margin: 0.2em;
+    line-height: 4em;
+    padding: 0.5em;
+    border: none;
+    border-radius: 1em;
+    color: var(--prime-color);
+    background-color: var(--third-bg-color);
+}
+
+button:hover {
+    transform: scale(1.125);
+    transition: all 0.2s ease;
+    border: none;
+    color: var(--third-bg-color);
+    background-color: var(--prime-color);
+}
+
+button:active {
+    transform: scale(0.8);
+    transition: all 0.2s ease;
+    border: none;
+    color: var(--third-bg-color);
+    background-color: var(--prime-bg-color);
+}
+
+.usr-btn,
+.usr-btn>img {
+    position: relative;
+    width: 3.8em;
+    height: 3.8em;
+    line-height: 4em;
+    padding: 0.5em;
+    border-radius: 50%;
+    color: var(--parentNode-color);
+    background-color: var(--secondary-bg-color);
+}
+
+.usr-btn:hover {
+    /* box-shadow: 0 0 0 7px var(--third-bg-color); */
+    transform: scale(1.125);
+    transition: all 0.2s ease;
+    background-color: var(--parentNode-color);
+}
+
+.usr-btn:hover:after {
+    transform: scale(1);
+    transition: all 0.2s ease;
+}
+
+.usr-btn:hover:before {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    transition: all 05s ease;
+    -webkit-transform: scale(0.925);
+    -moz-transform: scale(0.925);
+    -ms-transform: scale(0.925);
+    -o-transform: scale(0.925);
+    transform: scale(0.925);
+    /* box-shadow: 0 0 0 1px var(--third-bg-color); */
+    opacity: .5;
+}
+
+.usr-btn:active {
+    transform: scale(1);
+    transition: all 0.2s ease;
+}
+
+.usr-input-field {
+    margin: 0.5em;
+}

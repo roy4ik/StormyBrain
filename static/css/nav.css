@@ -1,0 +1,36 @@
+nav>.nav-tools {
+    display: flex;
+    justify-content: space-around;
+    justify-items: center;
+    position: fixed;
+    top: 1em;
+    right: 1em;
+    z-index: 100;
+    /* width: fit-content; */
+    /* background-color: var(--secondary-bg-color); */
+    border-radius: 4em;
+    text-align: center
+}
+
+
+/* .nav-tools:hover {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    width: 20em;
+} */
+
+.nav-logo {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 2em;
+    z-index: 100;
+    color: linear-gradient(to bottom right, var(--secondary-bg-color), var(--parentNode-color));
+}
+
+.usr-img {
+    width: 3.8em;
+    height: 3.8em;
+    border-radius: 50%;
+}
