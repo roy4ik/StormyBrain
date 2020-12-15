@@ -1,7 +1,7 @@
 {% if form.errors %}
 <p>That didn't work, try again or sign in</p>
 {%endif%}{% if not user.is_authenticated %}
-<form method='POST' action="{% url 'login' %}">
+<form method='POST' action="{% url 'accounts:login' %}">
     {% csrf_token %} {% load widget_tweaks %}
     <h2>Log in</h2>
     <div class="usr-input-field">{{ login_form.username|append_attr:"placeholder:Username"}}</div>
