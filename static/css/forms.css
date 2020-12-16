@@ -19,6 +19,8 @@
     flex-wrap: wrap-reverse;
     flex-direction: column-reverse;
     justify-content: space-around;
+    align-content: center;
+    align-items: top;
 }
 
 .login {
@@ -56,8 +58,8 @@
     display: none;
 }
 
-@media only screen and (max-width:600px),
-only screen and (max-device-width:600px) {
+@media only screen and (max-width:600px) and (orientation:portrait),
+only screen and (max-device-width:600px) and (orientation:portrait) {
     .arrow-down {
         display: inherit;
         width: 0;

@@ -23,7 +23,7 @@ class SignUp(CreateView):
     model = User
     form_class = SignupForm
     template_name = 'registration/signup.html'
-    success_url = reverse_lazy('stormy:home')
+    success_url = reverse_lazy('stormy:stormies')
     failed_message = "Couldn't sign you up, try again!"
 
     def form_valid(self, form):
@@ -34,7 +34,6 @@ class SignUp(CreateView):
     def form_invalid(self, form):
         """If the form is invalid, render the invalid form."""
         return render(self.request, 'partials/login_container.html', {'signup_form': form, 'login_form': AuthenticationForm()})
-
 
 class ProfileUpdate(LoginRequiredMixin,UpdateView):
     model = Profile
