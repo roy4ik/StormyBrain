@@ -1,13 +1,12 @@
 {% extends 'base/base.html' %} {%block content%}{% if user.is_authenticated %}
-<div style='margin: auto;width: 80% !important; border-radius: 1.5em;text-align: center' class="usr-btn">
-    <a href="{% url 'stormy:add-storm'%}">
-        <div>Add Stormy</div>
-    </a>
-</div>
 <div class="stormies">
+    <div style='margin: auto;width: 80% !important; border-radius: 1.5em;text-align: center' class="usr-btn">
+        <a href="{% url 'stormy:add-storm'%}">
+            <div>Add Stormy</div>
+        </a>
+    </div>
     {% for storm in object_list %}
     <div>
-
         <div class="storm-card">
             <div>
                 <h4>{{storm.id}}</h4>

@@ -1,34 +1,48 @@
+.content-landing {
+    margin: auto;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.content-item {
+    display: flex;
+    flex-wrap: wrap;
+    min-width: 10rem;
+    max-width: 15rem;
+    margin: 1rem;
+}
+
 .login-container {
     display: flex;
-    margin: auto;
-    justify-content: center;
-    width: 80%;
-    height: 26em;
+    flex-wrap: wrap-reverse;
+    flex-direction: column-reverse;
+    justify-content: space-around;
+    align-content: center;
+    align-items: top;
 }
 
 .login {
     display: flex;
     background-color: var(--subNode-color);
-    width: 10em;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 1em;
-    margin: 1em;
-    border-radius: 2em;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    border-radius: 1rem;
 }
 
 .signup {
     display: flex;
     background-color: var(--parentNode-color);
-    width: 20em;
-    justify-content: space-around;
     align-items: center;
     text-align: center;
-    padding: 3em;
-    padding-top: 6em;
-    padding-bottom: 6em;
-    border-radius: 2em;
+    padding: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-radius: 1rem;
 }
 
 .form-edit-user {
@@ -37,5 +51,23 @@
 }
 
 .form-section {
-    padding: 1em;
+    padding: 1rem;
+}
+
+.arrow-down {
+    display: none;
+}
+
+@media only screen and (max-width:600px) and (orientation:portrait),
+only screen and (max-device-width:600px) and (orientation:portrait) {
+    .arrow-down {
+        display: inherit;
+        width: 0;
+        height: 0;
+        margin: 0 auto;
+        text-align: center;
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-top: 20px solid var(--parentNode-color);
+    }
 }
