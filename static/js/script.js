@@ -1,4 +1,6 @@
 let catalyst = null
+let subNode = null
+
 if (cloud.length > 0) {
     catalyst = cloud[0];
 }
@@ -25,11 +27,18 @@ createSubNodes = (data, parentElement) => {
     yPosition = window.scrollY + parentElement.getBoundingClientRect().y
 
     //adjusting for boundary limits
-    if (yPosition < 100) {
+    radius = 180
+    if ((yPosition < (parentElementHeight * 2 + (radius)))) {
         yPosition += parentElementHeight * 10
-    } else if (yPosition > document.getElementById('search-input').getBoundingClientRect().y + parentElementHeight / 2) {
-        yPosition -= parentElementHeight * 10
+    } else if (yPosition > document.getElementById('search-input').getBoundingClientRect().y + parentElementHeight) {
+        yPosition -= parentElementHeight * 2
     }
+    if ((xPosition < (window.innerWidth * 0.2))) {
+        xPosition += (parentElementWidth + radius) * 0.5
+    } else if (xPosition > window.innerWidth * 0.2) {
+        xPosition -= (parentElementWidth + radius)
+    }
+
 
     console.log(x + ": Left") // position of parentElement
     console.log(y + ": Top")
@@ -73,7 +82,7 @@ circleSelection = (data) => {
     xValues = []
     yValues = []
     for (let angle = 0; angle < steps; ++angle) {
-        xValues[angle] = (Math.round(radius * -Math.cos(Math.PI / steps * angle + (1 / 5))))
+        xValues[angle] = (Math.round(radius * +Math.cos(Math.PI / steps * angle + (1 / 5))))
         yValues[angle] = (Math.round(radius * -Math.sin(Math.PI / steps * angle + (1 / 5))))
             // console.log('Coordinates are: ' + xValues[angle] + " : " + yValues[angle])
     }
@@ -86,7 +95,7 @@ make_parent = (searchNode) => {
     parents = document.querySelectorAll('[class^=parentNode]')
     searchNode.classList.remove('subNode')
     searchNode.classList.add('parentNode-' + parents.length)
-    searchNode.removeEventListener("click", searchAndAddWords);
+    searchNode.removeEventListener("click", clicked);
     remove_non_parentElements()
     return searchNode
 }
@@ -107,6 +116,8 @@ async function searchAndAddWords(searchNode) {
     nodes = createSubNodes(words, parentElement)
 
     console.log("Adding words completed for " + searchNode.dataset.word)
+
+    return parentElement
 }
 
 function clicked() { searchAndAddWords(this) }
@@ -135,6 +146,7 @@ catalyze = async() => {
         await save_word(subNode.dataset.word)
         await searchAndAddWords(subNode)
     }
+    searchAndAddWords(subNode)
     return subNode
 }
 
@@ -201,7 +213,7 @@ createDataFromCloud = (cloudItem, rel_pos, rel_score) => {
     }
     return data
 }
-subNode = null
+
 loadContent = () => {
     if (catalyst != null) {
         subNode = catalyze()
@@ -210,17 +222,18 @@ loadContent = () => {
             console.log("cloud: " + cloud[i])
             searchAndAddWords(subNode)
         }
+
         catalyst = null
-        searchAndAddWords(subNode)
     }
 }
 
 randomColor = () => {
-        let randColor = Math.floor(Math.random() * 16777215).toString(16);
-        randColor = "#" + randColor;
-        return randColor
+    let randColor = Math.floor(Math.random() * 16777215).toString(16);
+    randColor = "#" + randColor;
+    return randColor
+};
 
 
-    }
-    //setTimeout avoids catalyst decleration issue
+
+//setTimeout avoids catalyst decleration issue
 setTimeout(loadContent, 200)

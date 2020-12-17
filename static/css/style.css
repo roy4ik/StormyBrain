@@ -37,6 +37,7 @@ input[type='password'] {
 
 #canvas {
     margin: 0;
+    overflow: hidden;
     position: static;
     width: 100vh;
     height: 100vh;
