@@ -12,11 +12,17 @@ class UserWord(models.Model):
     user_storm = models.ForeignKey('Storm', on_delete=models.CASCADE)
     cloud = models.ManyToManyField('self', through='WordRelation')
 
+    def __str__(self):
+        return f'{self.word}'
+
 class WordRelation(models.Model):
     initial = models.ForeignKey(UserWord, on_delete=models.CASCADE, related_name='initial')
     next = models.ForeignKey(UserWord, on_delete=models.CASCADE)
     rel_score = models.IntegerField()
     rel_pos = models.IntegerField()
+
+    def __str__(self):
+        return f'{self.initial} > {self.next}'
 
 class Storm(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.PROTECT)
@@ -24,3 +30,6 @@ class Storm(models.Model):
     date_created = models.DateField(auto_now_add=True)
     date_updated = models.DateField(auto_now=True)
     catalyst = models.ForeignKey(UserWord, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return f'{self.catalyst}'

@@ -12,6 +12,10 @@ class Profile(models.Model):
     job_title = models.CharField(max_length=255)
     company = models.CharField(max_length=255)
 
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+    
+
 @receiver(post_save, sender=User)
 def create_profile(sender, created, instance, **kwargs):
     if created:
