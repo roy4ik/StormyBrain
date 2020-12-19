@@ -30,16 +30,16 @@ createSubNodes = (data, parentElement) => {
     radius = 180
     margin = 0.2
 
-
     if ((yPosition < (parentElementHeight * 2 + (radius)))) {
         yPosition += parentElementHeight * 10
     } else if (yPosition > document.getElementById('search-input').getBoundingClientRect().y + parentElementHeight) {
         yPosition -= parentElementHeight * 2
     }
-    if (xPosition < window.innerWidth - (window.innerWidth * margin) - radius) {
-        xPosition += (parentElementWidth + radius)
-    } else if (xPosition > window.innerWidth * margin + radius) {
-        xPosition -= (parentElementWidth + radius)
+    if (xPosition < (window.innerWidth - (window.innerWidth * margin))) {
+        xPosition += (parentElementWidth)
+    }
+    if (xPosition > window.innerWidth * margin) {
+        xPosition -= (parentElementWidth)
     }
 
 
@@ -84,10 +84,18 @@ circleSelection = (data) => {
     steps = data.length
     xValues = []
     yValues = []
-    for (let angle = 0; angle < steps; ++angle) {
-        xValues[angle] = (Math.round(radius * +Math.cos(Math.PI / steps * angle + (1 / 5))))
-        yValues[angle] = (Math.round(radius * -Math.sin(Math.PI / steps * angle + (1 / 5))))
-            // console.log('Coordinates are: ' + xValues[angle] + " : " + yValues[angle])
+    if (cloud.length <= 1) {
+        for (let angle = 0; angle < steps; ++angle) {
+            xValues[angle] = (Math.round(radius * +Math.cos(Math.PI / steps * angle + (1 / 5))))
+            yValues[angle] = (Math.round(radius * -Math.sin(Math.PI / steps * angle + (1 / 5))))
+                // console.log('Coordinates are: ' + xValues[angle] + " : " + yValues[angle])
+        }
+    } else {
+        for (let angle = 0; angle < steps; ++angle) {
+            xValues[angle] = (Math.round(radius * +Math.cos(2 * Math.PI / steps * angle + (1 / 5))))
+            yValues[angle] = (Math.round(radius * -Math.sin(2 * Math.PI / steps * angle + (1 / 5))))
+                // console.log('Coordinates are: ' + xValues[angle] + " : " + yValues[angle])
+        }
     }
     coords = [xValues, yValues]
     return coords
@@ -112,6 +120,7 @@ async function searchAndAddWords(searchNode) {
     if (catalyst == null) {
         words = await getWordObjects(searchNode.dataset.word)
         await add_relation(searchNode)
+        cloud.push(searchNode.dataset.word)
     } else if (cloud.length == 1) {
         words = await getWordObjects(cloud[0])
     } else {
