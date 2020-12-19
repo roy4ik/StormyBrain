@@ -28,14 +28,17 @@ createSubNodes = (data, parentElement) => {
 
     //adjusting for boundary limits
     radius = 180
+    margin = 0.2
+
+
     if ((yPosition < (parentElementHeight * 2 + (radius)))) {
         yPosition += parentElementHeight * 10
     } else if (yPosition > document.getElementById('search-input').getBoundingClientRect().y + parentElementHeight) {
         yPosition -= parentElementHeight * 2
     }
-    if ((xPosition < (window.innerWidth * 0.2))) {
-        xPosition += (parentElementWidth + radius) * 0.5
-    } else if (xPosition > window.innerWidth * 0.2) {
+    if (xPosition < window.innerWidth - (window.innerWidth * margin) - radius) {
+        xPosition += (parentElementWidth + radius)
+    } else if (xPosition > window.innerWidth * margin + radius) {
         xPosition -= (parentElementWidth + radius)
     }
 
@@ -109,6 +112,8 @@ async function searchAndAddWords(searchNode) {
     if (catalyst == null) {
         words = await getWordObjects(searchNode.dataset.word)
         await add_relation(searchNode)
+    } else if (cloud.length == 1) {
+        words = await getWordObjects(cloud[0])
     } else {
         level = Number([parentElement.classList[0][parentElement.classList[0].length - 1]][0])
         words = createDataFromCloud(cloud[level + 1], rel_positions[level], parentElement.dataset.rel_score)
@@ -144,9 +149,8 @@ catalyze = async() => {
     canvasNode.appendChild(subNode)
     if (catalyst == null) {
         await save_word(subNode.dataset.word)
-        await searchAndAddWords(subNode)
-    }
-    searchAndAddWords(subNode)
+    } else {}
+    await searchAndAddWords(subNode)
     return subNode
 }
 
@@ -217,14 +221,20 @@ createDataFromCloud = (cloudItem, rel_pos, rel_score) => {
 loadContent = () => {
     if (catalyst != null) {
         subNode = catalyze()
-        for (i = 1; i < (cloud.length); ++i) {
-            subNode = document.getElementById(cloud[i - 1])
-            console.log("cloud: " + cloud[i])
+        console.log(cloud.length)
+        if (cloud.length >= 1) {
+            for (i = 1; i < (cloud.length); ++i) {
+                subNode = document.getElementById(cloud[i - 1])
+                console.log("cloud: " + cloud[i])
+                searchAndAddWords(subNode)
+            }
+        } else if (cloud.length == 1) {
+            subNode = document.getElementById(cloud[0])
+            console.log("cloud: " + cloud[0])
             searchAndAddWords(subNode)
         }
-
-        catalyst = null
     }
+    catalyst = null
 }
 
 randomColor = () => {
