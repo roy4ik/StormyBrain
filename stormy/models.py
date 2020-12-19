@@ -7,6 +7,9 @@ from accounts.models import Profile
 class Word(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return f'{self.name}'
+
 class UserWord(models.Model):
     word = models.ForeignKey(Word, on_delete=models.CASCADE, related_name='user_word')
     user_storm = models.ForeignKey('Storm', on_delete=models.CASCADE)
@@ -22,7 +25,7 @@ class WordRelation(models.Model):
     rel_pos = models.IntegerField()
 
     def __str__(self):
-        return f'{self.initial} > {self.next}'
+        return f'{self.initial.word} > {self.next.word}'
 
 class Storm(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.PROTECT)
@@ -32,4 +35,4 @@ class Storm(models.Model):
     catalyst = models.ForeignKey(UserWord, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return f'{self.catalyst}'
+        return f'{self.catalyst.word}'
