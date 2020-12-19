@@ -37,6 +37,7 @@ input[type='password'] {
 
 #canvas {
     margin: 0;
+    overflow: hidden;
     position: static;
     width: 100vh;
     height: 100vh;
@@ -155,7 +156,7 @@ input[type='password'] {
     display: flex;
     justify-content: space-around;
     justify-self: center;
-    align-items: center;
+    /* align-items: center; */
     border-radius: 1rem;
     text-align: center;
     min-height: 7rem;

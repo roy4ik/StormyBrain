@@ -1,4 +1,6 @@
 let catalyst = null
+let subNode = null
+
 if (cloud.length > 0) {
     catalyst = cloud[0];
 }
@@ -25,11 +27,21 @@ createSubNodes = (data, parentElement) => {
     yPosition = window.scrollY + parentElement.getBoundingClientRect().y
 
     //adjusting for boundary limits
-    if (yPosition < 100) {
+    radius = 180
+    margin = 0.2
+
+    if ((yPosition < (parentElementHeight * 2 + (radius)))) {
         yPosition += parentElementHeight * 10
-    } else if (yPosition > document.getElementById('search-input').getBoundingClientRect().y + parentElementHeight / 2) {
-        yPosition -= parentElementHeight * 10
+    } else if (yPosition > document.getElementById('search-input').getBoundingClientRect().y + parentElementHeight) {
+        yPosition -= parentElementHeight * 2
     }
+    if (xPosition < (window.innerWidth - (window.innerWidth * margin))) {
+        xPosition += (parentElementWidth)
+    }
+    if (xPosition > window.innerWidth * margin) {
+        xPosition -= (parentElementWidth)
+    }
+
 
     console.log(x + ": Left") // position of parentElement
     console.log(y + ": Top")
@@ -72,10 +84,18 @@ circleSelection = (data) => {
     steps = data.length
     xValues = []
     yValues = []
-    for (let angle = 0; angle < steps; ++angle) {
-        xValues[angle] = (Math.round(radius * -Math.cos(Math.PI / steps * angle + (1 / 5))))
-        yValues[angle] = (Math.round(radius * -Math.sin(Math.PI / steps * angle + (1 / 5))))
-            // console.log('Coordinates are: ' + xValues[angle] + " : " + yValues[angle])
+    if (cloud.length <= 1) {
+        for (let angle = 0; angle < steps; ++angle) {
+            xValues[angle] = (Math.round(radius * +Math.cos(Math.PI / steps * angle + (1 / 5))))
+            yValues[angle] = (Math.round(radius * -Math.sin(Math.PI / steps * angle + (1 / 5))))
+                // console.log('Coordinates are: ' + xValues[angle] + " : " + yValues[angle])
+        }
+    } else {
+        for (let angle = 0; angle < steps; ++angle) {
+            xValues[angle] = (Math.round(radius * +Math.cos(2 * Math.PI / steps * angle + (1 / 5))))
+            yValues[angle] = (Math.round(radius * -Math.sin(2 * Math.PI / steps * angle + (1 / 5))))
+                // console.log('Coordinates are: ' + xValues[angle] + " : " + yValues[angle])
+        }
     }
     coords = [xValues, yValues]
     return coords
@@ -86,7 +106,7 @@ make_parent = (searchNode) => {
     parents = document.querySelectorAll('[class^=parentNode]')
     searchNode.classList.remove('subNode')
     searchNode.classList.add('parentNode-' + parents.length)
-    searchNode.removeEventListener("click", searchAndAddWords);
+    searchNode.removeEventListener("click", clicked);
     remove_non_parentElements()
     return searchNode
 }
@@ -100,6 +120,9 @@ async function searchAndAddWords(searchNode) {
     if (catalyst == null) {
         words = await getWordObjects(searchNode.dataset.word)
         await add_relation(searchNode)
+        cloud.push(searchNode.dataset.word)
+    } else if (cloud.length == 1) {
+        words = await getWordObjects(cloud[0])
     } else {
         level = Number([parentElement.classList[0][parentElement.classList[0].length - 1]][0])
         words = createDataFromCloud(cloud[level + 1], rel_positions[level], parentElement.dataset.rel_score)
@@ -107,6 +130,8 @@ async function searchAndAddWords(searchNode) {
     nodes = createSubNodes(words, parentElement)
 
     console.log("Adding words completed for " + searchNode.dataset.word)
+
+    return parentElement
 }
 
 function clicked() { searchAndAddWords(this) }
@@ -133,8 +158,8 @@ catalyze = async() => {
     canvasNode.appendChild(subNode)
     if (catalyst == null) {
         await save_word(subNode.dataset.word)
-        await searchAndAddWords(subNode)
-    }
+    } else {}
+    await searchAndAddWords(subNode)
     return subNode
 }
 
@@ -201,26 +226,33 @@ createDataFromCloud = (cloudItem, rel_pos, rel_score) => {
     }
     return data
 }
-subNode = null
+
 loadContent = () => {
     if (catalyst != null) {
         subNode = catalyze()
-        for (i = 1; i < (cloud.length); ++i) {
-            subNode = document.getElementById(cloud[i - 1])
-            console.log("cloud: " + cloud[i])
+        console.log(cloud.length)
+        if (cloud.length >= 1) {
+            for (i = 1; i < (cloud.length); ++i) {
+                subNode = document.getElementById(cloud[i - 1])
+                console.log("cloud: " + cloud[i])
+                searchAndAddWords(subNode)
+            }
+        } else if (cloud.length == 1) {
+            subNode = document.getElementById(cloud[0])
+            console.log("cloud: " + cloud[0])
             searchAndAddWords(subNode)
         }
-        catalyst = null
-        searchAndAddWords(subNode)
     }
+    catalyst = null
 }
 
 randomColor = () => {
-        let randColor = Math.floor(Math.random() * 16777215).toString(16);
-        randColor = "#" + randColor;
-        return randColor
+    let randColor = Math.floor(Math.random() * 16777215).toString(16);
+    randColor = "#" + randColor;
+    return randColor
+};
 
 
-    }
-    //setTimeout avoids catalyst decleration issue
+
+//setTimeout avoids catalyst decleration issue
 setTimeout(loadContent, 200)
