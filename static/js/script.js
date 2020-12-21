@@ -41,7 +41,6 @@ createSubNodes = (data, parentElement) => {
         parentPosition[0] -= window.innerWidth * margin + radius
     }
 
-
     console.log(x + ": Left") // position of parentElement
     console.log(y + ": Top")
     coords = circleSelection(data) // get positions for subnodes (top, left)
@@ -55,7 +54,7 @@ createSubNodes = (data, parentElement) => {
             subNode.dataset.word = word
             subNode.dataset.initial = parentElement.dataset.word
             subNode.dataset.rel_score = data[element]['score']
-            subNode.dataset.rel_pos = element
+            subNode.dataset.rel_pos = element + 1
             subNode.addEventListener('click', clicked)
                 // add positioning to subnode
             subNode.style.left = (coords[0][element]) + parentPosition[0] + "px"
@@ -63,7 +62,7 @@ createSubNodes = (data, parentElement) => {
             subNode.style.width = parentElement.width + 'px'
             canvasNode.appendChild(subNode)
             nodes.push(subNode, coords)
-            connectElements(parentElement, subNode)
+            line = connectElements(parentElement, subNode)
         }
     }
     return nodes
@@ -92,7 +91,10 @@ connectElements = (parentElement, childElement, color = randomColor()) => {
     line.setAttribute("y2", childElementPos[1] - parentElement.getBoundingClientRect().height)
         // line.setAttribute("stroke", color)
     line.setAttribute("style", "stroke:" + color + "; position: absolute;stroke-width:3;z-index: -99;")
-
+        //  adding class for subnode connection
+    subNodes = document.querySelectorAll('[class^=subNode]')
+    parents = document.querySelectorAll('[class^=parentNode]')
+    line.classList.add('connectionLine-' + parents.length + "-" + subNodes.length)
     canvas.appendChild(line)
 
     return line
@@ -137,12 +139,29 @@ make_parent = (searchNode) => {
     return searchNode
 }
 
+remove_connections = (searchNode) => {
+    // removes connections apart from the one between searchnode and selected node, returns nothing
+    if (document.querySelectorAll('[class^=subNode').length > 1) {
+        parents = document.querySelectorAll('[class^=parentNode]')
+            // linesToRemove = document.querySelectorAll("[class^="connectionLine-" + (parents.length) + "-(!? class^=connectionLine-" + (parents.length) + "-" + searchNode.dataset.rel_pos + ")]")
+        linesToKeep = document.querySelectorAll("[class^=connectionLine-" + parents.length + "-" + searchNode.dataset.rel_pos + "]")
+        linesToRemove = document.querySelectorAll('[class^=connectionLine-' + parents.length + ']')
+        for (node of linesToRemove.values()) {
+            if (node != linesToKeep[0]) {
+                node.remove()
+            }
+        }
+    }
+}
+
 async function searchAndAddWords(searchNode) {
+    remove_connections(searchNode)
     parentElement = make_parent(searchNode)
         //make search disappear
     search = document.getElementById('canvas-word-search')
     search.style = 'transition: all 0.2s ease; display:none;'
     remove_parent_events()
+
     if (catalyst == null) {
         words = await getWordObjects(searchNode.dataset.word)
         await add_relation(searchNode)
@@ -156,6 +175,8 @@ async function searchAndAddWords(searchNode) {
     nodes = createSubNodes(words, parentElement)
 
     console.log("Adding words completed for " + searchNode.dataset.word)
+
+
 
     return parentElement
 }
@@ -202,7 +223,7 @@ add_relation = async(searchNode) => {
 
 // removes all subNodes that are not parentElements too
 remove_non_parentElements = () => {
-    subNodes = document.querySelectorAll('.subNode:not(.parentNode)')
+    subNodes = document.querySelectorAll('[class^=subNode]')
         // console.log(subNodes)
     for (node of subNodes.values()) {
         node.remove()
@@ -280,5 +301,5 @@ randomColor = () => {
 
 
 
-//setTimeout avoids catalyst decleration issue
+//setTimeout avoids catalyst declaration issue
 setTimeout(loadContent, 200)
