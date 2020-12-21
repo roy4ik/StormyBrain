@@ -21,25 +21,24 @@ createSubNodes = (data, parentElement) => {
     canvasNode = document.getElementById('canvas')
     console.log(parentElement)
         // Determine parent placement
-    parentElementHeight = parentElement.getBoundingClientRect().height
-    parentElementWidth = parentElement.getBoundingClientRect().width
-    xPosition = window.scrollX + parentElement.getBoundingClientRect().x
-    yPosition = window.scrollY + parentElement.getBoundingClientRect().y
+    parentPosition = getElementCenterPos(parentElement)
 
     //adjusting for boundary limits
     radius = 180
     margin = 0.2
 
-    if ((yPosition < (parentElementHeight * 2 + (radius)))) {
-        yPosition += parentElementHeight * 10
-    } else if (yPosition > document.getElementById('search-input').getBoundingClientRect().y + parentElementHeight) {
-        yPosition -= parentElementHeight * 2
+    // if position out of bounds on top
+    if (parentPosition[1] < window.innerWidth * margin + (radius)) {
+        parentPosition[1] += radius
+    } else if (parentPosition[1] > window.innerHeight - radius) {
+        parentPosition[1] -= radius
     }
-    if (xPosition < (window.innerWidth - (window.innerWidth * margin))) {
-        xPosition += (parentElementWidth)
+    // if position out of bounds on width
+    if (xPosition < (window.innerWidth - (window.innerWidth * margin) + (radius))) {
+        parentPosition[0] += radius
     }
     if (xPosition > window.innerWidth * margin) {
-        xPosition -= (parentElementWidth)
+        parentPosition[0] -= radius
     }
 
 
@@ -59,11 +58,12 @@ createSubNodes = (data, parentElement) => {
             subNode.dataset.rel_pos = element
             subNode.addEventListener('click', clicked)
                 // add positioning to subnode
-            subNode.style.left = (coords[0][element]) + xPosition + "px"
-            subNode.style.top = (coords[1][element]) + yPosition + "px"
-            subNode.style.width = parentWidth + 'px'
+            subNode.style.left = (coords[0][element]) + parentPosition[0] + "px"
+            subNode.style.top = (coords[1][element]) + parentPosition[1] + "px"
+            subNode.style.width = parentElement.width + 'px'
             canvasNode.appendChild(subNode)
             nodes.push(subNode, coords)
+            connectElements(parentElement, subNode)
         }
     }
     return nodes
@@ -79,8 +79,34 @@ create_subNode = (word) => {
     return subNode
 }
 
+connectElements = (parentElement, childElement, color = randomColor()) => {
+    //connects parent and child element with a svg line
+    parentElementPos = getElementCenterPos(parentElement)
+    childElementPos = getElementCenterPos(childElement)
+
+    canvas = document.getElementById("svg-canvas")
+    line = document.createElementNS('http://www.w3.org/2000/svg', 'line')
+    line.setAttribute("x1", parentElementPos[0])
+    line.setAttribute("x2", childElementPos[0])
+    line.setAttribute("y1", parentElementPos[1])
+    line.setAttribute("y2", childElementPos[1])
+        // line.setAttribute("stroke", color)
+    line.setAttribute("style", "stroke:" + color + "; position: absolute;stroke-width:3;z-index: -99;")
+
+    canvas.appendChild(line)
+
+    return line
+}
+
+getElementCenterPos = (elem) => {
+    // returns an array with X and Y coordinates of the element's center
+    xPosition = window.scrollX + elem.getBoundingClientRect().x + elem.getBoundingClientRect().width / 2
+    yPosition = window.scrollY + elem.getBoundingClientRect().y - elem.getBoundingClientRect().height / 2
+    return [xPosition, yPosition]
+}
+
 circleSelection = (data) => {
-    radius = 180
+    radius = 140
     steps = data.length
     xValues = []
     yValues = []

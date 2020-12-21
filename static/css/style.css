@@ -44,6 +44,11 @@ input[type='password'] {
     text-align: center;
 }
 
+#svg-canvas {
+    margin: 0;
+    padding: 0;
+}
+
 .canvas-toolbar {
     display: none;
     position: fixed;
