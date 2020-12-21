@@ -26,7 +26,7 @@ def stormy(request, storm_pk):
     }
     if storm.catalyst:
         context.update({ 'cloud': [word for word in models.UserWord.objects.filter(user_storm=storm)] })
-        cloud = [word for word in models.UserWord.objects.filter(user_storm=storm)]
+        cloud = [word for word in models.UserWord.objects.filter(user_storm=storm).order_by('pk')]
         rel_positions = ""
         for word in range(len(cloud)):
             try:
