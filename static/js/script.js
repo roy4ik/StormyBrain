@@ -24,21 +24,21 @@ createSubNodes = (data, parentElement) => {
     parentPosition = getElementCenterPos(parentElement)
 
     //adjusting for boundary limits
-    radius = 180
-    margin = 0.2
+    radius = 140
+    margin = 00
 
     // if position out of bounds on top
-    if (parentPosition[1] < window.innerWidth * margin + (radius)) {
-        parentPosition[1] += radius
+    if (parentPosition[1] < window.innerHeight * margin + radius) {
+        parentPosition[1] += radius + window.innerHeight * margin
     } else if (parentPosition[1] > window.innerHeight - radius) {
-        parentPosition[1] -= radius
+        parentPosition[1] -= radius + window.innerHeight * margin
     }
     // if position out of bounds on width
-    if (xPosition < (window.innerWidth - (window.innerWidth * margin) + (radius))) {
-        parentPosition[0] += radius
+    if (parentPosition[0] < window.innerWidth * margin + radius) {
+        parentPosition[0] += window.innerWidth * margin + radius
     }
-    if (xPosition > window.innerWidth * margin) {
-        parentPosition[0] -= radius
+    if (parentPosition[0] > window.innerWidth - radius) {
+        parentPosition[0] -= window.innerWidth * margin + radius
     }
 
 
@@ -89,7 +89,7 @@ connectElements = (parentElement, childElement, color = randomColor()) => {
     line.setAttribute("x1", parentElementPos[0])
     line.setAttribute("x2", childElementPos[0])
     line.setAttribute("y1", parentElementPos[1])
-    line.setAttribute("y2", childElementPos[1])
+    line.setAttribute("y2", childElementPos[1] - parentElement.getBoundingClientRect().height)
         // line.setAttribute("stroke", color)
     line.setAttribute("style", "stroke:" + color + "; position: absolute;stroke-width:3;z-index: -99;")
 
