@@ -170,7 +170,8 @@ async function searchAndAddWords(searchNode) {
     } else if (cloud.length == 1) {
         words = await getWordObjects(cloud[0])
     } else {
-        level = Number([parentElement.classList[0][parentElement.classList[0].length - 1]][0])
+        levelClass = parentElement.classList[0]
+        level = Number(levelClass.match(/(?:-)(\d+)$/)[1])
         words = createDataFromCloud(cloud[level + 1], rel_positions[level], parentElement.dataset.rel_score)
     }
     nodes = createSubNodes(words, parentElement)
@@ -204,9 +205,8 @@ catalyze = async() => {
     canvasNode.appendChild(subNode)
     if (catalyst == null) {
         await save_word(subNode.dataset.word)
-    } else {
-        await searchAndAddWords(subNode)
     }
+    await searchAndAddWords(subNode)
     return subNode
 }
 
@@ -219,7 +219,9 @@ add_relation = async(searchNode) => {
         // updates the word_relation when selecting a word
         update = await update_cloud(searchNode);
         console.log("Rel score updated")
-    };
+    } else {
+        console.log('could not add relation for searchNode:' + searchNode.id)
+    }
 };
 
 // removes all subNodes that are not parentElements too, returns nothing
@@ -284,12 +286,12 @@ loadContent = () => {
         console.log(cloud.length)
             // if more than catalyst exists
         if (cloud.length > 1) {
-            for (cluster = 1; cluster < cloud.length; ++cluster) {
+            for (cluster = 1; cluster <= cloud.length; ++cluster) {
                 subNodes = document.querySelectorAll('[id=' + cloud[cluster] + ']')
                 for (node of subNodes) {
                     if (node.id == cloud[cluster] && node.classList[0] == 'subNode') {
                         subNode = node
-                        console.log("cloud: " + cloud[cluster])
+                        console.log("cloud nr " + cluster + ": " + cloud[cluster])
                         newNode = searchAndAddWords(subNode)
                     } else {
                         console.log('couldnt find subNode')
@@ -300,10 +302,10 @@ loadContent = () => {
         } else if (cloud.length == 1) {
             subNode = document.getElementById(cloud[0])
             console.log("cloud: " + cloud[0])
-            searchAndAddWords(subNode)
         }
     }
     catalyst = null
+    searchAndAddWords(subNode)
 }
 
 // creates random color. returns str(rgba color): color

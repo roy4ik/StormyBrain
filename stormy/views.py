@@ -31,9 +31,9 @@ def stormy(request, storm_pk):
         for word in range(len(cloud)):
             try:
                 rel_positions += f"{models.WordRelation.objects.get(initial=cloud[word].pk).rel_pos} "
+                print (f'Relative Positions: {rel_positions[word]} : {cloud[word]}')
             except:
                 continue
-        print (rel_positions)
         context.update({'rel_positions': rel_positions})
     return render(request, 'stormy.html', context)
 
