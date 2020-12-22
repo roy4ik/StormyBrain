@@ -25,7 +25,7 @@ class WordRelation(models.Model):
     rel_pos = models.IntegerField()
 
     def __str__(self):
-        return f'{self.initial.word} > {self.next.word}'
+        return f'{self.initial} > {self.next}'
 
 class Storm(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.PROTECT)
@@ -35,4 +35,4 @@ class Storm(models.Model):
     catalyst = models.ForeignKey(UserWord, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return f'{self.catalyst.word}'
+        return f'{self.catalyst}'

@@ -19,7 +19,6 @@ getWordObjects = async(word, relCode = 'trg', max = 7) => {
 // calculates position of parentElement and adds it to inline style of subnodes
 createSubNodes = (data, parentElement) => {
     canvasNode = document.getElementById('canvas')
-    console.log(parentElement)
         // Determine parent placement
     parentPosition = getElementCenterPos(parentElement)
 
@@ -41,15 +40,15 @@ createSubNodes = (data, parentElement) => {
         parentPosition[0] -= window.innerWidth * margin + radius
     }
 
-    console.log(x + ": Left") // position of parentElement
-    console.log(y + ": Top")
+    // console.log(x + ": Left") // position of parentElement
+    // console.log(y + ": Top")
     coords = circleSelection(data) // get positions for subnodes (top, left)
     nodes = []
     for (element = 0; element < data.length; ++element) {
         if (data[element]['word'] != null) {
             word = data[element]['word']
                 // console.log('Creating node for :' + word)
-            subnode = create_subNode(word)
+            subNode = create_subNode(word)
                 // adding dataset
             subNode.dataset.word = word
             subNode.dataset.initial = parentElement.dataset.word
@@ -59,7 +58,7 @@ createSubNodes = (data, parentElement) => {
                 // add positioning to subnode
             subNode.style.left = (coords[0][element]) + parentPosition[0] + "px"
             subNode.style.top = (coords[1][element]) + parentPosition[1] + "px"
-            subNode.style.width = parentElement.width + 'px'
+            subNode.style.width = parentElement.offsetWidth + 'px'
             canvasNode.appendChild(subNode)
             nodes.push(subNode, coords)
             line = connectElements(parentElement, subNode)
@@ -68,6 +67,7 @@ createSubNodes = (data, parentElement) => {
     return nodes
 };
 
+// creates subNode from word. args: str:word returns obj:subNode
 create_subNode = (word) => {
     subNode = document.createElement("div")
     subNode.innerHTML = word
@@ -78,11 +78,11 @@ create_subNode = (word) => {
     return subNode
 }
 
+// adds connection-lines between two elements. args: obj:parentElement obj:childElement str:color
 connectElements = (parentElement, childElement, color = randomColor()) => {
     //connects parent and child element with a svg line
     parentElementPos = getElementCenterPos(parentElement)
     childElementPos = getElementCenterPos(childElement)
-
     canvas = document.getElementById("svg-canvas")
     line = document.createElementNS('http://www.w3.org/2000/svg', 'line')
     line.setAttribute("x1", parentElementPos[0])
@@ -90,7 +90,7 @@ connectElements = (parentElement, childElement, color = randomColor()) => {
     line.setAttribute("y1", parentElementPos[1])
     line.setAttribute("y2", childElementPos[1] - parentElement.getBoundingClientRect().height)
         // line.setAttribute("stroke", color)
-    line.setAttribute("style", "stroke:" + color + "; position: absolute;stroke-width:3;z-index: -99;")
+    line.setAttribute("style", "stroke:" + color + "; position: absolute;stroke-width:3; z-index: -99;")
         //  adding class for subnode connection
     subNodes = document.querySelectorAll('[class^=subNode]')
     parents = document.querySelectorAll('[class^=parentNode]')
@@ -100,13 +100,14 @@ connectElements = (parentElement, childElement, color = randomColor()) => {
     return line
 }
 
+// returns an array with X and Y coordinates of the element's center
 getElementCenterPos = (elem) => {
-    // returns an array with X and Y coordinates of the element's center
     xPosition = window.scrollX + elem.getBoundingClientRect().x + elem.getBoundingClientRect().width / 2
     yPosition = window.scrollY + elem.getBoundingClientRect().y - elem.getBoundingClientRect().height / 2
     return [xPosition, yPosition]
 }
 
+// calculates coordinates of elements within data argument. args: obj:data, returns: array:coords
 circleSelection = (data) => {
     radius = 140
     steps = data.length
@@ -116,21 +117,19 @@ circleSelection = (data) => {
         for (let angle = 0; angle < steps; ++angle) {
             xValues[angle] = (Math.round(radius * +Math.cos(Math.PI / steps * angle + (1 / 5))))
             yValues[angle] = (Math.round(radius * -Math.sin(Math.PI / steps * angle + (1 / 5))))
-                // console.log('Coordinates are: ' + xValues[angle] + " : " + yValues[angle])
         }
     } else {
         for (let angle = 0; angle < steps; ++angle) {
             xValues[angle] = (Math.round(radius * +Math.cos(2 * Math.PI / steps * angle + (1 / 5))))
             yValues[angle] = (Math.round(radius * -Math.sin(2 * Math.PI / steps * angle + (1 / 5))))
-                // console.log('Coordinates are: ' + xValues[angle] + " : " + yValues[angle])
         }
     }
     coords = [xValues, yValues]
     return coords
 };
 
+// turns new parent from subNode to parentElement. returns obj:searchNode
 make_parent = (searchNode) => {
-    // turning new parent from subNode to parentElement
     parents = document.querySelectorAll('[class^=parentNode]')
     searchNode.classList.remove('subNode')
     searchNode.classList.add('parentNode-' + parents.length)
@@ -139,6 +138,7 @@ make_parent = (searchNode) => {
     return searchNode
 }
 
+// removes connection lines except lines to keep
 remove_connections = (searchNode) => {
     // removes connections apart from the one between searchnode and selected node, returns nothing
     if (document.querySelectorAll('[class^=subNode').length > 1) {
@@ -154,6 +154,7 @@ remove_connections = (searchNode) => {
     }
 }
 
+// searches for new cloud and adds it, returns obj:parentElement
 async function searchAndAddWords(searchNode) {
     remove_connections(searchNode)
     parentElement = make_parent(searchNode)
@@ -173,16 +174,14 @@ async function searchAndAddWords(searchNode) {
         words = createDataFromCloud(cloud[level + 1], rel_positions[level], parentElement.dataset.rel_score)
     }
     nodes = createSubNodes(words, parentElement)
-
-    console.log("Adding words completed for " + searchNode.dataset.word)
-
-
+        // console.log("Adding words completed for " + searchNode.dataset.word)
 
     return parentElement
 }
 
 function clicked() { searchAndAddWords(this) }
 
+//initiates storm, hides search. returns obj:subNode 
 catalyze = async() => {
     canvasNode = document.getElementById('canvas')
     search = document.getElementById('search-input')
@@ -191,11 +190,11 @@ catalyze = async() => {
     y = window.scrollY + search.getBoundingClientRect().y - (search.offsetHeight * 2)
     parentWidth = search.getBoundingClientRect().width
     if (catalyst == null) {
-        subnode = create_subNode(search.value)
+        subNode = create_subNode(search.value)
             // adding data to subnode
         subNode.dataset.word = search.value
     } else {
-        subnode = create_subNode(catalyst)
+        subNode = create_subNode(catalyst)
             // adding data to subnode
         subNode.dataset.word = catalyst
     }
@@ -205,11 +204,13 @@ catalyze = async() => {
     canvasNode.appendChild(subNode)
     if (catalyst == null) {
         await save_word(subNode.dataset.word)
-    } else {}
-    await searchAndAddWords(subNode)
+    } else {
+        await searchAndAddWords(subNode)
+    }
     return subNode
 }
 
+// adds wordRelation information to searchNode, returns nothing
 add_relation = async(searchNode) => {
     // console.log("searching word for elementID :" + elementID)
     if (searchNode.dataset.initial != null && searchNode.dataset.rel_score != null) {
@@ -221,7 +222,7 @@ add_relation = async(searchNode) => {
     };
 };
 
-// removes all subNodes that are not parentElements too
+// removes all subNodes that are not parentElements too, returns nothing
 remove_non_parentElements = () => {
     subNodes = document.querySelectorAll('[class^=subNode]')
         // console.log(subNodes)
@@ -230,6 +231,7 @@ remove_non_parentElements = () => {
     }
 };
 
+// removes all events from parent elements, returns nothing
 remove_parent_events = () => {
     parents = document.querySelectorAll('[class^=parentNode]')
     for (parent of parents.values()) {
@@ -242,6 +244,7 @@ remove_parent_events = () => {
 // Search word> save initial word
 // select next word > word relation - save next word in userword and rel_score.
 
+// saves word to db returns http:response
 save_word = async(word_to_save) => {
     apiUrl = storm + '/save-word/word=' + word_to_save;
     console.log(apiUrl)
@@ -250,7 +253,7 @@ save_word = async(word_to_save) => {
     return word_to_save
 };
 
-
+// updates cloud(word) to db returns http:response
 update_cloud = async(searchNode) => {
     apiUrl = storm + '/update-userword_rel/initial=' + searchNode.dataset.initial + '&next=' + searchNode.dataset.word + '&rel_score=' + searchNode.dataset.rel_score + '&rel_pos=' + searchNode.dataset.rel_pos;
     console.log(apiUrl)
@@ -259,11 +262,11 @@ update_cloud = async(searchNode) => {
     return resp
 }
 
-//creates data object from items in cluster, populates cluster item only on rel_pos, otherwise empty
+//creates data object from items in cluster, populates cluster item only on rel_pos, otherwise empty. returns obj:data
 createDataFromCloud = (cloudItem, rel_pos, rel_score) => {
     data = []
     if (cloudItem) {
-        for (item = 0; item < 7; ++item) {
+        for (item = 0; item <= 7; ++item) {
             if (item == rel_pos) {
                 data[item] = { 'word': cloudItem, 'score': rel_score }
             } else {
@@ -274,16 +277,26 @@ createDataFromCloud = (cloudItem, rel_pos, rel_score) => {
     return data
 }
 
+// loads content if catalyst not null. loops through the cloud.
 loadContent = () => {
     if (catalyst != null) {
         subNode = catalyze()
         console.log(cloud.length)
-        if (cloud.length >= 1) {
-            for (i = 1; i < (cloud.length); ++i) {
-                subNode = document.getElementById(cloud[i - 1])
-                console.log("cloud: " + cloud[i])
-                searchAndAddWords(subNode)
+            // if more than catalyst exists
+        if (cloud.length > 1) {
+            for (cluster = 1; cluster < cloud.length; ++cluster) {
+                subNodes = document.querySelectorAll('[id=' + cloud[cluster] + ']')
+                for (node of subNodes) {
+                    if (node.id == cloud[cluster] && node.classList[0] == 'subNode') {
+                        subNode = node
+                        console.log("cloud: " + cloud[cluster])
+                        newNode = searchAndAddWords(subNode)
+                    } else {
+                        console.log('couldnt find subNode')
+                    }
+                }
             }
+            // if only catalyst exists
         } else if (cloud.length == 1) {
             subNode = document.getElementById(cloud[0])
             console.log("cloud: " + cloud[0])
@@ -293,10 +306,14 @@ loadContent = () => {
     catalyst = null
 }
 
+// creates random color. returns str(rgba color): color
 randomColor = () => {
-    let randColor = Math.floor(Math.random() * 16777215).toString(16);
-    randColor = "#" + randColor;
-    return randColor
+    // using rgba for better transparency control
+    var x = Math.floor(Math.random() * 256);
+    var y = Math.floor(Math.random() * 256);
+    var z = Math.floor(Math.random() * 256);
+    var color = "rgba(" + x + "," + y + "," + z + "1)";
+    return color;
 };
 
 
