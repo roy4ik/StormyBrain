@@ -1,6 +1,9 @@
+// set catalys to null to initiate catalyzing on search
 let catalyst = null
+    // set subnode to null for search initiation
 let subNode = null
 
+// sets catalyst to first element in cloud received from server
 if (cloud.length > 0) {
     catalyst = cloud[0];
 }
@@ -12,6 +15,7 @@ getWordObjects = async(word, relCode = 'trg', max = 7) => {
     resp = await fetch(apiUrl) // Call API
         .catch(err => console.log(err))
     data = await resp.json() // Transform the data into json
+
     return data;
 };
 
@@ -64,6 +68,7 @@ createSubNodes = (data, parentElement) => {
             line = connectElements(parentElement, subNode)
         }
     }
+
     return nodes
 };
 
@@ -75,6 +80,7 @@ create_subNode = (word) => {
     subNode.id = word
     subNode.style.height = 1.5 + 'em';
     subNode.style.position = 'absolute'
+
     return subNode
 }
 
@@ -104,6 +110,7 @@ connectElements = (parentElement, childElement, color = randomColor()) => {
 getElementCenterPos = (elem) => {
     xPosition = window.scrollX + elem.getBoundingClientRect().x + elem.getBoundingClientRect().width / 2
     yPosition = window.scrollY + elem.getBoundingClientRect().y - elem.getBoundingClientRect().height / 2
+
     return [xPosition, yPosition]
 }
 
@@ -125,6 +132,7 @@ circleSelection = (data) => {
         }
     }
     coords = [xValues, yValues]
+
     return coords
 };
 
@@ -138,7 +146,7 @@ make_parent = (searchNode) => {
     return searchNode
 }
 
-// removes connection lines except lines to keep
+// removes connection lines except lines to keep. args: obj:searchNode, returns nothing
 remove_connections = (searchNode) => {
     // removes connections apart from the one between searchnode and selected node, returns nothing
     if (document.querySelectorAll('[class^=subNode').length > 1) {
@@ -207,6 +215,7 @@ catalyze = async() => {
         await save_word(subNode.dataset.word)
     }
     await searchAndAddWords(subNode)
+
     return subNode
 }
 
@@ -246,12 +255,13 @@ remove_parent_events = () => {
 // Search word> save initial word
 // select next word > word relation - save next word in userword and rel_score.
 
-// saves word to db returns http:response
+// saves word to db returns str: word_to_save
 save_word = async(word_to_save) => {
     apiUrl = storm + '/save-word/word=' + word_to_save;
     console.log(apiUrl)
     resp = await fetch(apiUrl)
         .catch(err => console.log(err))
+
     return word_to_save
 };
 
@@ -261,6 +271,7 @@ update_cloud = async(searchNode) => {
     console.log(apiUrl)
     resp = await fetch(apiUrl)
         .catch(err => console.log(err))
+
     return resp
 }
 
@@ -276,6 +287,7 @@ createDataFromCloud = (cloudItem, rel_pos, rel_score) => {
             }
         }
     }
+
     return data
 }
 
@@ -315,6 +327,7 @@ randomColor = () => {
     var y = Math.floor(Math.random() * 256);
     var z = Math.floor(Math.random() * 256);
     var color = "rgba(" + x + "," + y + "," + z + "1)";
+
     return color;
 };
 

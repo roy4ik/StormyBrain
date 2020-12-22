@@ -17,6 +17,11 @@
     </div>
 </div>
 <script>
+    document.querySelector('#search-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            catalyze()
+        }
+    });
     let storm = "{{storm.pk}}";
     let cloud = "{% for cluster in cloud%}{{cluster.word.name}} {% endfor %}"
     cloud = cloud.split(" ")
