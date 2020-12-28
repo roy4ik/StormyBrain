@@ -333,5 +333,7 @@ randomColor = () => {
 
 
 
-//setTimeout avoids catalyst declaration issue
-setTimeout(loadContent, 200)
+//On full load call loadContent
+window.onload = (event) => {
+  loadContent()
+};
