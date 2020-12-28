@@ -111,6 +111,15 @@ getElementCenterPos = (elem) => {
     xPosition = window.scrollX + elem.getBoundingClientRect().x + elem.getBoundingClientRect().width / 2
     yPosition = window.scrollY + elem.getBoundingClientRect().y - elem.getBoundingClientRect().height / 2
 
+    // change ElementCenterPos for Chrome and Safari (adjust down by one rem)
+    isSafari = window.safari !== undefined
+    isChrome = window.chrome !== undefined
+    if (isSafari || isChrome) {
+        let style = window.getComputedStyle(elem, null).getPropertyValue('font-size');
+        let fontSize = parseFloat(style);
+        yPosition += fontSize;
+    }
+
     return [xPosition, yPosition]
 }
 
@@ -335,5 +344,5 @@ randomColor = () => {
 
 //On full load call loadContent
 window.onload = (event) => {
-  loadContent()
+    loadContent()
 };
