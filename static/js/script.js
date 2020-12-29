@@ -1,4 +1,4 @@
-// set catalys to null to initiate catalyzing on search
+// set catalyst to null to initiate catalyzing on search
 let catalyst = null
     // set subnode to null for search initiation
 let subNode = null
