@@ -1,4 +1,4 @@
-import getWordObjects from "./api_connectors/datamuse_connector";
+// import getWordObjects from "./api_connectors/datamuse_connector";
 
 // set catalyst to null to initiate catalyzing on search
 let catalyst = null
