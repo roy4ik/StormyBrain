@@ -182,7 +182,7 @@ let remove_connections = (searchNode) => {
 
 // searches for new cloud and adds it, 
 // returns obj:parentElement
-async function searchAndAddWords(searchNode, radius=140) {
+async function searchAndAddWords(searchNode, radius=get_radius()) {
     remove_connections(searchNode)
     let parentElement = make_parent(searchNode)
         //make search disappear
@@ -316,6 +316,10 @@ let createDataFromCloud = (cloudItem, rel_pos, rel_score) => {
     return data
 }
 
+let get_radius = () => {
+    return ((window.innerWidth + window.innerHeight)/2)/4
+}
+
 // loads content if catalyst not null. loops through the cloud.
 let loadContent = () => {
     if (catalyst != null) {
@@ -329,7 +333,7 @@ let loadContent = () => {
                     if (node.id == cloud[cluster] && node.classList[0] == 'subNode') {
                         subNode = node
                         console.log("cloud nr " + cluster + ": " + cloud[cluster])
-                        let newNode = searchAndAddWords(subNode)
+                        searchAndAddWords(subNode)
                     } else {
                         console.log('couldnt find subNode')
                     }
