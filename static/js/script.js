@@ -11,7 +11,7 @@ if (cloud.length > 0) {
 }
 
 //stormy getting data from datamuse
-let getWordObjects = async(word, relCode = 'trg', max = 7) => {
+let fetchWordObjects = async(word, relCode = 'trg', max = 7) => {
     let apiUrl = 'https://api.datamuse.com/words?rel_' + relCode + '=' + word + '&max=' + max
     let data = []
     let resp = await fetch(apiUrl) // Call API
@@ -23,11 +23,11 @@ let getWordObjects = async(word, relCode = 'trg', max = 7) => {
 
 // creating subnodes for words searched and displaying in semi-circle
 let createSubNodes = (data, parentElement) => {
-    const canvasNode = document.getElementById('canvas')
+    let canvasNode = document.getElementById('canvas')
         // Determine parent placement
     let parentPosition = getElementCenterPos(parentElement)
 
-    parentPosition = adjustPositionToViewFrame(parentElement)
+    parentPosition = adjustPositionToViewFrame(parentPosition)
     // console.log(x + ": Left") // position of parentElement
     // console.log(y + ": Top")
     let coords = circleSelection(data) // get positions for subnodes (top, left)
@@ -56,7 +56,7 @@ let createSubNodes = (data, parentElement) => {
 };
 
 // calculates position of Element and adds it to inline style of subnodes
-let adjustPositionToViewFrame = (elem, radius=140, margin=0) => {        
+let adjustPositionToViewFrame = (position, radius=140, margin=0) => {        
     //adjusting for boundary limits
     // if position out of bounds on top
     if (position[1] < window.innerHeight * margin + radius) {
@@ -93,7 +93,7 @@ let connectElements = (parentElement, childElement, color = randomColor()) => {
     //connects parent and child element with a svg line
     let parentElementPos = getElementCenterPos(parentElement)
     let childElementPos = getElementCenterPos(childElement)
-    const canvas = document.getElementById("svg-canvas")
+    let canvas = document.getElementById("svg-canvas")
     let line = document.createElementNS('http://www.w3.org/2000/svg', 'line')
     line.setAttribute("x1", parentElementPos[0])
     line.setAttribute("x2", childElementPos[0])
@@ -155,7 +155,8 @@ let circleSelection = (data) => {
 // returns obj:node
 let make_parent = (node) => {
     let parents = document.querySelectorAll('[class^=parentNode]')
-    node.classList.remove('subNode')
+    if (node.classList.contains('subNode')) {
+        node.classList.remove('subNode')}
     node.classList.add('parentNode-' + parents.length)
     node.removeEventListener("click", clicked);
     remove_non_parentElements()
@@ -165,7 +166,7 @@ let make_parent = (node) => {
 // removes connection lines except lines to keep. args: obj:searchNode
 // returns nothing
 let remove_connections = (searchNode) => {
-    // removes connections apart from the one between searchnode and selected node, returns nothing
+    // removes connections apart from the one between searchNode and selected node, returns nothing
     if (document.querySelectorAll('[class^=subNode').length > 1) {
         let parents = document.querySelectorAll('[class^=parentNode]')
             // linesToRemove = document.querySelectorAll("[class^="connectionLine-" + (parents.length) + "-(!? class^=connectionLine-" + (parents.length) + "-" + searchNode.dataset.rel_pos + ")]")
@@ -185,22 +186,23 @@ async function searchAndAddWords(searchNode) {
     remove_connections(searchNode)
     let parentElement = make_parent(searchNode)
         //make search disappear
-    const search = document.getElementById('canvas-word-search')
+    let search = document.getElementById('canvas-word-search')
     search.style = 'transition: all 0.2s ease; display:none;'
     remove_parent_events()
-
     if (catalyst == null) {
-        let words = await getWordObjects(searchNode.dataset.word)
-        await add_relation(searchNode)
-        cloud.push(searchNode.dataset.word)
+        words = await fetchWordObjects(parentElement.dataset.word)
+        await add_relation(parentElement)
+        cloud.push(parentElement.dataset.word)
+        createSubNodes(words, parentElement)
     } else if (cloud.length == 1) {
-        let words = await getWordObjects(cloud[0])
+        words = await fetchWordObjects(parentElement.dataset.word)
+        createSubNodes(words, parentElement)
     } else {
         let levelClass = parentElement.classList[0]
         let level = Number(levelClass.match(/(?:-)(\d+)$/)[1])
-        let words = createDataFromCloud(cloud[level + 1], rel_positions[level], parentElement.dataset.rel_score)
+        words = createDataFromCloud(cloud[level + 1], rel_positions[level], parentElement.dataset.rel_score)
+        createSubNodes(words, parentElement)
     }
-    let nodes = createSubNodes(words, parentElement)
         // console.log("Adding words completed for " + searchNode.dataset.word)
 
     return parentElement
@@ -218,11 +220,11 @@ let catalyze = async() => {
     let y = window.scrollY + search.getBoundingClientRect().y - (search.offsetHeight * 2)
     let parentWidth = search.getBoundingClientRect().width
     if (catalyst == null) {
-        subNode = create_subNode(search.value)
+        let subNode = create_subNode(search.value)
             // adding data to subnode
         subNode.dataset.word = search.value
     } else {
-        subNode = create_subNode(catalyst)
+        let subNode = create_subNode(catalyst)
             // adding data to subnode
         subNode.dataset.word = catalyst
     }
