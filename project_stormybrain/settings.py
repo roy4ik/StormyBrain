@@ -14,9 +14,9 @@ import django_heroku
 from pathlib import Path
 import os
 import psycopg2
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -28,7 +28,6 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = False
 
 ALLOWED_HOSTS = ['stormybrain.herokuapp.com']
-
 
 # Application definition
 
@@ -74,7 +73,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project_stormybrain.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -82,13 +80,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'stormybrain',
-        'USER' : 'postgres',
+        'USER': 'postgres',
         'PASSWORD': 'Golf7',
         'HOST': '127.0.0.1',
         'PORT': '5432'
     },
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -108,7 +105,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -121,7 +117,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -139,15 +134,16 @@ LOGOUT_REDIRECT_URL = '/'
 django_heroku.settings(locals())
 
 import dj_database_url
+
 DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 if DEBUG:
     SECRET_KEY = 'sw^6u%xk@4a_%z*dy7++jj3vrfcz0e&%38-+f=xhulz+tymt)0'
-    DATABASES =   {'default':{
-           'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'stormybrain',
-            'USER' : 'postgres',
-            'PASSWORD': 'Golf7',
-            'HOST': '127.0.0.1',
-            'PORT': '5432'
+    DATABASES = {'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'stormybrain',
+        'USER': 'postgres',
+        'PASSWORD': os.environ.get('DB_PW'),
+        'HOST': '127.0.0.1',
+        'PORT': '5432'
     }}
