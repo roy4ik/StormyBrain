@@ -317,7 +317,7 @@ let createDataFromCloud = (cloudItem, rel_pos, rel_score) => {
 }
 
 let get_radius = () => {
-    return ((window.innerWidth + window.innerHeight)/2)/4
+    return ((window.innerWidth + window.innerHeight)/2)*0.25
 }
 
 // loads content if catalyst not null. loops through the cloud.
@@ -356,7 +356,7 @@ let randomColor = () => {
     var x = Math.floor(Math.random() * 256);
     var y = Math.floor(Math.random() * 256);
     var z = Math.floor(Math.random() * 256);
-    var color = "rgba(" + x + "," + y + "," + z + "1)";
+    var color = "rgba(" + x + "," + y + "," + z + "0.7)";
 
     return color;
 };
