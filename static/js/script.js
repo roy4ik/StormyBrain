@@ -22,15 +22,15 @@ let fetchWordObjects = async(word, relCode = 'trg', max = 7) => {
 };
 
 // creating subnodes for words searched and displaying in semi-circle
-let createSubNodes = (data, parentElement) => {
+let createSubNodes = (data, parentElement, radius) => {
     let canvasNode = document.getElementById('canvas')
         // Determine parent placement
     let parentPosition = getElementCenterPos(parentElement)
 
-    parentPosition = adjustPositionToViewFrame(parentPosition)
+    parentPosition = adjustPositionToViewFrame(parentPosition, radius)
     // console.log(x + ": Left") // position of parentElement
     // console.log(y + ": Top")
-    let coords = circleSelection(data) // get positions for subnodes (top, left)
+    let coords = circleSelection(data, radius) // get positions for subnodes (top, left)
     let nodes = []
     for (let element = 0; element < data.length; ++element) {
         if (data[element]['word'] != null) {
@@ -44,8 +44,9 @@ let createSubNodes = (data, parentElement) => {
             subNode.dataset.rel_pos = element + 1
             subNode.addEventListener('click', clicked)
                 // add positioning to subnode
-            subNode.style.left = (coords[0][element]) + parentPosition[0] + "px"
-            subNode.style.top = (coords[1][element]) + parentPosition[1] + "px"
+            subnodePosition = adjustPositionToViewFrame([(coords[0][element]) + parentPosition[0], (coords[1][element]) + parentPosition[1]])
+            subNode.style.left = subnodePosition[0] + "px"
+            subNode.style.top = subnodePosition[1] + "px"
             subNode.style.width = parentElement.offsetWidth + 'px'
             canvasNode.appendChild(subNode)
             nodes.push(subNode, coords)
@@ -130,8 +131,7 @@ let getElementCenterPos = (elem) => {
 // calculates coordinates of elements within data argument. 
 // args: obj:data, 
 // returns: array: [x, y]
-let circleSelection = (data) => {
-    let radius = 140
+let circleSelection = (data, radius=140) => {
     let steps = data.length
     let xValues = []
     let yValues = []
@@ -182,7 +182,7 @@ let remove_connections = (searchNode) => {
 
 // searches for new cloud and adds it, 
 // returns obj:parentElement
-async function searchAndAddWords(searchNode) {
+async function searchAndAddWords(searchNode, radius=140) {
     remove_connections(searchNode)
     let parentElement = make_parent(searchNode)
         //make search disappear
@@ -193,15 +193,15 @@ async function searchAndAddWords(searchNode) {
         words = await fetchWordObjects(parentElement.dataset.word)
         await add_relation(parentElement)
         cloud.push(parentElement.dataset.word)
-        createSubNodes(words, parentElement)
+        createSubNodes(words, parentElement, radius)
     } else if (cloud.length == 1) {
         words = await fetchWordObjects(parentElement.dataset.word)
-        createSubNodes(words, parentElement)
+        createSubNodes(words, parentElement, radius)
     } else {
         let levelClass = parentElement.classList[0]
         let level = Number(levelClass.match(/(?:-)(\d+)$/)[1])
         words = createDataFromCloud(cloud[level + 1], rel_positions[level], parentElement.dataset.rel_score)
-        createSubNodes(words, parentElement)
+        createSubNodes(words, parentElement, radius)
     }
         // console.log("Adding words completed for " + searchNode.dataset.word)
 
